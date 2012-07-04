@@ -30,6 +30,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 **Version 1.8**
 
 * Added `display_posts_shortcode_no_results` filter for displaying content if there's no posts matching current query.
+* Add support for multiple post types. [display-posts post_type="page, post"]
 
 **Version 1.7**
 

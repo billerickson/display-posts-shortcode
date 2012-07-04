@@ -65,7 +65,7 @@ function be_display_posts_shortcode($atts) {
 	
 	// Set up initial query for post
 	$args = array(
-		'post_type' => $post_type,
+		'post_type' => explode( ',', $post_type ),
 		'tag' => $tag,
 		'category_name' => $category,
 		'posts_per_page' => $posts_per_page,
