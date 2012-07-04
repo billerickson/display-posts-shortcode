@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.7
+Stable tag: 1.8
 
 Display a listing of posts using the [display-posts] shortcode
 
