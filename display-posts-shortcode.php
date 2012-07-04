@@ -153,4 +153,3 @@ function be_display_posts_shortcode($atts) {
 
 	return $return;
 }
-?>
