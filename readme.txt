@@ -16,8 +16,6 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) for information on using the arguments.
 
-The image_size can be set to thumbnail, medium, large (all controlled from Settings > Reading), or a [custom image size](http://codex.wordpress.org/Function_Reference/add_image_size).
-
 [Documentation](https://github.com/billerickson/display-posts-shortcode/wiki) | [Support Forum](https://github.com/billerickson/display-posts-shortcode/issues)
 
 == Installation ==
