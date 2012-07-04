@@ -145,7 +145,7 @@ function be_display_posts_shortcode($atts) {
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
-	endwhile; wp_reset_query();
+	endwhile; wp_reset_postdata();
 	
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">' );
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>' );
