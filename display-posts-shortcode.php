@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 1.9
+ * Version: 1.8
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -55,12 +55,13 @@ function be_display_posts_shortcode($atts) {
 		'order' => 'DESC',
 		'orderby' => 'date',
 		'include_date' => false,
+		'date_format' => '(n/j/Y)',
 		'include_excerpt' => false,
 		'image_size' => false,
 		'wrapper' => 'ul',
 		'taxonomy' => false,
 		'tax_term' => false,
-		'tax_operator' => 'IN'
+		'tax_operator' => 'IN',
 	), $atts ) );
 	
 	// Set up initial query for post
@@ -135,17 +136,17 @@ function be_display_posts_shortcode($atts) {
 			
 		$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
 		
-		if ($include_date) $date = ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
+		if ($include_date) $date = ' <span class="date">'. get_the_date( $date_format ) .'</span>';
 		else $date = '';
 		
-		if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
+		if ($include_excerpt) $excerpt = '<span class="excerpt-dash"> - </span><span class="excerpt">' . get_the_excerpt() . '</span>';
 		else $excerpt = '';
 		
 		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
-	endwhile; wp_reset_postdata();
+	endwhile; wp_reset_query();
 	
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">' );
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>' );
