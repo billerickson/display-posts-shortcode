@@ -58,7 +58,7 @@ function be_display_posts_shortcode($atts) {
 		'post_type' => 'post',
 		'posts_per_page' => '10',
 		'tag' => '',
-		'tax_operator' => 'IN'
+		'tax_operator' => 'IN',
 		'tax_term' => false,
 		'taxonomy' => false,
 		'wrapper' => 'ul',
