@@ -46,6 +46,7 @@ function be_display_posts_shortcode($atts) {
 
 	// Pull in shortcode attributes and set defaults
 	extract( shortcode_atts( array(
+		'date_format' => '(n/j/Y)',
 		'post_type' => 'post',
 		'post_parent' => false,
 		'id' => false,
@@ -135,7 +136,7 @@ function be_display_posts_shortcode($atts) {
 			
 		$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
 		
-		if ($include_date) $date = ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
+		if ($include_date) $date = ' <span class="date">('. get_the_date( $date_format ) .')</span>';
 		else $date = '';
 		
 		if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
