@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.8
+Stable tag: 1.9
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -26,6 +26,12 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 
 == Changelog ==
+
+**Version 1.9**
+
+* Add 'date_format' parameter, so you can customize how dates are displayed
+* Added a class of .excerpt-dash so CSS can be used to remove the dash
+* Cleaned up the codebase according to WordPress coding standards
 
 **Version 1.8**
 
