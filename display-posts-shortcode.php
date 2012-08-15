@@ -139,7 +139,7 @@ function be_display_posts_shortcode( $atts ) {
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
 		
 		if ( $include_excerpt ) 
-			$excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 		
 		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
