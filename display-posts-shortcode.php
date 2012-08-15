@@ -41,37 +41,37 @@
  */ 
  
 // Create the shortcode
-add_shortcode('display-posts', 'be_display_posts_shortcode');
-function be_display_posts_shortcode($atts) {
+add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
+function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	extract( shortcode_atts( array(
-		'category' => '',
-		'date_format' => '(n/j/Y)',
-		'id' => false,
-		'image_size' => false,
-		'include_date' => false,
+		'category'        => '',
+		'date_format'     => '(n/j/Y)',
+		'id'              => false,
+		'image_size'      => false,
+		'include_date'    => false,
 		'include_excerpt' => false,
-		'order' => 'DESC',
-		'orderby' => 'date',
-		'post_parent' => false,
-		'post_type' => 'post',
-		'posts_per_page' => '10',
-		'tag' => '',
-		'tax_operator' => 'IN',
-		'tax_term' => false,
-		'taxonomy' => false,
-		'wrapper' => 'ul',
+		'order'           => 'DESC',
+		'orderby'         => 'date',
+		'post_parent'     => false,
+		'post_type'       => 'post',
+		'posts_per_page'  => '10',
+		'tag'             => '',
+		'tax_operator'    => 'IN',
+		'tax_term'        => false,
+		'taxonomy'        => false,
+		'wrapper'         => 'ul',
 	), $atts ) );
 	
 	// Set up initial query for post
 	$args = array(
-		'category_name' => $category,
-		'order' => $order,
-		'orderby' => $orderby,
-		'post_type' => explode( ',', $post_type ),
+		'category_name'  => $category,
+		'order'          => $order,
+		'orderby'        => $orderby,
+		'post_type'      => explode( ',', $post_type ),
 		'posts_per_page' => $posts_per_page,
-		'tag' => $tag,
+		'tag'            => $tag,
 	);
 	
 	// If Post IDs
@@ -95,8 +95,8 @@ function be_display_posts_shortcode($atts) {
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
-					'field' => 'slug',
-					'terms' => $tax_term,
+					'field'    => 'slug',
+					'terms'    => $tax_term,
 					'operator' => $tax_operator
 				)
 			)
@@ -116,28 +116,30 @@ function be_display_posts_shortcode($atts) {
 	// Set up html elements used to wrap the posts. 
 	// Default is ul/li, but can also be ol/li and div/div
 	$wrapper_options = array( 'ul', 'ol', 'div' );
-	if( !in_array( $wrapper, $wrapper_options ) )
+	if( ! in_array( $wrapper, $wrapper_options ) )
 		$wrapper = 'ul';
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
 	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
-	if ( !$listing->have_posts() )
-		return apply_filters ('display_posts_shortcode_no_results', false );
+	if ( ! $listing->have_posts() )
+		return apply_filters( 'display_posts_shortcode_no_results', false );
 		
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
-		if ( $image_size && has_post_thumbnail() )  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
-		else $image = '';
+		$image = $date = $excerpt = '';
+		
+		$title = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
+		
+		if ( $image_size && has_post_thumbnail() )  
+			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
 			
-		$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
+		if ( $include_date ) 
+			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
 		
-		if ($include_date) $date = ' <span class="date">'. get_the_date( $date_format ) .'</span>';
-		else $date = '';
-		
-		if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
-		else $excerpt = '';
+		if ( $include_excerpt ) 
+			$excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
 		
 		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
