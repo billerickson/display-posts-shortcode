@@ -118,10 +118,7 @@ function be_display_posts_shortcode($atts) {
 	$wrapper_options = array( 'ul', 'ol', 'div' );
 	if( !in_array( $wrapper, $wrapper_options ) )
 		$wrapper = 'ul';
-	if( 'div' == $wrapper )
-		$inner_wrapper = 'div';
-	else
-		$inner_wrapper = 'li';
+	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
 	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
@@ -136,7 +133,7 @@ function be_display_posts_shortcode($atts) {
 			
 		$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
 		
-		if ($include_date) $date = ' <span class="date">('. get_the_date( $date_format ) .')</span>';
+		if ($include_date) $date = ' <span class="date">'. get_the_date( $date_format ) .'</span>';
 		else $date = '';
 		
 		if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
