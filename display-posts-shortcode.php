@@ -46,32 +46,32 @@ function be_display_posts_shortcode($atts) {
 
 	// Pull in shortcode attributes and set defaults
 	extract( shortcode_atts( array(
-		'date_format' => '(n/j/Y)',
-		'post_type' => 'post',
-		'post_parent' => false,
-		'id' => false,
-		'tag' => '',
 		'category' => '',
-		'posts_per_page' => '10',
-		'order' => 'DESC',
-		'orderby' => 'date',
+		'date_format' => '(n/j/Y)',
+		'id' => false,
+		'image_size' => false,
 		'include_date' => false,
 		'include_excerpt' => false,
-		'image_size' => false,
-		'wrapper' => 'ul',
-		'taxonomy' => false,
-		'tax_term' => false,
+		'order' => 'DESC',
+		'orderby' => 'date',
+		'post_parent' => false,
+		'post_type' => 'post',
+		'posts_per_page' => '10',
+		'tag' => '',
 		'tax_operator' => 'IN'
+		'tax_term' => false,
+		'taxonomy' => false,
+		'wrapper' => 'ul',
 	), $atts ) );
 	
 	// Set up initial query for post
 	$args = array(
-		'post_type' => explode( ',', $post_type ),
-		'tag' => $tag,
 		'category_name' => $category,
-		'posts_per_page' => $posts_per_page,
 		'order' => $order,
 		'orderby' => $orderby,
+		'post_type' => explode( ',', $post_type ),
+		'posts_per_page' => $posts_per_page,
+		'tag' => $tag,
 	);
 	
 	// If Post IDs
