@@ -45,7 +45,7 @@ add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
-	extract( shortcode_atts( array(
+	$atts = shortcode_atts( array(
 		'category'        => '',
 		'date_format'     => '(n/j/Y)',
 		'id'              => false,
@@ -62,7 +62,25 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'        => false,
 		'taxonomy'        => false,
 		'wrapper'         => 'ul',
-	), $atts ) );
+	), $atts );
+
+	$category = $atts['category'];
+	$date_format = $atts['date_format'];
+	$id = $atts['id'];
+	$image_size = $atts['image_size'];
+	$include_date = $atts['include_date'];
+	$include_excerpt = $atts['include_excerpt'];
+	$order = $atts['order'];
+	$orderby = $atts['orderby'];
+	$post_parent = $atts['post_parent'];
+	$post_type = $atts['post_type'];
+	$posts_per_page = $atts['posts_per_page'];
+	$tag = $atts['tag'];
+	$tax_operator = $atts['tax_operator'];
+	$tax_term = $atts['tax_term'];
+	$taxonomy = $atts['taxonomy'];
+	$wrapper = $atts['wrapper'];
+
 	
 	// Set up initial query for post
 	$args = array(
