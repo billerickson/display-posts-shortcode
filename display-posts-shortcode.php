@@ -64,22 +64,22 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'         => 'ul',
 	), $atts );
 
-	$category = $atts['category'];
-	$date_format = $atts['date_format'];
-	$id = $atts['id'];
-	$image_size = $atts['image_size'];
-	$include_date = $atts['include_date'];
-	$include_excerpt = $atts['include_excerpt'];
-	$order = $atts['order'];
-	$orderby = $atts['orderby'];
-	$post_parent = $atts['post_parent'];
-	$post_type = $atts['post_type'];
-	$posts_per_page = $atts['posts_per_page'];
-	$tag = $atts['tag'];
-	$tax_operator = $atts['tax_operator'];
-	$tax_term = $atts['tax_term'];
-	$taxonomy = $atts['taxonomy'];
-	$wrapper = $atts['wrapper'];
+	$category = sanitize_text_field( $atts['category'] );
+	$date_format = sanitize_text_field( $atts['date_format'] );
+	$id = $atts['id']; // Sanitized later as an array of integers
+	$image_size = sanitize_key( $atts['image_size'] );
+	$include_date = (bool)$atts['include_date'];
+	$include_excerpt = (bool)$atts['include_excerpt'];
+	$order = sanitize_key( $atts['order'] );
+	$orderby = sanitize_key( $atts['orderby'] );
+	$post_parent = intval( $atts['post_parent'] );
+	$post_type = sanitize_text_field( $atts['post_type'] );
+	$posts_per_page = intval( $atts['posts_per_page'] );
+	$tag = sanitize_text_field( $atts['tag'] );
+	$tax_operator = $atts['tax_operator']; // Validated later as one of a few values
+	$tax_term = sanitize_text_field( $atts['tax_term'] );
+	$taxonomy = sanitize_key( $atts['taxonomy'] );
+	$wrapper = sanitize_text_field( $atts['wrapper'] );
 
 	
 	// Set up initial query for post
@@ -94,7 +94,7 @@ function be_display_posts_shortcode( $atts ) {
 	
 	// If Post IDs
 	if( $id ) {
-		$posts_in = explode( ',', $id );
+		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
 	
