@@ -27,6 +27,11 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**Version 2.0**
+
+* Explicitly declare arguments, props danielbachhuber 
+* Sanitize each shortcode attribute for security, props danielbachhuber
+
 **Version 1.9**
 
 * Add 'date_format' parameter, so you can customize how dates are displayed
