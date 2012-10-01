@@ -3,8 +3,8 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 1.9
+Tested up to: 3.4.2
+Stable tag: 2.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -26,6 +26,11 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 
 == Changelog ==
+
+**Version 2.0**
+
+* Explicitly declare arguments, props danielbachhuber 
+* Sanitize each shortcode attribute for security, props danielbachhuber
 
 **Version 1.9**
 
