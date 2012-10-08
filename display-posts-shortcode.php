@@ -46,6 +46,7 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
+		'author'          => '',
 		'category'        => '',
 		'date_format'     => '(n/j/Y)',
 		'id'              => false,
@@ -65,6 +66,7 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'         => 'ul',
 	), $atts );
 
+	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
@@ -99,6 +101,10 @@ function be_display_posts_shortcode( $atts ) {
 		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
+	
+	// Post Author
+	if( !empty( $author ) )
+		$args['author_name'] = $author;
 	
 	// Post Status	
 	$post_status = explode( ', ', $post_status );		
