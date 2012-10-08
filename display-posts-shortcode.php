@@ -53,6 +53,7 @@ function be_display_posts_shortcode( $atts ) {
 		'image_size'      => false,
 		'include_date'    => false,
 		'include_excerpt' => false,
+		'offset'          => 0,
 		'order'           => 'DESC',
 		'orderby'         => 'date',
 		'post_parent'     => false,
@@ -73,6 +74,7 @@ function be_display_posts_shortcode( $atts ) {
 	$image_size = sanitize_key( $atts['image_size'] );
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
 	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
@@ -105,6 +107,10 @@ function be_display_posts_shortcode( $atts ) {
 	// Post Author
 	if( !empty( $author ) )
 		$args['author_name'] = $author;
+		
+	// Offset
+	if( !empty( $offset ) )
+		$args['offset'] = $offset;
 	
 	// Post Status	
 	$post_status = explode( ', ', $post_status );		
