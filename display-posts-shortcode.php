@@ -72,7 +72,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_excerpt = (bool)$atts['include_excerpt'];
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
-	$post_parent = intval( $atts['post_parent'] );
+	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
 	$post_type = sanitize_text_field( $atts['post_type'] );
 	$posts_per_page = intval( $atts['posts_per_page'] );
 	$tag = sanitize_text_field( $atts['tag'] );
@@ -128,7 +128,7 @@ function be_display_posts_shortcode( $atts ) {
 			global $post;
 			$post_parent = $post->ID;
 		}
-		$args['post_parent'] = $post_parent;
+		$args['post_parent'] = intval( $post_parent );
 	}
 	
 	// Set up html elements used to wrap the posts. 
