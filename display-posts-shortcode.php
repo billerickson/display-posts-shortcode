@@ -55,6 +55,7 @@ function be_display_posts_shortcode( $atts ) {
 		'order'           => 'DESC',
 		'orderby'         => 'date',
 		'post_parent'     => false,
+		'post_status'     => 'publish',
 		'post_type'       => 'post',
 		'posts_per_page'  => '10',
 		'tag'             => '',
@@ -73,6 +74,7 @@ function be_display_posts_shortcode( $atts ) {
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
 	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_status = $atts['post_status']; // Validated later as one of a few values
 	$post_type = sanitize_text_field( $atts['post_type'] );
 	$posts_per_page = intval( $atts['posts_per_page'] );
 	$tag = sanitize_text_field( $atts['tag'] );
@@ -97,6 +99,16 @@ function be_display_posts_shortcode( $atts ) {
 		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
+	
+	// Post Status	
+	$post_status = explode( ', ', $post_status );		
+	$validated = array();
+	$available = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
+	foreach ( $post_status as $unvalidated )
+		if ( in_array( $unvalidated, $available ) )
+			$validated[] = $unvalidated;
+	if( !empty( $validated ) )		
+		$args['post_status'] = $validated;
 	
 	
 	// If taxonomy attributes, create a taxonomy query
