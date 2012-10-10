@@ -44,6 +44,9 @@
 add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
+	// Original Attributes, for filters
+	$original_atts = $atts;
+
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
 		'author'          => '',
@@ -163,7 +166,7 @@ function be_display_posts_shortcode( $atts ) {
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
 	
-	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
+	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
 		return apply_filters( 'display_posts_shortcode_no_results', false );
 		
@@ -185,7 +188,7 @@ function be_display_posts_shortcode( $atts ) {
 		
 		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
 	endwhile; wp_reset_postdata();
 	
