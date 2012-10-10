@@ -30,6 +30,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 **Version 2.2**
 
 * Use original attributes for filters
+* Add support for multiple taxonomy queries
 
 **Version 2.1**
 

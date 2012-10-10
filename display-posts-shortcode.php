@@ -146,6 +146,40 @@ function be_display_posts_shortcode( $atts ) {
 				)
 			)
 		);
+		
+		// Check for multiple taxonomy queries
+		$count = 2;
+		$more_tax_queries = false;
+		while( 
+			isset( $original_atts['taxonomy_' . $count] ) && !empty( $original_atts['taxonomy_' . $count] ) && 
+			isset( $original_atts['tax_' . $count . '_term'] ) && !empty( $original_atts['tax_' . $count . '_term'] ) 
+		):
+		
+			// Sanitize values
+			$more_tax_queries = true;
+			$taxonomy = sanitize_key( $original_atts['taxonomy_' . $count] );
+	 		$terms = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
+	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+	 		
+	 		$tax_args['tax_query'][] = array(
+	 			'taxonomy' => $taxonomy,
+	 			'field' => 'slug',
+	 			'terms' => $terms,
+	 			'operator' => $tax_operator
+	 		);
+	
+			$count++;
+			
+		endwhile;
+		
+		if( $more_tax_queries ):
+			$tax_relation = 'AND';
+			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) )
+				$tax_relation = $original_atts['tax_relation'];
+			$args['tax_query']['relation'] = $tax_relation;
+		endif;
+		
 		$args = array_merge( $args, $tax_args );
 	}
 	
