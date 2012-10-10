@@ -27,7 +27,11 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
-**Veresion 2.1**
+**Version 2.2**
+
+* Use original attributes for filters
+
+**Version 2.1**
 
 * Add support for post status
 * Add support for post author
