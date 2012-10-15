@@ -31,6 +31,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 * Use original attributes for filters
 * Add support for multiple taxonomy queries
+* Add filter for post classes
 
 **Version 2.1**
 

@@ -220,7 +220,9 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 		
-		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		$class = array( 'listing-item' );
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
