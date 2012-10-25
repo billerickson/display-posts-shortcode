@@ -56,6 +56,7 @@ function be_display_posts_shortcode( $atts ) {
 		'image_size'      => false,
 		'include_date'    => false,
 		'include_excerpt' => false,
+		'include_content' => false,
 		'offset'          => 0,
 		'order'           => 'DESC',
 		'orderby'         => 'date',
@@ -77,6 +78,7 @@ function be_display_posts_shortcode( $atts ) {
 	$image_size = sanitize_key( $atts['image_size'] );
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$include_content = (bool)$atts['include_content'];
 	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
@@ -219,10 +221,13 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+
+		if ( $include_content )
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 		
 		$class = array( 'listing-item' );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
