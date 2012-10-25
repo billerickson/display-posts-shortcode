@@ -37,7 +37,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 * Add support for post status
 * Add support for post author
-* Add support for post author
+* Add support for post offset
 
 **Version 2.0**
 
