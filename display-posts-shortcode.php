@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.0
+ * Version: 2.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 2.0
+ * @version 2.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -44,17 +44,23 @@
 add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
+	// Original Attributes, for filters
+	$original_atts = $atts;
+
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
+		'author'          => '',
 		'category'        => '',
 		'date_format'     => '(n/j/Y)',
 		'id'              => false,
 		'image_size'      => false,
 		'include_date'    => false,
 		'include_excerpt' => false,
+		'offset'          => 0,
 		'order'           => 'DESC',
 		'orderby'         => 'date',
 		'post_parent'     => false,
+		'post_status'     => 'publish',
 		'post_type'       => 'post',
 		'posts_per_page'  => '10',
 		'tag'             => '',
@@ -64,15 +70,18 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'         => 'ul',
 	), $atts );
 
+	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
 	$image_size = sanitize_key( $atts['image_size'] );
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
-	$post_parent = intval( $atts['post_parent'] );
+	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_status = $atts['post_status']; // Validated later as one of a few values
 	$post_type = sanitize_text_field( $atts['post_type'] );
 	$posts_per_page = intval( $atts['posts_per_page'] );
 	$tag = sanitize_text_field( $atts['tag'] );
@@ -98,6 +107,24 @@ function be_display_posts_shortcode( $atts ) {
 		$args['post__in'] = $posts_in;
 	}
 	
+	// Post Author
+	if( !empty( $author ) )
+		$args['author_name'] = $author;
+		
+	// Offset
+	if( !empty( $offset ) )
+		$args['offset'] = $offset;
+	
+	// Post Status	
+	$post_status = explode( ', ', $post_status );		
+	$validated = array();
+	$available = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
+	foreach ( $post_status as $unvalidated )
+		if ( in_array( $unvalidated, $available ) )
+			$validated[] = $unvalidated;
+	if( !empty( $validated ) )		
+		$args['post_status'] = $validated;
+	
 	
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
@@ -119,6 +146,40 @@ function be_display_posts_shortcode( $atts ) {
 				)
 			)
 		);
+		
+		// Check for multiple taxonomy queries
+		$count = 2;
+		$more_tax_queries = false;
+		while( 
+			isset( $original_atts['taxonomy_' . $count] ) && !empty( $original_atts['taxonomy_' . $count] ) && 
+			isset( $original_atts['tax_' . $count . '_term'] ) && !empty( $original_atts['tax_' . $count . '_term'] ) 
+		):
+		
+			// Sanitize values
+			$more_tax_queries = true;
+			$taxonomy = sanitize_key( $original_atts['taxonomy_' . $count] );
+	 		$terms = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
+	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+	 		
+	 		$tax_args['tax_query'][] = array(
+	 			'taxonomy' => $taxonomy,
+	 			'field' => 'slug',
+	 			'terms' => $terms,
+	 			'operator' => $tax_operator
+	 		);
+	
+			$count++;
+			
+		endwhile;
+		
+		if( $more_tax_queries ):
+			$tax_relation = 'AND';
+			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) )
+				$tax_relation = $original_atts['tax_relation'];
+			$args['tax_query']['relation'] = $tax_relation;
+		endif;
+		
 		$args = array_merge( $args, $tax_args );
 	}
 	
@@ -128,7 +189,7 @@ function be_display_posts_shortcode( $atts ) {
 			global $post;
 			$post_parent = $post->ID;
 		}
-		$args['post_parent'] = $post_parent;
+		$args['post_parent'] = intval( $post_parent );
 	}
 	
 	// Set up html elements used to wrap the posts. 
@@ -139,7 +200,7 @@ function be_display_posts_shortcode( $atts ) {
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
 	
-	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
+	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
 		return apply_filters( 'display_posts_shortcode_no_results', false );
 		
@@ -159,9 +220,11 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 		
-		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		$class = array( 'listing-item' );
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper );
 		
 	endwhile; wp_reset_postdata();
 	
