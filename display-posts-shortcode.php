@@ -54,6 +54,7 @@ function be_display_posts_shortcode( $atts ) {
 		'date_format'     => '(n/j/Y)',
 		'id'              => false,
 		'image_size'      => false,
+		'include_content' => false,
 		'include_date'    => false,
 		'include_excerpt' => false,
 		'offset'          => 0,
@@ -75,6 +76,7 @@ function be_display_posts_shortcode( $atts ) {
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
 	$image_size = sanitize_key( $atts['image_size'] );
+	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
 	$offset = intval( $atts['offset'] );
@@ -207,7 +209,7 @@ function be_display_posts_shortcode( $atts ) {
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
-		$image = $date = $excerpt = '';
+		$image = $date = $excerpt = $content = '';
 		
 		$title = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
 		
@@ -219,12 +221,15 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+			
+		if( $include_content )
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
 		
 		$class = array( 'listing-item' );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content );
 		
 	endwhile; wp_reset_postdata();
 	

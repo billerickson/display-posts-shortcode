@@ -32,6 +32,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 * Use original attributes for filters
 * Add support for multiple taxonomy queries
 * Add filter for post classes
+* Add support for post content in the post loop
 
 **Version 2.1**
 
