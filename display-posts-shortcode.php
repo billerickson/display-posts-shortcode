@@ -229,7 +229,7 @@ function be_display_posts_shortcode( $atts ) {
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
 		
 	endwhile; wp_reset_postdata();
 	
