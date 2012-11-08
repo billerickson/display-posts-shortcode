@@ -207,29 +207,28 @@ function be_display_posts_shortcode( $atts ) {
 		return apply_filters( 'display_posts_shortcode_no_results', false );
 		
 	$inner = '';
-	while ( $listing->have_posts() ): $listing->the_post(); global $post;
+	while ( $listing->have_posts() ): $listing->the_post();
+
+		$output = array();
 		
-		$image = $date = $excerpt = $content = '';
-		
-		$title = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
+		$output['title'] = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
 		
 		if ( $image_size && has_post_thumbnail() )  
-			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
+			$output['image'] = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
 		if ( $include_date ) 
-			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
+			$output['date'] = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
 		
 		if ( $include_excerpt ) 
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+			$output['excerpt'] = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 			
 		if( $include_content )
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
+			$output['content'] = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 		
 		$class = array( 'listing-item' );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
+		$inner .= '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . implode( PHP_EOL, apply_filters( 'display_posts_shortcode_output', $output, $original_atts, get_post() ) ) . '</' . $inner_wrapper . '>';
 		
 	endwhile; wp_reset_postdata();
 	
