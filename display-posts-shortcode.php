@@ -211,7 +211,7 @@ function be_display_posts_shortcode( $atts ) {
 		
 		$image = $date = $excerpt = $content = '';
 		
-		$title = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
+		$title = apply_filters( 'display_posts_shortcode_title', '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>' );
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
