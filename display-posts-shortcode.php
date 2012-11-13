@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.2
+ * Version: 2.2.1
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -233,8 +233,8 @@ function be_display_posts_shortcode( $atts ) {
 		
 	endwhile; wp_reset_postdata();
 	
-	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">' );
-	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>' );
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">', $original_atts );
+	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
 	$return = $open . $inner . $close;
 
 	return $return;
