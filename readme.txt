@@ -29,6 +29,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 **Version 2.3**
 * Include the shortcode attributes on wrapper filter
+* Add 'no_posts_message' parameter to specify content displayed if no posts found
 
 **Version 2.2**
 

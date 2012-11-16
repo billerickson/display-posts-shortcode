@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.2.1
+ * Version: 2.2.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -49,26 +49,27 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
-		'author'          => '',
-		'category'        => '',
-		'date_format'     => '(n/j/Y)',
-		'id'              => false,
-		'image_size'      => false,
-		'include_content' => false,
-		'include_date'    => false,
-		'include_excerpt' => false,
-		'offset'          => 0,
-		'order'           => 'DESC',
-		'orderby'         => 'date',
-		'post_parent'     => false,
-		'post_status'     => 'publish',
-		'post_type'       => 'post',
-		'posts_per_page'  => '10',
-		'tag'             => '',
-		'tax_operator'    => 'IN',
-		'tax_term'        => false,
-		'taxonomy'        => false,
-		'wrapper'         => 'ul',
+		'author'           => '',
+		'category'         => '',
+		'date_format'      => '(n/j/Y)',
+		'id'               => false,
+		'image_size'       => false,
+		'include_content'  => false,
+		'include_date'     => false,
+		'include_excerpt'  => false,
+		'no_posts_message' => '',
+		'offset'           => 0,
+		'order'            => 'DESC',
+		'orderby'          => 'date',
+		'post_parent'      => false,
+		'post_status'      => 'publish',
+		'post_type'        => 'post',
+		'posts_per_page'   => '10',
+		'tag'              => '',
+		'tax_operator'     => 'IN',
+		'tax_term'         => false,
+		'taxonomy'         => false,
+		'wrapper'          => 'ul',
 	), $atts );
 
 	$author = sanitize_text_field( $atts['author'] );
@@ -79,6 +80,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
@@ -204,7 +206,7 @@ function be_display_posts_shortcode( $atts ) {
 	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
-		return apply_filters( 'display_posts_shortcode_no_results', false );
+		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
 		
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
