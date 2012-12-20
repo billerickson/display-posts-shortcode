@@ -232,7 +232,7 @@ function be_display_posts_shortcode( $atts ) {
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
-		if( 'private' == get_post_status( $post->ID ) && !is_user_logged_in() )
+		if( 'private' == get_post_status( $post->ID ) && !current_user_can( 'read_private_posts' ) )
 			$output = '';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
