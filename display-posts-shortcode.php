@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.2.4
+ * Version: 2.2.5
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -49,27 +49,28 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
-		'author'           => '',
-		'category'         => '',
-		'date_format'      => '(n/j/Y)',
-		'id'               => false,
-		'image_size'       => false,
-		'include_content'  => false,
-		'include_date'     => false,
-		'include_excerpt'  => false,
-		'no_posts_message' => '',
-		'offset'           => 0,
-		'order'            => 'DESC',
-		'orderby'          => 'date',
-		'post_parent'      => false,
-		'post_status'      => 'publish',
-		'post_type'        => 'post',
-		'posts_per_page'   => '10',
-		'tag'              => '',
-		'tax_operator'     => 'IN',
-		'tax_term'         => false,
-		'taxonomy'         => false,
-		'wrapper'          => 'ul',
+		'author'              => '',
+		'category'            => '',
+		'date_format'         => '(n/j/Y)',
+		'id'                  => false,
+		'ignore_sticky_posts' => false,
+		'image_size'          => false,
+		'include_content'     => false,
+		'include_date'        => false,
+		'include_excerpt'     => false,
+		'no_posts_message'    => '',
+		'offset'              => 0,
+		'order'               => 'DESC',
+		'orderby'             => 'date',
+		'post_parent'         => false,
+		'post_status'         => 'publish',
+		'post_type'           => 'post',
+		'posts_per_page'      => '10',
+		'tag'                 => '',
+		'tax_operator'        => 'IN',
+		'tax_term'            => false,
+		'taxonomy'            => false,
+		'wrapper'             => 'ul',
 	), $atts );
 
 	$author = sanitize_text_field( $atts['author'] );

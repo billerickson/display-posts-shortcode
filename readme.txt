@@ -32,6 +32,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 * Add 'no_posts_message' parameter to specify content displayed if no posts found
 * Add filters to the title and permalink
 * Limit private posts to logged in users
+* Add support for excluding sticky posts
 
 **Version 2.2**
 
