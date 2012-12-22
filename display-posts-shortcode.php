@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.2.5
+ * Version: 2.2.6
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -58,6 +58,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'     => false,
 		'include_date'        => false,
 		'include_excerpt'     => false,
+		'meta_key'            => '',
 		'no_posts_message'    => '',
 		'offset'              => 0,
 		'order'               => 'DESC',
@@ -82,6 +83,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
@@ -100,13 +102,20 @@ function be_display_posts_shortcode( $atts ) {
 	// Set up initial query for post
 	$args = array(
 		'category_name'       => $category,
-		'ignore_sticky_posts' => $ignore_sticky_posts,
 		'order'               => $order,
 		'orderby'             => $orderby,
 		'post_type'           => explode( ',', $post_type ),
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
+	
+	// Ignore Sticky Posts
+	if( $ignore_sticky_posts )
+		$args['ignore_sticky_posts'] = true;
+	
+	// Meta key (for ordering)
+	if( !empty( $meta_key ) )
+		$args['meta_key'] = $meta_key;
 	
 	// If Post IDs
 	if( $id ) {

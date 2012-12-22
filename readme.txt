@@ -33,6 +33,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 * Add filters to the title and permalink
 * Limit private posts to logged in users
 * Add support for excluding sticky posts
+* Add support for ordering by meta_key
 
 **Version 2.2**
 
