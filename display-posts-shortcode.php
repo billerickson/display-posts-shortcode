@@ -77,6 +77,7 @@ function be_display_posts_shortcode( $atts ) {
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
+	$ignore_sticky_posts = (bool) $atts['ignore_sticky_posts'];
 	$image_size = sanitize_key( $atts['image_size'] );
 	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
@@ -98,12 +99,13 @@ function be_display_posts_shortcode( $atts ) {
 	
 	// Set up initial query for post
 	$args = array(
-		'category_name'  => $category,
-		'order'          => $order,
-		'orderby'        => $orderby,
-		'post_type'      => explode( ',', $post_type ),
-		'posts_per_page' => $posts_per_page,
-		'tag'            => $tag,
+		'category_name'       => $category,
+		'ignore_sticky_posts' => $ignore_sticky_posts,
+		'order'               => $order,
+		'orderby'             => $orderby,
+		'post_type'           => explode( ',', $post_type ),
+		'posts_per_page'      => $posts_per_page,
+		'tag'                 => $tag,
 	);
 	
 	// If Post IDs
