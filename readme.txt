@@ -3,8 +3,8 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 2.1
+Tested up to: 3.5
+Stable tag: 2.3
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -27,11 +27,20 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**Version 2.3**
+* Include the shortcode attributes on wrapper filter
+* Add 'no_posts_message' parameter to specify content displayed if no posts found
+* Add filters to the title and permalink
+* Limit private posts to logged in users
+* Add support for excluding sticky posts
+* Add support for ordering by meta_key
+
 **Version 2.2**
 
 * Use original attributes for filters
 * Add support for multiple taxonomy queries
 * Add filter for post classes
+* Add support for post content in the post loop
 
 **Version 2.1**
 
