@@ -39,12 +39,14 @@
  * can be changed to <ol> or <div> using the 'wrapper' attribute, or by using this filter.
  * Example: https://gist.github.com/1270278
  */ 
- 
+add_filter('the_content', 'do_shortcode',10);
+add_filter('widget_text', 'do_shortcode');
 // Create the shortcode
-add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
+add_shortcode('display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
+global $wpdb;
 
-	// Original Attributes, for filters
+		// Original Attributes, for filters
 	$original_atts = $atts;
 
 	// Pull in shortcode attributes and set defaults
@@ -58,6 +60,8 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'     => false,
 		'include_date'        => false,
 		'include_excerpt'     => false,
+		'excerpt_length'      => false,
+		'excerpt_more'        => false,
 		'meta_key'            => '',
 		'no_posts_message'    => '',
 		'offset'              => 0,
@@ -83,6 +87,8 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
+	$excerpt_length = (int)$atts['excerpt_length'];
+	$excerpt_more = sanitize_text_field($atts['excerpt_more']);
 	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
@@ -108,7 +114,7 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
-	
+	//print_r(new WP_Query($args));
 	// Ignore Sticky Posts
 	if( $ignore_sticky_posts )
 		$args['ignore_sticky_posts'] = true;
@@ -156,6 +162,7 @@ function be_display_posts_shortcode( $atts ) {
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
+
 					'field'    => 'slug',
 					'terms'    => $tax_term,
 					'operator' => $tax_operator
@@ -217,15 +224,17 @@ function be_display_posts_shortcode( $atts ) {
 
 	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
+	
 	if ( ! $listing->have_posts() )
 		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
-		
+	if ($listing->have_posts() )
+		add_filter('posts_request',create_function('$query','return str_replace("AND 0 = 1",\'\',$query);'));	
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
 		$image = $date = $excerpt = $content = '';
 		
-		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . apply_filters( 'the_title', get_the_title() ) . '</a>';
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
@@ -235,6 +244,17 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+			
+		if( is_numeric($excerpt_length) ){
+			add_filter('excerpt_length',create_function('$a', 'return "'.intval($excerpt_length).'"; '));
+		}
+			
+		if( $excerpt_more){
+			add_filter('excerpt_more',create_function('$a', 'return "'.$excerpt_more.'";'));
+		}
+			
+		if( $include_content )
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
 			
 		if( $include_content )
 			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
