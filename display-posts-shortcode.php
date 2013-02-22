@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.3.1
+ * Version: 2.3.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -240,7 +240,7 @@ function be_display_posts_shortcode( $atts ) {
 			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
 		
 		$class = array( 'listing-item' );
-		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
