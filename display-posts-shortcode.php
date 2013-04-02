@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.3
+ * Version: 2.3.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -225,7 +225,7 @@ function be_display_posts_shortcode( $atts ) {
 		
 		$image = $date = $excerpt = $content = '';
 		
-		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . apply_filters( 'the_title', get_the_title() ) . '</a>';
+		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
@@ -235,12 +235,12 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
-		
+			
 		if( $include_content )
 			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
 		
 		$class = array( 'listing-item' );
-		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
