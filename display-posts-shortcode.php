@@ -72,7 +72,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'wrapper'             => 'ul',
-	), $atts );
+	), $atts, 'display-posts' );
 
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
@@ -215,7 +215,6 @@ function be_display_posts_shortcode( $atts ) {
 		$wrapper = 'ul';
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
-	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
 		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
@@ -236,9 +235,20 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 			
-		if( $include_content )
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
-		
+		if ( $include_content ) {
+
+			// Prevent recursion if one post uses this shortcode which then also uses the shortcode to include the original post...
+			$all_shortcodes = $GLOBALS['shortcode_tags'];
+			remove_all_shortcodes();
+			add_shortcode( 'display-posts', create_function( '', 'return "";' ) );
+
+			// Strip the [display-posts] shortcode from the_content
+			$the_content = preg_replace_callback( '/' . get_shortcode_regex() . '/s', 'strip_shortcode_tag', get_the_content() );
+			$GLOBALS['shortcode_tags'] = $all_shortcodes;
+
+			$content = '<div class="content">' . apply_filters( 'the_content', $the_content ) . '</div>'; 
+		}
+
 		$class = array( 'listing-item' );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
