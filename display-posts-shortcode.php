@@ -52,6 +52,7 @@ function be_display_posts_shortcode( $atts ) {
 		'author'              => '',
 		'category'            => '',
 		'date_format'         => '(n/j/Y)',
+		'display_posts_off'   => false,
 		'exclude_current'     => false,
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
@@ -73,7 +74,11 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'wrapper'             => 'ul',
-	), $atts );
+	), $atts, 'display-posts' );
+	
+	// End early if shortcode should be turned off
+	if( $atts['display_posts_off'] )
+		return;
 
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
@@ -242,8 +247,11 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 			
-		if( $include_content )
+		if( $include_content ) {
+			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
+			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
+		}
 		
 		$class = array( 'listing-item' );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
@@ -262,4 +270,18 @@ function be_display_posts_shortcode( $atts ) {
 	$return = $open . $inner . $close;
 
 	return $return;
+}
+
+/**
+ * Turn off display posts shortcode 
+ * If display full post content, any uses of [display-posts] are disabled
+ *
+ * @param array $out, returned shortcode values 
+ * @param array $pairs, list of supported attributes and their defaults 
+ * @param array $atts, original shortcode attributes 
+ * @return array $out
+ */
+function be_display_posts_off( $out, $pairs, $atts ) {
+	$out['display_posts_off'] = true;
+	return $out;
 }
