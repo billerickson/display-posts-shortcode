@@ -52,6 +52,7 @@ function be_display_posts_shortcode( $atts ) {
 		'author'              => '',
 		'category'            => '',
 		'date_format'         => '(n/j/Y)',
+		'exclude_current'     => false,
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
 		'image_size'          => false,
@@ -77,6 +78,7 @@ function be_display_posts_shortcode( $atts ) {
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
+	$exclude_current = (bool)$atts['exclude_current'];
 	$id = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = (bool) $atts['ignore_sticky_posts'];
 	$image_size = sanitize_key( $atts['image_size'] );
@@ -122,6 +124,10 @@ function be_display_posts_shortcode( $atts ) {
 		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
+	
+	// If Exclude Current
+	if( $exclude_current )
+		$args['post__not_in'] = array( get_the_ID() );
 	
 	// Post Author
 	if( !empty( $author ) )
