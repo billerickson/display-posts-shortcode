@@ -27,6 +27,11 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**Version 2.4**
+* Add 'exclude_current' parameter for excluding the current post from the results
+* If you display the full content of results, additional uses of the shortcode within those posts are now turned off
+* Other minor improvements
+
 **Version 2.3**
 * Include the shortcode attributes on wrapper filter
 * Add 'no_posts_message' parameter to specify content displayed if no posts found
