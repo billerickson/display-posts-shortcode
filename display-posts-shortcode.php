@@ -84,14 +84,14 @@ function be_display_posts_shortcode( $atts ) {
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
-	$exclude_current = (bool)$atts['exclude_current'];
+	$exclude_current = be_display_posts_bool( $atts['exclude_current'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
-	$ignore_sticky_posts = (bool) $atts['ignore_sticky_posts'];
+	$ignore_sticky_posts = be_display_posts_bool( $atts['ignore_sticky_posts'] );
 	$image_size = sanitize_key( $atts['image_size'] );
-	$include_author = (bool)$atts['include_author'];
-	$include_content = (bool)$atts['include_content'];
-	$include_date = (bool)$atts['include_date'];
-	$include_excerpt = (bool)$atts['include_excerpt'];
+	$include_author = be_display_posts_bool( $atts['include_author'] );
+	$include_content = be_display_posts_bool( $atts['include_content'] );
+	$include_date = be_display_posts_bool( $atts['include_date'] );
+	$include_excerpt = be_display_posts_bool( $atts['include_excerpt'] );
 	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
@@ -289,4 +289,13 @@ function be_display_posts_shortcode( $atts ) {
 function be_display_posts_off( $out, $pairs, $atts ) {
 	$out['display_posts_off'] = true;
 	return $out;
+}
+
+/**
+ * Convert string to boolean
+ * because (bool) "false" == true
+ *
+ */
+function be_display_posts_bool( $value ) {
+	return !empty( $value ) && 'true' == $value ? true : false;
 }
