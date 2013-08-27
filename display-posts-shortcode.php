@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.2
+ * Version: 2.3.5
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 2.2
+ * @version 2.3.4
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -49,36 +49,51 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
-		'author'          => '',
-		'category'        => '',
-		'date_format'     => '(n/j/Y)',
-		'id'              => false,
-		'image_size'      => false,
-		'include_content' => false,
-		'include_date'    => false,
-		'include_excerpt' => false,
-		'offset'          => 0,
-		'order'           => 'DESC',
-		'orderby'         => 'date',
-		'post_parent'     => false,
-		'post_status'     => 'publish',
-		'post_type'       => 'post',
-		'posts_per_page'  => '10',
-		'tag'             => '',
-		'tax_operator'    => 'IN',
-		'tax_term'        => false,
-		'taxonomy'        => false,
-		'wrapper'         => 'ul',
-	), $atts );
+		'author'              => '',
+		'category'            => '',
+		'date_format'         => '(n/j/Y)',
+		'display_posts_off'   => false,
+		'exclude_current'     => false,
+		'id'                  => false,
+		'ignore_sticky_posts' => false,
+		'image_size'          => false,
+		'include_author'      => false,
+		'include_content'     => false,
+		'include_date'        => false,
+		'include_excerpt'     => false,
+		'meta_key'            => '',
+		'no_posts_message'    => '',
+		'offset'              => 0,
+		'order'               => 'DESC',
+		'orderby'             => 'date',
+		'post_parent'         => false,
+		'post_status'         => 'publish',
+		'post_type'           => 'post',
+		'posts_per_page'      => '10',
+		'tag'                 => '',
+		'tax_operator'        => 'IN',
+		'tax_term'            => false,
+		'taxonomy'            => false,
+		'wrapper'             => 'ul',
+	), $atts, 'display-posts' );
+	
+	// End early if shortcode should be turned off
+	if( $atts['display_posts_off'] )
+		return;
 
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
+	$exclude_current = be_display_posts_bool( $atts['exclude_current'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
+	$ignore_sticky_posts = be_display_posts_bool( $atts['ignore_sticky_posts'] );
 	$image_size = sanitize_key( $atts['image_size'] );
-	$include_content = (bool)$atts['include_content'];
-	$include_date = (bool)$atts['include_date'];
-	$include_excerpt = (bool)$atts['include_excerpt'];
+	$include_author = be_display_posts_bool( $atts['include_author'] );
+	$include_content = be_display_posts_bool( $atts['include_content'] );
+	$include_date = be_display_posts_bool( $atts['include_date'] );
+	$include_excerpt = be_display_posts_bool( $atts['include_excerpt'] );
+	$meta_key = sanitize_text_field( $atts['meta_key'] );
+	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
 	$orderby = sanitize_key( $atts['orderby'] );
@@ -95,19 +110,31 @@ function be_display_posts_shortcode( $atts ) {
 	
 	// Set up initial query for post
 	$args = array(
-		'category_name'  => $category,
-		'order'          => $order,
-		'orderby'        => $orderby,
-		'post_type'      => explode( ',', $post_type ),
-		'posts_per_page' => $posts_per_page,
-		'tag'            => $tag,
+		'category_name'       => $category,
+		'order'               => $order,
+		'orderby'             => $orderby,
+		'post_type'           => explode( ',', $post_type ),
+		'posts_per_page'      => $posts_per_page,
+		'tag'                 => $tag,
 	);
+	
+	// Ignore Sticky Posts
+	if( $ignore_sticky_posts )
+		$args['ignore_sticky_posts'] = true;
+	
+	// Meta key (for ordering)
+	if( !empty( $meta_key ) )
+		$args['meta_key'] = $meta_key;
 	
 	// If Post IDs
 	if( $id ) {
 		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
+	
+	// If Exclude Current
+	if( $exclude_current )
+		$args['post__not_in'] = array( get_the_ID() );
 	
 	// Post Author
 	if( !empty( $author ) )
@@ -204,38 +231,75 @@ function be_display_posts_shortcode( $atts ) {
 	
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
-		return apply_filters( 'display_posts_shortcode_no_results', false );
+		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
 		
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
-		$image = $date = $excerpt = $content = '';
+		$image = $date = $author = $excerpt = $content = '';
 		
+<<<<<<< HEAD
 		$title = apply_filters( 'display_posts_shortcode_title', '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>' );
+=======
+		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+>>>>>>> upstream/master
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
 			
 		if ( $include_date ) 
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
+			
+		if( $include_author )
+			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
 			
-		if( $include_content )
+		if( $include_content ) {
+			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
+			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
+		}
 		
 		$class = array( 'listing-item' );
-		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
+		
+		// If post is set to private, only show to logged in users
+		if( 'private' == get_post_status( $post->ID ) && !current_user_can( 'read_private_posts' ) )
+			$output = '';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
 		
 	endwhile; wp_reset_postdata();
 	
-	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">' );
-	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>' );
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">', $original_atts );
+	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
 	$return = $open . $inner . $close;
 
 	return $return;
+}
+
+/**
+ * Turn off display posts shortcode 
+ * If display full post content, any uses of [display-posts] are disabled
+ *
+ * @param array $out, returned shortcode values 
+ * @param array $pairs, list of supported attributes and their defaults 
+ * @param array $atts, original shortcode attributes 
+ * @return array $out
+ */
+function be_display_posts_off( $out, $pairs, $atts ) {
+	$out['display_posts_off'] = true;
+	return $out;
+}
+
+/**
+ * Convert string to boolean
+ * because (bool) "false" == true
+ *
+ */
+function be_display_posts_bool( $value ) {
+	return !empty( $value ) && 'true' == $value ? true : false;
 }
