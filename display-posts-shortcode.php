@@ -134,7 +134,7 @@ function be_display_posts_shortcode( $atts ) {
 	
 	// If Exclude Current
 	if( $exclude_current )
-		$args['post__not_in'] = array( get_the_ID() );
+		$args['post__not_in'] = array( get_the_ID(), );
 	
 	// Post Author
 	if( !empty( $author ) )
@@ -172,7 +172,7 @@ function be_display_posts_shortcode( $atts ) {
 					'field'    => 'slug',
 					'terms'    => $tax_term,
 					'operator' => $tax_operator,
-				)
+				),
 			)
 		);
 		
@@ -189,7 +189,7 @@ function be_display_posts_shortcode( $atts ) {
 			$taxonomy         = sanitize_key( $original_atts['taxonomy_' . $count] );
 	 		$terms            = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
 	 		$tax_operator     = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
-	 		$tax_operator     = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+	 		$tax_operator     = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND', ) ) ? $tax_operator : 'IN';
 	 		
 	 		$tax_args['tax_query'][] = array(
 	 			'taxonomy' => $taxonomy,
@@ -204,7 +204,7 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if( $more_tax_queries ):
 			$tax_relation = 'AND';
-			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) )
+			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR', ) ) )
 				$tax_relation = $original_atts['tax_relation'];
 			$args['tax_query']['relation'] = $tax_relation;
 		endif;
@@ -255,7 +255,7 @@ function be_display_posts_shortcode( $atts ) {
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		
-		$class = array( 'listing-item' );
+		$class = array( 'listing-item', );
 		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts );
         if ( 1 < count( $class ) ) {
             $i = 0;
