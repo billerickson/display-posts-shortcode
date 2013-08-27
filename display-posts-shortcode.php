@@ -275,11 +275,12 @@ function be_display_posts_shortcode( $atts ) {
 		
 	endwhile; wp_reset_postdata();
 	
-	$open   = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">', $original_atts );
-	$close  = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
-	$return = $open . $inner . $close;
+	extract( apply_filters( 'display_posts_shortcode_wrapper', array(
+        'open'  => apply_filters( 'display_posts_shortcode_wrapper_open', sprintf( '<%1$s class="display-posts-listing">', $wrapper ), $original_atts ),
+        'close' => apply_filters( 'display_posts_shortcode_wrapper_close', sprintf( '</%1$s>', $wrapper ), $original_atts ),
+    ) ) );
 
-	return $return;
+	return $open . $inner . $close;
 }
 
 /**
