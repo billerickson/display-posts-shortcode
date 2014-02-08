@@ -57,6 +57,7 @@ function be_display_posts_shortcode( $atts ) {
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
 		'image_size'          => false,
+		'include_title'       => true,
 		'include_author'      => false,
 		'include_content'     => false,
 		'include_date'        => false,
@@ -88,6 +89,7 @@ function be_display_posts_shortcode( $atts ) {
 	$id = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = be_display_posts_bool( $atts['ignore_sticky_posts'] );
 	$image_size = sanitize_key( $atts['image_size'] );
+	$include_title = be_display_posts_bool( $atts['include_title'] );
 	$include_author = be_display_posts_bool( $atts['include_author'] );
 	$include_content = be_display_posts_bool( $atts['include_content'] );
 	$include_date = be_display_posts_bool( $atts['include_date'] );
@@ -238,7 +240,8 @@ function be_display_posts_shortcode( $atts ) {
 		
 		$image = $date = $author = $excerpt = $content = '';
 		
-		$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+		if ( $include_title )
+			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
 		
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
