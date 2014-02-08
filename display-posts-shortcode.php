@@ -76,6 +76,8 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'wrapper'             => 'ul',
+		'wrapper_class'       => 'display-posts-listing',
+		'wrapper_id'          => false,
 	), $atts, 'display-posts' );
 	
 	// End early if shortcode should be turned off
@@ -108,6 +110,12 @@ function be_display_posts_shortcode( $atts ) {
 	$tax_term = sanitize_text_field( $atts['tax_term'] );
 	$taxonomy = sanitize_key( $atts['taxonomy'] );
 	$wrapper = sanitize_text_field( $atts['wrapper'] );
+	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
+	if( !empty( $wrapper_class ) )
+		$wrapper_class = ' class="' . $wrapper_class . '"';
+	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
+	if( !empty( $wrapper_id ) )
+		$wrapper_id = ' id="' . $wrapper_id . '"';
 
 	
 	// Set up initial query for post
@@ -273,7 +281,7 @@ function be_display_posts_shortcode( $atts ) {
 		
 	endwhile; wp_reset_postdata();
 	
-	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">', $original_atts );
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts );
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
 	$return = $open . $inner . $close;
 
