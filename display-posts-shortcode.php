@@ -218,7 +218,7 @@ function be_display_posts_shortcode( $atts ) {
 	if( $post_parent ) {
 		if( 'current' == $post_parent ) {
 			global $post;
-			$post_parent = $post->ID;
+			$post_parent = get_the_ID();
 		}
 		$args['post_parent'] = intval( $post_parent );
 	}
@@ -244,7 +244,7 @@ function be_display_posts_shortcode( $atts ) {
 			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
 		
 		if ( $image_size && has_post_thumbnail() )  
-			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, $image_size ) . '</a> ';
+			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
 		if ( $include_date ) 
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
@@ -266,7 +266,7 @@ function be_display_posts_shortcode( $atts ) {
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
-		if( 'private' == get_post_status( $post->ID ) && !current_user_can( 'read_private_posts' ) )
+		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
 			$output = '';
 		
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
