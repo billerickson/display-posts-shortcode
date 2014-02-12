@@ -78,6 +78,9 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
+        'template'            => 'content',
+        'slug'                => '',
+        'show_pagination'     => true
 	), $atts, 'display-posts' );
 	
 	// End early if shortcode should be turned off
@@ -111,6 +114,9 @@ function be_display_posts_shortcode( $atts ) {
 	$taxonomy = sanitize_key( $atts['taxonomy'] );
 	$wrapper = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
+    $template = sanitize_html_class($atts['template']);
+    $slug = sanitize_html_class($atts['slug']);
+    $showPagination = sanitize_html_class($atts['show_pagination']);
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
@@ -230,6 +236,9 @@ function be_display_posts_shortcode( $atts ) {
 		}
 		$args['post_parent'] = intval( $post_parent );
 	}
+
+    $paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
+    $args["paged"] = $paged;
 	
 	// Set up html elements used to wrap the posts. 
 	// Default is ul/li, but can also be ol/li and div/div
@@ -244,42 +253,36 @@ function be_display_posts_shortcode( $atts ) {
 		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
 		
 	$inner = '';
+
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
-		
-		$image = $date = $author = $excerpt = $content = '';
-		
-		if ( $include_title )
-			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
-		
-		if ( $image_size && has_post_thumbnail() )  
-			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
-			
-		if ( $include_date ) 
-			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
-			
-		if( $include_author )
-			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
-		
-		if ( $include_excerpt ) 
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
-			
-		if( $include_content ) {
-			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
-			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
-		}
-		
-		$class = array( 'listing-item' );
-		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
-		
-		// If post is set to private, only show to logged in users
-		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
-			$output = '';
-		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
-		
+        ob_start();
+        get_template_part($template, $slug);
+        $inner .= ob_get_contents();
+        ob_end_clean();
 	endwhile; wp_reset_postdata();
+
+    if ($showPagination) {
+        $res = array();
+        for ($i = 1; $i <= $listing->max_num_pages; $i++) {
+            $res[$i] = get_pagenum_link($i, false);
+        }
+        $current = get_query_var("paged");
+        if ($current == 0) {
+            $current = 1;
+        }
+        if (count($res) > 0) {
+            $inner .= apply_filters("display_posts_shortcode_pagination_open", '<ul class="pagination">', $original_atts);
+            foreach ($res as $num=>$link) {
+                if ($num == $current) {
+                    $inner .= apply_filters("display_posts_shortcode_pagination_active", '<li class="active"><a href="'.$link.'">'.$num.'</a></li>', $original_atts);
+                } else {
+                    $inner .= apply_filters("display_posts_shortcode_pagination_other", '<li><a href="'.$link.'">'.$num.'</a></li>', $original_atts);
+                }
+            }
+            $inner .= apply_filters("display_posts_shortcode_pagination_close", '</ul>', $original_atts);
+        }
+    }
+
 	
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts );
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
