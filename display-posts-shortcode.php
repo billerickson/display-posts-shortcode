@@ -49,6 +49,7 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
+		'title'              => '',
 		'author'              => '',
 		'category'            => '',
 		'date_format'         => '(n/j/Y)',
@@ -84,6 +85,7 @@ function be_display_posts_shortcode( $atts ) {
 	if( $atts['display_posts_off'] )
 		return;
 
+	$shortcode_title = sanitize_text_field( $atts['title'] );
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
@@ -283,7 +285,17 @@ function be_display_posts_shortcode( $atts ) {
 	
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts );
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
-	$return = $open . $inner . $close;
+	
+	$return = $open;
+
+	if( $shortcode_title ) {
+
+		$title_tag = apply_filters( 'display_posts_shortcode_title_tag', 'h2', $original_atts );
+
+		$return .= '<' . $title_tag . ' class="display-posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
+	}
+
+	$return .= $inner . $close;
 
 	return $return;
 }
