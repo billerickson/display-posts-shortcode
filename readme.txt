@@ -3,8 +3,8 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 2.3
+Tested up to: 3.9
+Stable tag: 2.4
 
 Display a listing of posts using the [display-posts] shortcode
 
