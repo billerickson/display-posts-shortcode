@@ -65,6 +65,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_excerpt'     => false,
 		'meta_key'            => '',
 		'meta_value'          => '',
+		'meta_is_id'          => false,
 		'no_posts_message'    => '',
 		'offset'              => 0,
 		'order'               => 'DESC',
@@ -101,6 +102,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_excerpt = be_display_posts_bool( $atts['include_excerpt'] );
 	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$meta_value = sanitize_text_field( $atts['meta_value'] );
+	$meta_is_id = be_display_posts_bool ( $atts['meta_is_id'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
 	$offset = intval( $atts['offset'] );
 	$order = sanitize_key( $atts['order'] );
@@ -141,8 +143,16 @@ function be_display_posts_shortcode( $atts ) {
 		$args['meta_key'] = $meta_key;
 	
 	// Meta value (for simple meta queries)
-	if( !empty( $meta_value ) )
+	if( !empty( $meta_value ) ) {
+		if( $meta_is_id ) {
+			if( 'current' == $meta_value ) {
+				global $post;
+				$meta_value = get_the_ID();
+			}
+			$meta_value = intval( $meta_value );
+		}
 		$args['meta_value'] = $meta_value;
+	}
 		
 	// If Post IDs
 	if( $id ) {
