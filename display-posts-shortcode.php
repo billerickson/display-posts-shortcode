@@ -316,7 +316,7 @@ function be_display_posts_shortcode( $atts ) {
  * @return array $out
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
-	$out['display_posts_off'] = true;
+	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
 }
 
