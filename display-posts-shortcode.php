@@ -91,7 +91,7 @@ function be_display_posts_shortcode( $atts ) {
 	$shortcode_title     = sanitize_text_field( $atts['title'] );
 	$author              = sanitize_text_field( $atts['author'] );
 	$category            = sanitize_text_field( $atts['category'] );
-	$class               = array_map( 'sanitize_html_class', explode( ',', $atts['class'] ) );
+	$class               = array_map( 'sanitize_html_class', explode( ' ', $atts['class'] ) );
 	$date_format         = sanitize_text_field( $atts['date_format'] );
 	$exclude_current     = be_display_posts_bool( $atts['exclude_current'] );
 	$id                  = $atts['id']; // Sanitized later as an array of integers
