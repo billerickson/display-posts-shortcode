@@ -52,6 +52,7 @@ function be_display_posts_shortcode( $atts ) {
 		'title'              => '',
 		'author'              => '',
 		'category'            => '',
+		'class'               => 'listing-item',
 		'date_format'         => '(n/j/Y)',
 		'display_posts_off'   => false,
 		'exclude_current'     => false,
@@ -89,6 +90,7 @@ function be_display_posts_shortcode( $atts ) {
 	$shortcode_title = sanitize_text_field( $atts['title'] );
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
+	$class               = array_map( 'sanitize_html_class', explode( ' ', $atts['class'] ) );
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$exclude_current = be_display_posts_bool( $atts['exclude_current'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
@@ -277,7 +279,6 @@ function be_display_posts_shortcode( $atts ) {
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		
-		$class = array( 'listing-item' );
 		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
