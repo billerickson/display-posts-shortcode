@@ -29,6 +29,10 @@
  * `display_posts_shortcode_args`
  * For customizing the $args passed to WP_Query
  *
+ * `display_posts_shortcode_defaults`
+ * For customizing the default attribute values of the shortcode
+ * Example: https://gist.github.com/amfriedman/409adb8012695ff9ab65
+ *
  * `display_posts_shortcode_output`
  * For customizing the output of individual posts.
  * Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
@@ -46,41 +50,47 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Original Attributes, for filters
 	$original_atts = $atts;
-
+	
+	 
+	$atts_default = array_merge( 
+		array( 
+			'title'              => '',
+			'author'              => '',
+			'category'            => '',
+			'date_format'         => '(n/j/Y)',
+			'display_posts_off'   => false,
+			'exclude_current'     => false,
+			'id'                  => false,
+			'ignore_sticky_posts' => false,
+			'image_size'          => false,
+			'include_title'       => true,
+			'include_author'      => false,
+			'include_content'     => false,
+			'include_date'        => false,
+			'include_excerpt'     => false,
+			'meta_key'            => '',
+			'meta_value'          => '',
+			'no_posts_message'    => '',
+			'offset'              => 0,
+			'order'               => 'DESC',
+			'orderby'             => 'date',
+			'post_parent'         => false,
+			'post_status'         => 'publish',
+			'post_type'           => 'post',
+			'posts_per_page'      => '10',
+			'tag'                 => '',
+			'tax_operator'        => 'IN',
+			'tax_term'            => false,
+			'taxonomy'            => false,
+			'wrapper'             => 'ul',
+			'wrapper_class'       => 'display-posts-listing',
+			'wrapper_id'          => false,
+		), 
+		apply_filters( 'display_posts_shortcode_defaults') 
+	);
+	 
 	// Pull in shortcode attributes and set defaults
-	$atts = shortcode_atts( array(
-		'title'              => '',
-		'author'              => '',
-		'category'            => '',
-		'date_format'         => '(n/j/Y)',
-		'display_posts_off'   => false,
-		'exclude_current'     => false,
-		'id'                  => false,
-		'ignore_sticky_posts' => false,
-		'image_size'          => false,
-		'include_title'       => true,
-		'include_author'      => false,
-		'include_content'     => false,
-		'include_date'        => false,
-		'include_excerpt'     => false,
-		'meta_key'            => '',
-		'meta_value'          => '',
-		'no_posts_message'    => '',
-		'offset'              => 0,
-		'order'               => 'DESC',
-		'orderby'             => 'date',
-		'post_parent'         => false,
-		'post_status'         => 'publish',
-		'post_type'           => 'post',
-		'posts_per_page'      => '10',
-		'tag'                 => '',
-		'tax_operator'        => 'IN',
-		'tax_term'            => false,
-		'taxonomy'            => false,
-		'wrapper'             => 'ul',
-		'wrapper_class'       => 'display-posts-listing',
-		'wrapper_id'          => false,
-	), $atts, 'display-posts' );
+	$atts = shortcode_atts( $atts_default, $atts, 'display-posts' );
 	
 	// End early if shortcode should be turned off
 	if( $atts['display_posts_off'] )
@@ -316,7 +326,7 @@ function be_display_posts_shortcode( $atts ) {
  * @return array $out
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
-	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
+	$out['display_posts_off'] = true;
 	return $out;
 }
 
