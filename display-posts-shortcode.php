@@ -90,15 +90,15 @@ function be_display_posts_shortcode( $atts ) {
 	$author = sanitize_text_field( $atts['author'] );
 	$category = sanitize_text_field( $atts['category'] );
 	$date_format = sanitize_text_field( $atts['date_format'] );
-	$exclude_current = be_display_posts_bool( $atts['exclude_current'] );
+	$exclude_current = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
 	$id = $atts['id']; // Sanitized later as an array of integers
-	$ignore_sticky_posts = be_display_posts_bool( $atts['ignore_sticky_posts'] );
+	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
 	$image_size = sanitize_key( $atts['image_size'] );
-	$include_title = be_display_posts_bool( $atts['include_title'] );
-	$include_author = be_display_posts_bool( $atts['include_author'] );
-	$include_content = be_display_posts_bool( $atts['include_content'] );
-	$include_date = be_display_posts_bool( $atts['include_date'] );
-	$include_excerpt = be_display_posts_bool( $atts['include_excerpt'] );
+	$include_title = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
+	$include_author = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
+	$include_content = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
+	$include_date = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
+	$include_excerpt = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
 	$meta_key = sanitize_text_field( $atts['meta_key'] );
 	$meta_value = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
@@ -115,6 +115,7 @@ function be_display_posts_shortcode( $atts ) {
 	$taxonomy = sanitize_key( $atts['taxonomy'] );
 	$wrapper = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
+	
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
@@ -318,13 +319,4 @@ function be_display_posts_shortcode( $atts ) {
 function be_display_posts_off( $out, $pairs, $atts ) {
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
-}
-
-/**
- * Convert string to boolean
- * because (bool) "false" == true
- *
- */
-function be_display_posts_bool( $value ) {
-	return !empty( $value ) && 'true' == $value ? true : false;
 }
