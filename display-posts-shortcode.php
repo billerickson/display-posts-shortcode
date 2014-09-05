@@ -247,19 +247,36 @@ function be_display_posts_shortcode( $atts ) {
 		$wrapper = 'ul';
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
-	
+	/**
+	 * Filter the arguments passed to WP_Query.
+	 *
+	 * @since 1.7
+	 *
+	 * @param array $args          Parsed arguments to pass to WP_Query.
+	 * @param array $original_atts Original attributes passed to the shortcode.
+	 */
 	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
-	if ( ! $listing->have_posts() )
+	if ( ! $listing->have_posts() ) {
+		/**
+		 * Filter content to display if no posts match the current query.
+		 *
+		 * @since 1.8
+		 *
+		 * @param string $no_posts_message Content to display, returned via {@see wpautop()}.
+		 */
 		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
+	}
 		
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
 		$image = $date = $author = $excerpt = $content = '';
 		
-		if ( $include_title )
+		if ( $include_title ) {
+			/** This filter is documented in wp-includes/link-template.php */
 			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
-		
+		}
+
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
@@ -267,6 +284,13 @@ function be_display_posts_shortcode( $atts ) {
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
 			
 		if( $include_author )
+			/**
+			 * Filter the HTML markup to display author information for the current post.
+			 *
+			 * @since Unknown
+			 *
+			 * @param string $author_output HTML markup to display author information.
+			 */
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
 		if ( $include_excerpt ) 
@@ -274,29 +298,81 @@ function be_display_posts_shortcode( $atts ) {
 			
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
+			/** This filter is documented in wp-includes/post-template.php */
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		
 		$class = array( 'listing-item' );
+
+		/**
+		 * Filter the post classes for the inner wrapper element of the current post.
+		 *
+		 * @since 2.2
+		 *
+		 * @param array    $class         Post classes.
+		 * @param WP_Post  $post          Post object.
+		 * @param WP_Query $listing       WP_Query object for the posts listing.
+		 * @param array    $original_atts Original attributes passed to the shortcode.
+		 */
 		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
 		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
 			$output = '';
-		
+
+		/**
+		 * Filter the HTML markup for output via the shortcode.
+		 *
+		 * @since 0.1.5
+		 *
+		 * @param string $output        The shortcode's HTML output.
+		 * @param array  $original_atts Original attributes passed to the shortcode.
+		 * @param string $image         HTML markup for the post's featured image element.
+		 * @param string $title         HTML markup for the post's title element.
+		 * @param string $date          HTML markup for the post's date element.
+		 * @param string $excerpt       HTML markup for the post's excerpt element.
+		 * @param string $inner_wrapper Type of container to use for the post's inner wrapper element.
+		 * @param string $content       The post's content.
+		 * @param string $class         Space-separated list of post classes to supply to the $inner_wrapper element.
+		 */
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
 		
 	endwhile; wp_reset_postdata();
-	
+
+	/**
+	 * Filter the shortcode output's opening outer wrapper element.
+	 *
+	 * @since
+	 *
+	 * @param string $wrapper_open  HTML markup for the opening outer wrapper element.
+	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 */
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts );
+
+	/**
+	 * Filter the shortcode output's closing outer wrapper element.
+	 *
+	 * @since
+	 *
+	 * @param string $wrapper_close HTML markup for the closing outer wrapper element.
+	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 */
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
 	
 	$return = $open;
 
 	if( $shortcode_title ) {
 
+		/**
+		 * Filter the shortcode output title tag element.
+		 *
+		 * @since 2.3
+		 *
+		 * @param string $tag           Type of element to use for the output title tag. Default 'h2'.
+		 * @param array  $original_atts Original attributes passed to the shortcode.
+		 */
 		$title_tag = apply_filters( 'display_posts_shortcode_title_tag', 'h2', $original_atts );
 
 		$return .= '<' . $title_tag . ' class="display-posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
@@ -317,6 +393,16 @@ function be_display_posts_shortcode( $atts ) {
  * @return array $out
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
+	/**
+	 * Filter whether to disable the display-posts shortcode.
+	 *
+	 * The function and filter were added for backward-compatibility with
+	 * 2.3 behavior in certain circumstances.
+	 *
+	 * @since 2.4
+	 *
+	 * @param bool $disable Whether to disable the display-posts shortcode. Default true.
+	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
 }
