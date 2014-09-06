@@ -344,7 +344,7 @@ function be_display_posts_shortcode( $atts ) {
 	/**
 	 * Filter the shortcode output's opening outer wrapper element.
 	 *
-	 * @since
+	 * @since 1.7
 	 *
 	 * @param string $wrapper_open  HTML markup for the opening outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
@@ -354,7 +354,7 @@ function be_display_posts_shortcode( $atts ) {
 	/**
 	 * Filter the shortcode output's closing outer wrapper element.
 	 *
-	 * @since
+	 * @since 1.7
 	 *
 	 * @param string $wrapper_close HTML markup for the closing outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
