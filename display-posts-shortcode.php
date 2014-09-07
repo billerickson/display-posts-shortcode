@@ -163,10 +163,11 @@ function be_display_posts_shortcode( $atts ) {
 		// Sanitize and add date segments.
 		if ( ! empty( $dates = be_sanitize_date_time( $date ) ) ) {
 			if ( is_string( $dates ) ) {
+				$timestamp = strtotime( $dates );
 				$dates = array(
-					'year'   => date( 'Y', $dates ),
-					'month'  => date( 'm', $dates ),
-					'day'    => date( 'd', $dates ),
+					'year'   => date( 'Y', $timestamp ),
+					'month'  => date( 'm', $timestamp ),
+					'day'    => date( 'd', $timestamp ),
 				);
 			}
 			foreach ( $dates as $arg => $segment ) {
