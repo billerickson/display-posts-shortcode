@@ -484,6 +484,29 @@ function be_sanitize_date_time( $date_time, $type = 'date' ) {
 	}
 
 	$segments = array();
+
+	// If not a strictly-formatted date or time, attempt to salvage it.
+	if ( false === strpos( $date_time, '-' ) || false === strpos( $date_time, ':' ) ) {
+		if ( false !== $timestamp = strtotime( $date_time ) ) {
+			if ( 'date' == $type ) {
+				$segments = array(
+					'year'  => date( 'Y', $timestamp ),
+					'month' => date( 'm', $timestamp ),
+					'day'   => date( 'd', $timestamp )
+				);
+			} elseif ( 'time' == $date_time ) {
+				$segments = array(
+					'hour'   => date( 'G', $timestamp ),
+					'minute' => date( 'i', $timestamp ),
+					'second' => date( 's', $timestamp )
+				);
+			}
+		} else {
+			$segments = array();
+		}
+		return $segments;
+	}
+
 	$parts = array_map( 'absint', explode( 'date' == $type ? '-' : ':', $date_time ) );
 
 	// Date.
