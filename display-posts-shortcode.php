@@ -131,7 +131,7 @@ function be_display_posts_shortcode( $atts ) {
 	$time                = sanitize_text_field( $atts['time'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
-	
+
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
@@ -150,7 +150,7 @@ function be_display_posts_shortcode( $atts ) {
 	);
 
 	// Date query.
-	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_after ) || ! empty( $date_before ) ) {
+	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_query_after ) || ! empty( $date_query_before ) ) {
 		$initial_date_query = $date_query_top_lvl = array();
 
 		$valid_date_columns = array(
