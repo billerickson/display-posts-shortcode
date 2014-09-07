@@ -468,7 +468,7 @@ function be_display_posts_shortcode( $atts ) {
 }
 
 /**
- * Sanitize a given date or time for a date query.
+ * Sanitize the segments of a given date or time for a date query.
  *
  * Accepts times entered in the 'HH:MM:SS' or 'HH:MM' formats, and dates
  * entered in the 'YYYY-MM-DD' format.
@@ -476,7 +476,7 @@ function be_display_posts_shortcode( $atts ) {
  * @param string $date_time Date or time string to sanitize the parts of.
  * @param string $type      Optional. Type of value to sanitize. Accepts 'date' or 'time'.
  *                          Default 'date'.
- * @return array Array of valid date or time sections, Otherwise an empty array.
+ * @return array Array of valid date or time segments, Otherwise an empty array.
  */
 function be_sanitize_date_time( $date_time, $type = 'date' ) {
 	if ( empty( $date_time ) || ! in_array( $type, array( 'date', 'time' ) ) ) {
@@ -533,7 +533,7 @@ function be_sanitize_date_time( $date_time, $type = 'date' ) {
 	}
 
 	/**
-	 * Filter the sanitized sections for the given date or time string.
+	 * Filter the sanitized segments for the given date or time string.
 	 *
 	 * @since 2.5
 	 *
@@ -543,7 +543,7 @@ function be_sanitize_date_time( $date_time, $type = 'date' ) {
 	 *                          formatted 'HH:MM:SS' or 'HH:MM'.
 	 * @param string $type      Type of string to sanitize. Can be either 'date' or 'time'.
 	 */
-	return apply_filters( 'display_posts_shortcode_sanitized_sections', $segments, $date_time, $type );
+	return apply_filters( 'display_posts_shortcode_sanitized_segments', $segments, $date_time, $type );
 }
 
 /**
