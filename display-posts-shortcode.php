@@ -471,7 +471,7 @@ function be_display_posts_shortcode( $atts ) {
  * Sanitize a given date or time for a date query.
  *
  * Accepts times entered in the 'HH:MM:SS' or 'HH:MM' formats, and dates
- * entered in the 'YYY-MM-DD' format.
+ * entered in the 'YYYY-MM-DD' format.
  *
  * @param string $date_time Date or time string to sanitize the parts of.
  * @param string $type      Optional. Type of value to sanitize. Accepts 'date' or 'time'.
