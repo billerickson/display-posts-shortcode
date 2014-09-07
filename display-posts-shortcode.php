@@ -162,6 +162,13 @@ function be_display_posts_shortcode( $atts ) {
 
 		// Sanitize and add date segments.
 		if ( ! empty( $dates = be_sanitize_date_time( $date ) ) ) {
+			if ( is_string( $dates ) ) {
+				$dates = array(
+					'year'   => date( 'Y', $dates ),
+					'month'  => date( 'm', $dates ),
+					'day'    => date( 'd', $dates ),
+				);
+			}
 			foreach ( $dates as $arg => $segment ) {
 				$initial_date_query[ $arg ] = $segment;
 			}
@@ -175,12 +182,12 @@ function be_display_posts_shortcode( $atts ) {
 		}
 
 		// Date query 'before' argument.
-		if ( ! empty( $before = be_sanitize_date_time( $date_query_before, 'date' ) ) ) {
+		if ( ! empty( $before = be_sanitize_date_time( $date_query_before, 'date', true ) ) ) {
 			$initial_date_query['before'] = $before;
 		}
 
 		// Date query 'after' argument.
-		if ( ! empty( $after = be_sanitize_date_time( $date_query_after, 'date' ) ) ) {
+		if ( ! empty( $after = be_sanitize_date_time( $date_query_after, 'date', true ) ) ) {
 			$initial_date_query['after'] = $after;
 		}
 
@@ -473,36 +480,30 @@ function be_display_posts_shortcode( $atts ) {
  * Accepts times entered in the 'HH:MM:SS' or 'HH:MM' formats, and dates
  * entered in the 'YYYY-MM-DD' format.
  *
- * @param string $date_time Date or time string to sanitize the parts of.
- * @param string $type      Optional. Type of value to sanitize. Accepts 'date' or 'time'.
- *                          Default 'date'.
- * @return array Array of valid date or time segments, Otherwise an empty array.
+ * @param string $date_time      Date or time string to sanitize the parts of.
+ * @param string $type           Optional. Type of value to sanitize. Accepts
+ *                               'date' or 'time'. Default 'date'.
+ * @param bool   $accepts_string Optional. Whether the return value accepts a string.
+ *                               Default false.
+ * @return array|string Array of valid date or time segments, a timestamp, otherwise
+ *                      an empty array.
  */
-function be_sanitize_date_time( $date_time, $type = 'date' ) {
+function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = false ) {
 	if ( empty( $date_time ) || ! in_array( $type, array( 'date', 'time' ) ) ) {
 		return array();
 	}
 
 	$segments = array();
 
-	// If not a strictly-formatted date or time, attempt to salvage it.
-	if ( false === strpos( $date_time, '-' ) || false === strpos( $date_time, ':' ) ) {
+	/*
+	 * If $date_time is not a strictly-formatted date or time, attempt to salvage it with
+	 * as strototime()-ready string. This is supported by the 'date', 'date_query_before',
+	 * and 'date_query_after' attributes.
+	 */
+	if ( true === $accepts_string && ( false !== strpos( $date_time, ' ' ) ) ) {
 		if ( false !== $timestamp = strtotime( $date_time ) ) {
-			if ( 'date' == $type ) {
-				$segments = array(
-					'year'  => date( 'Y', $timestamp ),
-					'month' => date( 'm', $timestamp ),
-					'day'   => date( 'd', $timestamp )
-				);
-			} elseif ( 'time' == $date_time ) {
-				$segments = array(
-					'hour'   => date( 'G', $timestamp ),
-					'minute' => date( 'i', $timestamp ),
-					'second' => date( 's', $timestamp )
-				);
-			}
+			return $date_time;
 		}
-		return $segments;
 	}
 
 	$parts = array_map( 'absint', explode( 'date' == $type ? '-' : ':', $date_time ) );
