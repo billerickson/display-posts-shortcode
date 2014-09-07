@@ -53,6 +53,13 @@ function be_display_posts_shortcode( $atts ) {
 		'author'              => '',
 		'category'            => '',
 		'date_format'         => '(n/j/Y)',
+		'date'                => '',
+		'date_column'         => 'post_date',
+		'date_compare'        => '=',
+		'date_query_before'   => '',
+		'date_query_after'    => '',
+		'date_query_column'   => 'post_date',
+		'date_query_compare'  => '=',
 		'display_posts_off'   => false,
 		'exclude_current'     => false,
 		'id'                  => false,
@@ -77,6 +84,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_operator'        => 'IN',
 		'tax_term'            => false,
 		'taxonomy'            => false,
+		'time'                => '',
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
@@ -86,35 +94,43 @@ function be_display_posts_shortcode( $atts ) {
 	if( $atts['display_posts_off'] )
 		return;
 
-	$shortcode_title = sanitize_text_field( $atts['title'] );
-	$author = sanitize_text_field( $atts['author'] );
-	$category = sanitize_text_field( $atts['category'] );
-	$date_format = sanitize_text_field( $atts['date_format'] );
-	$exclude_current = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
-	$id = $atts['id']; // Sanitized later as an array of integers
+	$shortcode_title     = sanitize_text_field( $atts['title'] );
+	$author              = sanitize_text_field( $atts['author'] );
+	$category            = sanitize_text_field( $atts['category'] );
+	$date_format         = sanitize_text_field( $atts['date_format'] );
+	$date                = sanitize_text_field( $atts['date'] );
+	$date_column         = sanitize_text_field( $atts['date_column'] );
+	$date_compare        = sanitize_text_field( $atts['date_compare'] );
+	$date_query_before   = sanitize_text_field( $atts['date_query_before'] );
+	$date_query_after    = sanitize_text_field( $atts['date_query_after'] );
+	$date_query_column   = sanitize_text_field( $atts['date_query_column'] );
+	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
+	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
+	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
-	$image_size = sanitize_key( $atts['image_size'] );
-	$include_title = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
-	$include_author = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
-	$include_content = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
-	$include_date = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
-	$include_excerpt = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
-	$meta_key = sanitize_text_field( $atts['meta_key'] );
-	$meta_value = sanitize_text_field( $atts['meta_value'] );
-	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
-	$offset = intval( $atts['offset'] );
-	$order = sanitize_key( $atts['order'] );
-	$orderby = sanitize_key( $atts['orderby'] );
-	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
-	$post_status = $atts['post_status']; // Validated later as one of a few values
-	$post_type = sanitize_text_field( $atts['post_type'] );
-	$posts_per_page = intval( $atts['posts_per_page'] );
-	$tag = sanitize_text_field( $atts['tag'] );
-	$tax_operator = $atts['tax_operator']; // Validated later as one of a few values
-	$tax_term = sanitize_text_field( $atts['tax_term'] );
-	$taxonomy = sanitize_key( $atts['taxonomy'] );
-	$wrapper = sanitize_text_field( $atts['wrapper'] );
-	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
+	$image_size          = sanitize_key( $atts['image_size'] );
+	$include_title       = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
+	$include_author      = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
+	$include_content     = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
+	$include_date        = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
+	$include_excerpt     = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$meta_key            = sanitize_text_field( $atts['meta_key'] );
+	$meta_value          = sanitize_text_field( $atts['meta_value'] );
+	$no_posts_message    = sanitize_text_field( $atts['no_posts_message'] );
+	$offset              = intval( $atts['offset'] );
+	$order               = sanitize_key( $atts['order'] );
+	$orderby             = sanitize_key( $atts['orderby'] );
+	$post_parent         = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_status         = $atts['post_status']; // Validated later as one of a few values
+	$post_type           = sanitize_text_field( $atts['post_type'] );
+	$posts_per_page      = intval( $atts['posts_per_page'] );
+	$tag                 = sanitize_text_field( $atts['tag'] );
+	$tax_operator        = $atts['tax_operator']; // Validated later as one of a few values
+	$tax_term            = sanitize_text_field( $atts['tax_term'] );
+	$taxonomy            = sanitize_key( $atts['taxonomy'] );
+	$time                = sanitize_text_field( $atts['time'] );
+	$wrapper             = sanitize_text_field( $atts['wrapper'] );
+	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
 	
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
