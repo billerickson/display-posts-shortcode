@@ -161,39 +161,27 @@ function be_display_posts_shortcode( $atts ) {
 		$valid_compare_ops = array( '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' );
 
 		// Sanitize and add date segments.
-		if ( ! empty( $date ) ) {
-			$dates = be_sanitize_date_time( $date );
-
-			if ( ! empty( $dates ) ) {
-				foreach ( $dates as $arg => $segment ) {
-					$initial_date_query[ $arg ] = $segment;
-				}
+		if ( ! empty( $dates = be_sanitize_date_time( $date ) ) ) {
+			foreach ( $dates as $arg => $segment ) {
+				$initial_date_query[ $arg ] = $segment;
 			}
 		}
 
 		// Sanitize and add time segments.
-		if ( ! empty( $time ) ) {
-			$times = be_sanitize_date_time( $time, 'time' );
-
-			if ( ! empty( $times ) ) {
-				foreach ( $times as $arg => $segment ) {
-					$initial_date_query[ $arg ] = $segment;
-				}
+		if ( ! empty( $times = be_sanitize_date_time( $time, 'time' ) ) ) {
+			foreach ( $times as $arg => $segment ) {
+				$initial_date_query[ $arg ] = $segment;
 			}
 		}
 
 		// Date query 'before' argument.
-		if ( ! empty( $date_query_before ) ) {
-			if ( ! empty( $date_query_before = be_sanitize_date_time( $date_query_before, 'date' ) ) ) {
-				$initial_date_query['before'] = $date_query_before;
-			}
+		if ( ! empty( $before = be_sanitize_date_time( $date_query_before, 'date' ) ) ) {
+			$initial_date_query['before'] = $before;
 		}
 
 		// Date query 'after' argument.
-		if ( ! empty( $date_query_after ) ) {
-			if ( ! empty( $date_query_after = be_sanitize_date_time( $date_query_after, 'date' ) ) ) {
-				$initial_date_query['after'] = $date_query_after;
-			}
+		if ( ! empty( $after = be_sanitize_date_time( $date_query_after, 'date' ) ) ) {
+			$initial_date_query['after'] = $after;
 		}
 
 		// Date query 'column' argument.
