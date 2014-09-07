@@ -501,7 +501,8 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
 	 * as strototime()-ready string. This is supported by the 'date', 'date_query_before',
 	 * and 'date_query_after' attributes.
 	 */
-	if ( true === $accepts_string && ( false !== strpos( $date_time, ' ' ) ) ) {
+	if ( true === $accepts_string
+		&& ( false !== strpos( $date_time, ' ' ) || false === strpos( $date_time, '-' ) ) ) {
 		if ( false !== $timestamp = strtotime( $date_time ) ) {
 			return $date_time;
 		}
