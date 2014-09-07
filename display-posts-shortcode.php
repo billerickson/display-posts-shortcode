@@ -148,7 +148,87 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
-	
+
+	// Date query.
+	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_after ) || ! empty( $date_before ) ) {
+		$initial_date_query = $date_query_top_lvl = array();
+
+		$valid_date_columns = array(
+			'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
+			'comment_date', 'comment_date_gmt'
+		);
+
+		$valid_compare_ops = array( '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' );
+
+		// Sanitize and add date segments.
+		if ( ! empty( $date ) ) {
+			$dates = be_sanitize_date_time( $date );
+
+			if ( ! empty( $dates ) ) {
+				foreach ( $dates as $arg => $segment ) {
+					$initial_date_query[ $arg ] = $segment;
+				}
+			}
+		}
+
+		// Sanitize and add time segments.
+		if ( ! empty( $time ) ) {
+			$times = be_sanitize_date_time( $time, 'time' );
+
+			if ( ! empty( $times ) ) {
+				foreach ( $times as $arg => $segment ) {
+					$initial_date_query[ $arg ] = $segment;
+				}
+			}
+		}
+
+		// Date query 'before' argument.
+		if ( ! empty( $date_query_before ) ) {
+			if ( ! empty( $date_query_before = be_sanitize_date_time( $date_query_before, 'date' ) ) ) {
+				$initial_date_query['before'] = $date_query_before;
+			}
+		}
+
+		// Date query 'after' argument.
+		if ( ! empty( $date_query_after ) ) {
+			if ( ! empty( $date_query_after = be_sanitize_date_time( $date_query_after, 'date' ) ) ) {
+				$initial_date_query['after'] = $date_query_after;
+			}
+		}
+
+		// Date query 'column' argument.
+		if ( ! empty( $date_query_column ) && in_array( $date_query_column, $valid_date_columns ) ) {
+			$initial_date_query['column'] = $date_query_column;
+		}
+
+		// Date query 'compare' argument.
+		if ( ! empty( $date_query_compare ) && in_array( $date_query_compare, $valid_compare_ops ) ) {
+			$initial_date_query['compare'] = $date_query_compare;
+		}
+
+		//
+		// Top-level date_query arguments. Only valid arguments will be added.
+		//
+
+		// 'column' argument.
+		if ( ! empty( $date_column ) && in_array( $date_column, $valid_date_columns ) ) {
+			$date_query_top_lvl['column'] = $date_column;
+		}
+
+		// 'compare' argument.
+		if ( ! empty( $date_compare ) && in_array( $date_compare, $valid_compare_ops ) ) {
+			$date_query_top_lvl['compare'] = $date_compare;
+		}
+
+		// Bring in the initial date query.
+		if ( ! empty( $initial_date_query ) ) {
+			$date_query_top_lvl[] = $initial_date_query;
+		}
+
+		// Date queries.
+		$args['date_query'] = $date_query_top_lvl;
+	}
+
 	// Ignore Sticky Posts
 	if( $ignore_sticky_posts )
 		$args['ignore_sticky_posts'] = true;
@@ -397,6 +477,85 @@ function be_display_posts_shortcode( $atts ) {
 	$return .= $inner . $close;
 
 	return $return;
+}
+
+/**
+ * Sanitize a given date or time for a date query.
+ *
+ * Accepts times entered in the 'HH:MM:SS' or 'HH:MM' formats, and dates
+ * entered in the 'YYY-MM-DD' format.
+ *
+ * @param string $date_time Date or time string to sanitize the parts of.
+ * @param string $type      Optional. Type of value to sanitize. Accepts 'date' or 'time'.
+ *                          Default 'date'.
+ * @return array Array of valid date or time sections, Otherwise an empty array.
+ */
+function be_sanitize_date_time( $date_time, $type = 'date' ) {
+	if ( ! $date_time || ! in_array( $type, array( 'date', 'time' ) ) ) {
+		return array();
+	}
+
+	$segments = array();
+	$parts = array_map( 'absint', explode( 'date' == $type ? '-' : ':', $date_time ) );
+
+	// Date.
+	if ( 'date' == $type ) {
+		// Defaults to 2001 for years, January for months, and 1 for days.
+		$year = $month = $day = 1;
+
+		if ( count( $parts >= 3 ) ) {
+			list( $year, $month, $day ) = $parts;
+
+			$year  = ( $year  >= 1 && $year  <= 9999 ) ? $year  : 1;
+			$month = ( $month >= 1 && $month <= 12   ) ? $month : 1;
+			$day   = ( $day   >= 1 && $day   <= 31   ) ? $day   : 1;
+		}
+
+		$segments = array(
+			'year'  => $year,
+			'month' => $month,
+			'day'   => $day
+		);
+
+	// Time.
+	} elseif ( 'time' == $type ) {
+		// Defaults to 0 for all segments.
+		$hour = $minute = $second = 0;
+
+		switch( count( $parts ) ) {
+			case 3 :
+				list( $hour, $minute, $second ) = $parts;
+				$hour   = ( $hour   >= 0 && $hour   <= 23 ) ? $hour   : 0;
+				$minute = ( $minute >= 0 && $minute <= 60 ) ? $minute : 0;
+				$second = ( $second >= 0 && $second <= 60 ) ? $second : 0;
+				break;
+			case 2 :
+				list( $hour, $minute ) = $parts;
+				$hour   = ( $hour   >= 0 && $hour   <= 23 ) ? $hour   : 0;
+				$minute = ( $minute >= 0 && $minute <= 60 ) ? $minute : 0;
+				break;
+			default : break;
+		}
+
+		$segments = array(
+			'hour'   => $hour,
+			'minute' => $minute,
+			'second' => $second
+		);
+	}
+
+	/**
+	 * Filter the sanitized sections for the given date or time string.
+	 *
+	 * @since 2.5
+	 *
+	 * @param array  $segments  Array of sanitized date or time segments, e.g. hour, minute, second,
+	 *                          or year, month, day, depending on the value of the $type parameter.
+	 * @param string $date_time Date or time string. Dates are formatted 'YYYY-MM-DD', and times are
+	 *                          formatted 'HH:MM:SS' or 'HH:MM'.
+	 * @param string $type      Type of string to sanitize. Can be either 'date' or 'time'.
+	 */
+	return apply_filters( 'display_posts_shortcode_sanitized_sections', $segments, $date_time, $type );
 }
 
 /**
