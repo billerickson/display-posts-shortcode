@@ -501,8 +501,6 @@ function be_sanitize_date_time( $date_time, $type = 'date' ) {
 					'second' => date( 's', $timestamp )
 				);
 			}
-		} else {
-			$segments = array();
 		}
 		return $segments;
 	}
