@@ -479,7 +479,7 @@ function be_display_posts_shortcode( $atts ) {
  * @return array Array of valid date or time sections, Otherwise an empty array.
  */
 function be_sanitize_date_time( $date_time, $type = 'date' ) {
-	if ( ! $date_time || ! in_array( $type, array( 'date', 'time' ) ) ) {
+	if ( empty( $date_time ) || ! in_array( $type, array( 'date', 'time' ) ) ) {
 		return array();
 	}
 
