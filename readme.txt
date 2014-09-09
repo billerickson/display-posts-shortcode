@@ -16,7 +16,9 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) for information on using the arguments.
 
-[Documentation](https://github.com/billerickson/display-posts-shortcode/wiki) | [Support Forum](https://github.com/billerickson/display-posts-shortcode/issues)
+[Documentation](https://github.com/billerickson/display-posts-shortcode/wiki)
+
+**No support will be provided by the developer**
 
 == Installation ==
 
