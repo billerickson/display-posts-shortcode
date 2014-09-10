@@ -53,6 +53,13 @@ function be_display_posts_shortcode( $atts ) {
 		'author'              => '',
 		'category'            => '',
 		'date_format'         => '(n/j/Y)',
+		'date'                => '',
+		'date_column'         => 'post_date',
+		'date_compare'        => '=',
+		'date_query_before'   => '',
+		'date_query_after'    => '',
+		'date_query_column'   => '',
+		'date_query_compare'  => '',
 		'display_posts_off'   => false,
 		'exclude_current'     => false,
 		'id'                  => false,
@@ -77,6 +84,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_operator'        => 'IN',
 		'tax_term'            => false,
 		'taxonomy'            => false,
+		'time'                => '',
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
@@ -86,36 +94,44 @@ function be_display_posts_shortcode( $atts ) {
 	if( $atts['display_posts_off'] )
 		return;
 
-	$shortcode_title = sanitize_text_field( $atts['title'] );
-	$author = sanitize_text_field( $atts['author'] );
-	$category = sanitize_text_field( $atts['category'] );
-	$date_format = sanitize_text_field( $atts['date_format'] );
-	$exclude_current = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
-	$id = $atts['id']; // Sanitized later as an array of integers
+	$shortcode_title     = sanitize_text_field( $atts['title'] );
+	$author              = sanitize_text_field( $atts['author'] );
+	$category            = sanitize_text_field( $atts['category'] );
+	$date_format         = sanitize_text_field( $atts['date_format'] );
+	$date                = sanitize_text_field( $atts['date'] );
+	$date_column         = sanitize_text_field( $atts['date_column'] );
+	$date_compare        = sanitize_text_field( $atts['date_compare'] );
+	$date_query_before   = sanitize_text_field( $atts['date_query_before'] );
+	$date_query_after    = sanitize_text_field( $atts['date_query_after'] );
+	$date_query_column   = sanitize_text_field( $atts['date_query_column'] );
+	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
+	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
+	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
-	$image_size = sanitize_key( $atts['image_size'] );
-	$include_title = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
-	$include_author = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
-	$include_content = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
-	$include_date = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
-	$include_excerpt = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
-	$meta_key = sanitize_text_field( $atts['meta_key'] );
-	$meta_value = sanitize_text_field( $atts['meta_value'] );
-	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
-	$offset = intval( $atts['offset'] );
-	$order = sanitize_key( $atts['order'] );
-	$orderby = sanitize_key( $atts['orderby'] );
-	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
-	$post_status = $atts['post_status']; // Validated later as one of a few values
-	$post_type = sanitize_text_field( $atts['post_type'] );
-	$posts_per_page = intval( $atts['posts_per_page'] );
-	$tag = sanitize_text_field( $atts['tag'] );
-	$tax_operator = $atts['tax_operator']; // Validated later as one of a few values
-	$tax_term = sanitize_text_field( $atts['tax_term'] );
-	$taxonomy = sanitize_key( $atts['taxonomy'] );
-	$wrapper = sanitize_text_field( $atts['wrapper'] );
-	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
-	
+	$image_size          = sanitize_key( $atts['image_size'] );
+	$include_title       = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
+	$include_author      = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
+	$include_content     = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
+	$include_date        = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
+	$include_excerpt     = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$meta_key            = sanitize_text_field( $atts['meta_key'] );
+	$meta_value          = sanitize_text_field( $atts['meta_value'] );
+	$no_posts_message    = sanitize_text_field( $atts['no_posts_message'] );
+	$offset              = intval( $atts['offset'] );
+	$order               = sanitize_key( $atts['order'] );
+	$orderby             = sanitize_key( $atts['orderby'] );
+	$post_parent         = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_status         = $atts['post_status']; // Validated later as one of a few values
+	$post_type           = sanitize_text_field( $atts['post_type'] );
+	$posts_per_page      = intval( $atts['posts_per_page'] );
+	$tag                 = sanitize_text_field( $atts['tag'] );
+	$tax_operator        = $atts['tax_operator']; // Validated later as one of a few values
+	$tax_term            = sanitize_text_field( $atts['tax_term'] );
+	$taxonomy            = sanitize_key( $atts['taxonomy'] );
+	$time                = sanitize_text_field( $atts['time'] );
+	$wrapper             = sanitize_text_field( $atts['wrapper'] );
+	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
+
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
@@ -132,7 +148,83 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
-	
+
+	// Date query.
+	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_query_after ) || ! empty( $date_query_before ) ) {
+		$initial_date_query = $date_query_top_lvl = array();
+
+		$valid_date_columns = array(
+			'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
+			'comment_date', 'comment_date_gmt'
+		);
+
+		$valid_compare_ops = array( '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' );
+
+		// Sanitize and add date segments.
+		if ( ! empty( $dates = be_sanitize_date_time( $date ) ) ) {
+			if ( is_string( $dates ) ) {
+				$timestamp = strtotime( $dates );
+				$dates = array(
+					'year'   => date( 'Y', $timestamp ),
+					'month'  => date( 'm', $timestamp ),
+					'day'    => date( 'd', $timestamp ),
+				);
+			}
+			foreach ( $dates as $arg => $segment ) {
+				$initial_date_query[ $arg ] = $segment;
+			}
+		}
+
+		// Sanitize and add time segments.
+		if ( ! empty( $times = be_sanitize_date_time( $time, 'time' ) ) ) {
+			foreach ( $times as $arg => $segment ) {
+				$initial_date_query[ $arg ] = $segment;
+			}
+		}
+
+		// Date query 'before' argument.
+		if ( ! empty( $before = be_sanitize_date_time( $date_query_before, 'date', true ) ) ) {
+			$initial_date_query['before'] = $before;
+		}
+
+		// Date query 'after' argument.
+		if ( ! empty( $after = be_sanitize_date_time( $date_query_after, 'date', true ) ) ) {
+			$initial_date_query['after'] = $after;
+		}
+
+		// Date query 'column' argument.
+		if ( ! empty( $date_query_column ) && in_array( $date_query_column, $valid_date_columns ) ) {
+			$initial_date_query['column'] = $date_query_column;
+		}
+
+		// Date query 'compare' argument.
+		if ( ! empty( $date_query_compare ) && in_array( $date_query_compare, $valid_compare_ops ) ) {
+			$initial_date_query['compare'] = $date_query_compare;
+		}
+
+		//
+		// Top-level date_query arguments. Only valid arguments will be added.
+		//
+
+		// 'column' argument.
+		if ( ! empty( $date_column ) && in_array( $date_column, $valid_date_columns ) ) {
+			$date_query_top_lvl['column'] = $date_column;
+		}
+
+		// 'compare' argument.
+		if ( ! empty( $date_compare ) && in_array( $date_compare, $valid_compare_ops ) ) {
+			$date_query_top_lvl['compare'] = $date_compare;
+		}
+
+		// Bring in the initial date query.
+		if ( ! empty( $initial_date_query ) ) {
+			$date_query_top_lvl[] = $initial_date_query;
+		}
+
+		// Date queries.
+		$args['date_query'] = $date_query_top_lvl;
+	}
+
 	// Ignore Sticky Posts
 	if( $ignore_sticky_posts )
 		$args['ignore_sticky_posts'] = true;
@@ -381,6 +473,103 @@ function be_display_posts_shortcode( $atts ) {
 	$return .= $inner . $close;
 
 	return $return;
+}
+
+/**
+ * Sanitize the segments of a given date or time for a date query.
+ *
+ * Accepts times entered in the 'HH:MM:SS' or 'HH:MM' formats, and dates
+ * entered in the 'YYYY-MM-DD' format.
+ *
+ * @param string $date_time      Date or time string to sanitize the parts of.
+ * @param string $type           Optional. Type of value to sanitize. Accepts
+ *                               'date' or 'time'. Default 'date'.
+ * @param bool   $accepts_string Optional. Whether the return value accepts a string.
+ *                               Default false.
+ * @return array|string Array of valid date or time segments, a timestamp, otherwise
+ *                      an empty array.
+ */
+function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = false ) {
+	if ( empty( $date_time ) || ! in_array( $type, array( 'date', 'time' ) ) ) {
+		return array();
+	}
+
+	$segments = array();
+
+	/*
+	 * If $date_time is not a strictly-formatted date or time, attempt to salvage it with
+	 * as strototime()-ready string. This is supported by the 'date', 'date_query_before',
+	 * and 'date_query_after' attributes.
+	 */
+	if (
+		true === $accepts_string
+		&& ( false !== strpos( $date_time, ' ' ) || false === strpos( $date_time, '-' ) )
+	) {
+		if ( false !== $timestamp = strtotime( $date_time ) ) {
+			return $date_time;
+		}
+	}
+
+	$parts = array_map( 'absint', explode( 'date' == $type ? '-' : ':', $date_time ) );
+
+	// Date.
+	if ( 'date' == $type ) {
+		// Defaults to 2001 for years, January for months, and 1 for days.
+		$year = $month = $day = 1;
+
+		if ( count( $parts >= 3 ) ) {
+			list( $year, $month, $day ) = $parts;
+
+			$year  = ( $year  >= 1 && $year  <= 9999 ) ? $year  : 1;
+			$month = ( $month >= 1 && $month <= 12   ) ? $month : 1;
+			$day   = ( $day   >= 1 && $day   <= 31   ) ? $day   : 1;
+		}
+
+		$segments = array(
+			'year'  => $year,
+			'month' => $month,
+			'day'   => $day
+		);
+
+	// Time.
+	} elseif ( 'time' == $type ) {
+		// Defaults to 0 for all segments.
+		$hour = $minute = $second = 0;
+
+		switch( count( $parts ) ) {
+			case 3 :
+				list( $hour, $minute, $second ) = $parts;
+				$hour   = ( $hour   >= 0 && $hour   <= 23 ) ? $hour   : 0;
+				$minute = ( $minute >= 0 && $minute <= 60 ) ? $minute : 0;
+				$second = ( $second >= 0 && $second <= 60 ) ? $second : 0;
+				break;
+			case 2 :
+				list( $hour, $minute ) = $parts;
+				$hour   = ( $hour   >= 0 && $hour   <= 23 ) ? $hour   : 0;
+				$minute = ( $minute >= 0 && $minute <= 60 ) ? $minute : 0;
+				break;
+			default : break;
+		}
+
+		$segments = array(
+			'hour'   => $hour,
+			'minute' => $minute,
+			'second' => $second
+		);
+	}
+
+	/**
+	 * Filter the sanitized segments for the given date or time string.
+	 *
+	 * @since 2.5
+	 *
+	 * @param array  $segments  Array of sanitized date or time segments, e.g. hour, minute, second,
+	 *                          or year, month, day, depending on the value of the $type parameter.
+	 * @param string $date_time Date or time string. Dates are formatted 'YYYY-MM-DD', and times are
+	 *                          formatted 'HH:MM:SS' or 'HH:MM'.
+	 * @param string $type      Type of string to sanitize. Can be either 'date' or 'time'.
+	 */
+	return apply_filters( 'display_posts_shortcode_sanitized_segments', $segments, $date_time, $type );
 }
 
 /**
