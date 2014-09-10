@@ -161,7 +161,8 @@ function be_display_posts_shortcode( $atts ) {
 		$valid_compare_ops = array( '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' );
 
 		// Sanitize and add date segments.
-		if ( ! empty( $dates = be_sanitize_date_time( $date ) ) ) {
+		$dates = be_sanitize_date_time( $date );
+		if ( ! empty( $dates ) ) {
 			if ( is_string( $dates ) ) {
 				$timestamp = strtotime( $dates );
 				$dates = array(
@@ -176,19 +177,22 @@ function be_display_posts_shortcode( $atts ) {
 		}
 
 		// Sanitize and add time segments.
-		if ( ! empty( $times = be_sanitize_date_time( $time, 'time' ) ) ) {
+		$times = be_sanitize_date_time( $time, 'time' );
+		if ( ! empty( $times ) ) {
 			foreach ( $times as $arg => $segment ) {
 				$initial_date_query[ $arg ] = $segment;
 			}
 		}
 
 		// Date query 'before' argument.
-		if ( ! empty( $before = be_sanitize_date_time( $date_query_before, 'date', true ) ) ) {
+		$before = be_sanitize_date_time( $date_query_before, 'date', true );
+		if ( ! empty( $before ) ) {
 			$initial_date_query['before'] = $before;
 		}
 
 		// Date query 'after' argument.
-		if ( ! empty( $after = be_sanitize_date_time( $date_query_after, 'date', true ) ) ) {
+		$after = be_sanitize_date_time( $date_query_after, 'date', true );
+		if ( ! empty( $after ) ) {
 			$initial_date_query['after'] = $after;
 		}
 
