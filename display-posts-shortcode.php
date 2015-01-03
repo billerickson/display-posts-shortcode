@@ -47,8 +47,8 @@ function be_display_posts_shortcode( $atts ) {
 	// Original Attributes, for filters
 	$original_atts = $atts;
 
-	// Pull in shortcode attributes and set defaults
-	$atts = shortcode_atts( array(
+	// Set Defaults
+	$defaults = array(
 		'title'              => '',
 		'author'              => '',
 		'category'            => '',
@@ -88,7 +88,19 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
-	), $atts, 'display-posts' );
+	);
+
+	/**
+	 * Filter the defaults passed to shortcode_atts
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $defaults	Default shortcode values
+	 */
+	$defaults = apply_filters( 'display_posts_shortcode_defaults', $defaults );
+
+	// Pull in shortcode attributes and set defaults
+	$atts = shortcode_atts( $defaults , $atts, 'display-posts' );
 	
 	// End early if shortcode should be turned off
 	if( $atts['display_posts_off'] )
