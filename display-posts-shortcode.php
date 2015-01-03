@@ -26,6 +26,9 @@
 /**
  * To Customize, use the following filters:
  *
+ * `shortcode_atts_display-posts`
+ * For customizing the default shortode arguments
+ * 
  * `display_posts_shortcode_args`
  * For customizing the $args passed to WP_Query
  *
