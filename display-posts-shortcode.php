@@ -331,7 +331,7 @@ function be_display_posts_shortcode( $atts ) {
 	}
 	
 	// If post parent attribute, set up parent
-	if( $post_parent ) {
+	if( $post_parent !== false ) {
 		if( 'current' == $post_parent ) {
 			global $post;
 			$post_parent = get_the_ID();
