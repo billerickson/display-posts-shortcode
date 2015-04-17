@@ -276,8 +276,17 @@ function be_display_posts_shortcode( $atts ) {
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
 	
-		// Term string to array
-		$tax_term = explode( ', ', $tax_term );
+		if( 'current' == $tax_term ) {
+			global $post;
+			$terms = wp_get_post_terms(get_the_ID(), $taxonomy);
+			$tax_term = array();
+			foreach ($terms as $term) {
+				$tax_term[] = $term->slug;
+			}
+		}else{
+			// Term string to array
+			$tax_term = explode( ', ', $tax_term );
+		}
 		
 		// Validate operator
 		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
