@@ -97,10 +97,10 @@ function be_display_posts_shortcode( $atts ) {
 	if( $atts['display_posts_off'] )
 		return;
 
-	$shortcode_title = sanitize_text_field( $atts['title'] );
-	$author = sanitize_text_field( $atts['author'] );
-	$category = sanitize_text_field( $atts['category'] );
-	$date_format = sanitize_text_field( $atts['date_format'] );
+	$shortcode_title     = sanitize_text_field( $atts['title'] );
+	$author              = sanitize_text_field( $atts['author'] );
+	$category            = sanitize_text_field( $atts['category'] );
+	$date_format         = sanitize_text_field( $atts['date_format'] );
 	$date                = sanitize_text_field( $atts['date'] );
 	$date_column         = sanitize_text_field( $atts['date_column'] );
 	$date_compare        = sanitize_text_field( $atts['date_compare'] );
@@ -109,31 +109,31 @@ function be_display_posts_shortcode( $atts ) {
 	$date_query_column   = sanitize_text_field( $atts['date_query_column'] );
 	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
 	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
-	$id = $atts['id']; // Sanitized later as an array of integers
+	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
-	$image_size = sanitize_key( $atts['image_size'] );
+	$image_size          = sanitize_key( $atts['image_size'] );
 	$include_title       = filter_var( $atts['include_title'], FILTER_VALIDATE_BOOLEAN );
 	$include_author      = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
 	$include_content     = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date        = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt     = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
-	$meta_key = sanitize_text_field( $atts['meta_key'] );
-	$meta_value = sanitize_text_field( $atts['meta_value'] );
-	$no_posts_message = sanitize_text_field( $atts['no_posts_message'] );
-	$offset = intval( $atts['offset'] );
-	$order = sanitize_key( $atts['order'] );
-	$orderby = sanitize_key( $atts['orderby'] );
-	$post_parent = $atts['post_parent']; // Validated later, after check for 'current'
-	$post_status = $atts['post_status']; // Validated later as one of a few values
-	$post_type = sanitize_text_field( $atts['post_type'] );
-	$posts_per_page = intval( $atts['posts_per_page'] );
-	$tag = sanitize_text_field( $atts['tag'] );
-	$tax_operator = $atts['tax_operator']; // Validated later as one of a few values
-	$tax_term = sanitize_text_field( $atts['tax_term'] );
-	$taxonomy = sanitize_key( $atts['taxonomy'] );
+	$meta_key            = sanitize_text_field( $atts['meta_key'] );
+	$meta_value          = sanitize_text_field( $atts['meta_value'] );
+	$no_posts_message    = sanitize_text_field( $atts['no_posts_message'] );
+	$offset              = intval( $atts['offset'] );
+	$order               = sanitize_key( $atts['order'] );
+	$orderby             = sanitize_key( $atts['orderby'] );
+	$post_parent         = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_status         = $atts['post_status']; // Validated later as one of a few values
+	$post_type           = sanitize_text_field( $atts['post_type'] );
+	$posts_per_page      = intval( $atts['posts_per_page'] );
+	$tag                 = sanitize_text_field( $atts['tag'] );
+	$tax_operator        = $atts['tax_operator']; // Validated later as one of a few values
+	$tax_term            = sanitize_text_field( $atts['tax_term'] );
+	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
-	$wrapper = sanitize_text_field( $atts['wrapper'] );
-	$wrapper_class = sanitize_html_class( $atts['wrapper_class'] );
+	$wrapper             = sanitize_text_field( $atts['wrapper'] );
+	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
 
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . $wrapper_class . '"';
@@ -151,7 +151,7 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
-	
+
 	// Date query.
 	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_query_after ) || ! empty( $date_query_before ) ) {
 		$initial_date_query = $date_query_top_lvl = array();
@@ -185,7 +185,7 @@ function be_display_posts_shortcode( $atts ) {
 			foreach ( $times as $arg => $segment ) {
 				$initial_date_query[ $arg ] = $segment;
 			}
-			}
+		}
 
 		// Date query 'before' argument.
 		$before = be_sanitize_date_time( $date_query_before, 'date', true );
@@ -276,7 +276,6 @@ function be_display_posts_shortcode( $atts ) {
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
 	
-		// MV 
 		if( 'current' == $tax_term ) {
 			global $post;
 			$terms = wp_get_post_terms(get_the_ID(), $taxonomy);
@@ -285,11 +284,9 @@ function be_display_posts_shortcode( $atts ) {
 				$tax_term[] = $term->slug;
 			}
 		}else{
+			// Term string to array
 			$tax_term = explode( ', ', $tax_term );
 		}
-		// END MV 
-
-		// Term string to array
 		
 		// Validate operator
 		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
@@ -387,7 +384,7 @@ function be_display_posts_shortcode( $atts ) {
 			/** This filter is documented in wp-includes/link-template.php */
 			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
 		}
-		
+
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
@@ -410,7 +407,7 @@ function be_display_posts_shortcode( $atts ) {
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 			/** This filter is documented in wp-includes/post-template.php */
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		
@@ -432,7 +429,7 @@ function be_display_posts_shortcode( $atts ) {
 		// If post is set to private, only show to logged in users
 		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
 			$output = '';
-		
+
 		/**
 		 * Filter the HTML markup for output via the shortcode.
 		 *
@@ -451,7 +448,7 @@ function be_display_posts_shortcode( $atts ) {
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
 		
 	endwhile; wp_reset_postdata();
-	
+
 	/**
 	 * Filter the shortcode output's opening outer wrapper element.
 	 *
@@ -601,16 +598,16 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
  * @return array $out
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
-/**
+	/**
 	 * Filter whether to disable the display-posts shortcode.
- *
+	 *
 	 * The function and filter were added for backward-compatibility with
 	 * 2.3 behavior in certain circumstances.
 	 *
 	 * @since 2.4
 	 *
 	 * @param bool $disable Whether to disable the display-posts shortcode. Default true.
- */
+	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
 }
