@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.4
+ * Version: 2.5
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -73,6 +73,8 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'     => false,
 		'include_date'        => false,
 		'include_excerpt'     => false,
+		'category_display'    => '',
+		'category_label'      => '',
 		'meta_key'            => '',
 		'meta_value'          => '',
 		'no_posts_message'    => '',
@@ -117,6 +119,8 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content     = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date        = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt     = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$category_display    = sanitize_text_field( $atts['category_display'] );
+	$category_label      = sanitize_text_field( $atts['category_label'] );
 	$meta_key            = sanitize_text_field( $atts['meta_key'] );
 	$meta_value          = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message    = sanitize_text_field( $atts['no_posts_message'] );
@@ -378,7 +382,7 @@ function be_display_posts_shortcode( $atts ) {
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
-		$image = $date = $author = $excerpt = $content = '';
+		$image = $date = $author = $excerpt = $content = $taxonomy = '';
 		
 		if ( $include_title ) {
 			/** This filter is documented in wp-includes/link-template.php */
@@ -400,6 +404,14 @@ function be_display_posts_shortcode( $atts ) {
 			 * @param string $author_output HTML markup to display author information.
 			 */
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
+		
+		if ( $category_display ) {
+			if ( $category_display == 'post_category' )
+				$taxonomy = ' <div class="categories">' . $category_label . get_the_category_list()  . '</div>';
+			
+			if ( $category_display == 'post_tag' )
+				$taxonomy = ' <div class="tags">' . $category_label . get_the_tag_list()  . '</div>';
+		}
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
@@ -424,7 +436,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
 		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $taxonomy . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
 		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
