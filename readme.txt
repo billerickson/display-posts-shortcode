@@ -33,8 +33,8 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 * Add support for date queries
 * Exclude child pages with post_parent="0"
-* Query by current taxonomy terms. Ex: [display_posts taxonomy="category" tax_term="current"]
-* Display the post's categories with [display_posts category_display="true"]
+* Query by current taxonomy terms. Ex: [display-posts taxonomy="category" tax_term="current"]
+* Display the post's categories with [display-posts category_display="true"]
 
 **Version 2.4**
 
