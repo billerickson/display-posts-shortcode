@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 2.4.1
+ * @version 2.4.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -55,6 +55,8 @@ function be_display_posts_shortcode( $atts ) {
 		'title'              => '',
 		'author'              => '',
 		'category'            => '',
+		'category_display'    => '',
+		'category_label'      => 'Posted in: ',
 		'date_format'         => '(n/j/Y)',
 		'date'                => '',
 		'date_column'         => 'post_date',
@@ -100,6 +102,8 @@ function be_display_posts_shortcode( $atts ) {
 	$shortcode_title     = sanitize_text_field( $atts['title'] );
 	$author              = sanitize_text_field( $atts['author'] );
 	$category            = sanitize_text_field( $atts['category'] );
+	$category_display    = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
+	$category_label      = sanitize_text_field( $atts['category_label'] );
 	$date_format         = sanitize_text_field( $atts['date_format'] );
 	$date                = sanitize_text_field( $atts['date'] );
 	$date_column         = sanitize_text_field( $atts['date_column'] );
@@ -140,8 +144,7 @@ function be_display_posts_shortcode( $atts ) {
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
 	if( !empty( $wrapper_id ) )
 		$wrapper_id = ' id="' . $wrapper_id . '"';
-
-	
+		
 	// Set up initial query for post
 	$args = array(
 		'category_name'       => $category,
@@ -411,6 +414,28 @@ function be_display_posts_shortcode( $atts ) {
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		
+		// Display categories the post is in
+		if( $category_display && is_object_in_taxonomy( get_post_type(), $category_display ) ) {
+			$terms = get_the_terms( get_the_ID(), $category_display );
+			$term_output = array();
+			foreach( $terms as $term )
+				$term_output[] = '<a href="' . get_term_link( $term, $category_display ) . '">' . $term->name . '</a>';
+			$category_display = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
+
+			/**
+			 * Filter the list of categories attached to the current post.
+			 *
+			 * @since 2.4.2
+			 *
+			 * @param string   $category_display Current Category Display text
+			 */
+			$category_display = apply_filters( 'display_posts_shortcode_category_display', $category_display );
+		
+		// If they pass a taxonomy that doesn't exist on this post type	
+		}elseif( $category_display ) {
+			$category_display = '';
+		}
+		
 		$class = array( 'listing-item' );
 
 		/**
@@ -424,7 +449,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
 		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $excerpt . $content . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
 		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
