@@ -420,7 +420,7 @@ function be_display_posts_shortcode( $atts ) {
 			$term_output = array();
 			foreach( $terms as $term )
 				$term_output[] = '<a href="' . get_term_link( $term, $category_display ) . '">' . $term->name . '</a>';
-			$category_display = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
+			$category_display_text = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
 
 			/**
 			 * Filter the list of categories attached to the current post.
@@ -429,7 +429,7 @@ function be_display_posts_shortcode( $atts ) {
 			 *
 			 * @param string   $category_display Current Category Display text
 			 */
-			$category_display = apply_filters( 'display_posts_shortcode_category_display', $category_display );
+			$category_display_text = apply_filters( 'display_posts_shortcode_category_display', $category_display_text );
 		
 		// If they pass a taxonomy that doesn't exist on this post type	
 		}elseif( $category_display ) {
@@ -449,7 +449,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
 		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display . $excerpt . $content . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
 		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
