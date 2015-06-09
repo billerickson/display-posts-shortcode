@@ -254,7 +254,7 @@ function be_display_posts_shortcode( $atts ) {
 	}
 	
 	// If Exclude Current
-	if( $exclude_current )
+	if( is_singular() && $exclude_current )
 		$args['post__not_in'] = array( get_the_ID() );
 	
 	// Post Author
