@@ -35,6 +35,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 * Exclude child pages with post_parent="0"
 * Query by current taxonomy terms. Ex: [display-posts taxonomy="category" tax_term="current"]
 * Display the post's categories with [display-posts category_display="true"]
+* Many more fixes. See GitHub for a full list of changes.
 
 **Version 2.4**
 
