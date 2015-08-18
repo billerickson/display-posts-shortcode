@@ -449,7 +449,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param WP_Query $listing       WP_Query object for the posts listing.
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
-		$class = sanitize_html_class( apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
+		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
 		// If post is set to private, only show to logged in users
