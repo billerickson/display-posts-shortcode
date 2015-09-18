@@ -90,6 +90,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'time'                => '',
+    'title_wrapper'       => '',
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
@@ -136,6 +137,7 @@ function be_display_posts_shortcode( $atts ) {
 	$tax_term            = sanitize_text_field( $atts['tax_term'] );
 	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
+  $title_wrapper       = sanitize_text_field( $atts['title_wrapper'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
 
@@ -385,7 +387,8 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_title ) {
 			/** This filter is documented in wp-includes/link-template.php */
-			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+      $title = $title_wrapper ? "<{$title_wrapper}>" . get_the_title() . "</{$title_wrapper}>" : get_the_title();
+			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . $title . '</a>';
 		}
 
 		if ( $image_size && has_post_thumbnail() )  
