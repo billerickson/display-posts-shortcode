@@ -391,8 +391,16 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
-		if ( $include_date ) 
-			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
+		if ( $include_date )
+    {
+      if($date_format='human')
+      {
+        $dt = human_time_diff(get_the_date('U')) . ' ago';
+      } else {
+        $dt = get_the_date( $date_format );
+      }
+			$date = ' <span class="date">' . $dt . '</span>';
+    }
 			
 		if( $include_author )
 			/**
