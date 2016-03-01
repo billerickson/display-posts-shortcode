@@ -29,6 +29,10 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**Version 2.6**
+
+* Add support for author="current"
+
 **Version 2.5.1**
 
 * Fix an issue with manually specified excerpts

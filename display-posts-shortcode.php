@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.5.1
+ * Version: 2.6.0
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -258,8 +258,14 @@ function be_display_posts_shortcode( $atts ) {
 		$args['post__not_in'] = array( get_the_ID() );
 	
 	// Post Author
-	if( !empty( $author ) )
-		$args['author_name'] = $author;
+	if( !empty( $author ) ) {
+		if( 'current' == $author && is_user_logged_in() )
+			$args['author_name'] = get_current_user_id();
+		elseif( 'current' == $author )
+			$args['meta_key'] = 'dps_no_results';	
+		else
+			$args['author_name'] = $author;
+	}
 		
 	// Offset
 	if( !empty( $offset ) )
