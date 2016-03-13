@@ -260,7 +260,7 @@ function be_display_posts_shortcode( $atts ) {
 	// Post Author
 	if( !empty( $author ) ) {
 		if( 'current' == $author && is_user_logged_in() )
-			$args['author_name'] = get_current_user_id();
+			$args['author_name'] = wp_get_current_user()->user_login;
 		elseif( 'current' == $author )
 			$args['meta_key'] = 'dps_no_results';	
 		else
