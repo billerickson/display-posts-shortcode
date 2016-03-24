@@ -137,10 +137,10 @@ function be_display_posts_shortcode( $atts ) {
 	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
-	$wrapper_class       = sanitize_html_class( $atts['wrapper_class'] );
+	$wrapper_class       = array_map( 'sanitize_html_class', ( explode( ' ', $atts['wrapper_class'] ) ) );
 
 	if( !empty( $wrapper_class ) )
-		$wrapper_class = ' class="' . $wrapper_class . '"';
+		$wrapper_class = ' class="' . implode( ' ', $wrapper_class ) . '"';
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
 	if( !empty( $wrapper_id ) )
 		$wrapper_id = ' id="' . $wrapper_id . '"';

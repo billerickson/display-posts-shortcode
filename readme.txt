@@ -32,6 +32,7 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 **Version 2.6**
 
 * Add support for author="current"
+* Add support for multiple wrapper classes
 
 **Version 2.5.1**
 
