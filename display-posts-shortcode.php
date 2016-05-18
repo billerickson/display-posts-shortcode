@@ -412,9 +412,6 @@ function be_display_posts_shortcode( $atts ) {
 			 */
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
-		if ( $include_excerpt ) 
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
-	
 		if ( $include_excerpt && !empty($excerpt_length) ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words(get_the_excerpt(), $excerpt_length) . '</span>';		
 			
