@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.6.0
+ * Version: 2.6.1
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -417,7 +417,7 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) {
 			$excerpt_length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
 			$excerpt_more = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words( strip_shortcodes( get_the_content('') ), $excerpt_length, $excerpt_more ) . '</span>';
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words( get_the_excerpt(), $excerpt_length, $excerpt_more ) . '</span>';
 		}
 			
 		if( $include_content ) {

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 4.5.2
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -28,6 +28,9 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 
 == Changelog ==
+
+**Version 2.6.1**
+* Fix issue with manually specified excerpts
 
 **Version 2.6**
 
