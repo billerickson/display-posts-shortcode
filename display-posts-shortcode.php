@@ -66,6 +66,7 @@ function be_display_posts_shortcode( $atts ) {
 		'date_query_column'   => '',
 		'date_query_compare'  => '',
 		'display_posts_off'   => false,
+		'excerpt_length'      => false,
 		'exclude_current'     => false,
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
@@ -112,6 +113,7 @@ function be_display_posts_shortcode( $atts ) {
 	$date_query_after    = sanitize_text_field( $atts['date_query_after'] );
 	$date_query_column   = sanitize_text_field( $atts['date_query_column'] );
 	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
+	$excerpt_length      = intval( $atts['excerpt_length'] );
 	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
 	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
@@ -410,8 +412,10 @@ function be_display_posts_shortcode( $atts ) {
 			 */
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
-		if ( $include_excerpt ) 
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+		if ( $include_excerpt ) {
+			$excerpt_length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_excerpt( '', $excerpt_length ) . '</span>';
+		}
 			
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
