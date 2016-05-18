@@ -3,8 +3,8 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: 2.5.1
+Tested up to: 4.5.2
+Stable tag: 2.6.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -33,6 +33,8 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 * Add support for author="current"
 * Add support for multiple wrapper classes
+* Add support for excerpt_length parameter
+* Add support for excerpt_more parameter
 
 **Version 2.5.1**
 
