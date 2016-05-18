@@ -75,6 +75,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'     => false,
 		'include_date'        => false,
 		'include_excerpt'     => false,
+		'excerpt_length'      => '25',
 		'meta_key'            => '',
 		'meta_value'          => '',
 		'no_posts_message'    => '',
@@ -121,6 +122,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content     = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date        = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt     = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$excerpt_length      = intval( $atts['excerpt_length'] );
 	$meta_key            = sanitize_text_field( $atts['meta_key'] );
 	$meta_value          = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message    = sanitize_text_field( $atts['no_posts_message'] );
@@ -412,6 +414,9 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+	
+		if ( $include_excerpt && !empty($excerpt_length) ) 
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words(get_the_excerpt(), $excerpt_length) . '</span>';		
 			
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
