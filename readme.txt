@@ -29,6 +29,9 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**[Next Version]**
+* Fix date query bug, see #108
+
 **Version 2.6.1**
 * Fix issue with manually specified excerpts
 

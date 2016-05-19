@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.6.1
+ * Version: 2.6.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -572,7 +572,7 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
 		// Defaults to 2001 for years, January for months, and 1 for days.
 		$year = $month = $day = 1;
 
-		if ( count( $parts >= 3 ) ) {
+		if ( count( $parts ) >= 3 ) {
 			list( $year, $month, $day ) = $parts;
 
 			$year  = ( $year  >= 1 && $year  <= 9999 ) ? $year  : 1;
