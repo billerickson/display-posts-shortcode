@@ -92,6 +92,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'time'                => '',
+    'title_wrapper'       => '',
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
@@ -140,6 +141,7 @@ function be_display_posts_shortcode( $atts ) {
 	$tax_term            = sanitize_text_field( $atts['tax_term'] );
 	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
+  $title_wrapper       = sanitize_text_field( $atts['title_wrapper'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class       = array_map( 'sanitize_html_class', ( explode( ' ', $atts['wrapper_class'] ) ) );
 
@@ -395,14 +397,23 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_title ) {
 			/** This filter is documented in wp-includes/link-template.php */
-			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+      $title = $title_wrapper ? "<{$title_wrapper}>" . get_the_title() . "</{$title_wrapper}>" : get_the_title();
+			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . $title . '</a>';
 		}
 
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 			
-		if ( $include_date ) 
-			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
+		if ( $include_date )
+    {
+      if($date_format='human')
+      {
+        $dt = human_time_diff(get_the_date('U')) . ' ago';
+      } else {
+        $dt = get_the_date( $date_format );
+      }
+			$date = ' <span class="date">' . $dt . '</span>';
+    }
 			
 		if( $include_author )
 			/**
