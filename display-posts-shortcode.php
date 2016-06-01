@@ -57,6 +57,7 @@ function be_display_posts_shortcode( $atts ) {
 		'category'            => '',
 		'category_display'    => '',
 		'category_label'      => 'Posted in: ',
+		'content_class'       => 'content',
 		'date_format'         => '(n/j/Y)',
 		'date'                => '',
 		'date_column'         => 'post_date',
@@ -106,6 +107,7 @@ function be_display_posts_shortcode( $atts ) {
 	$category            = sanitize_text_field( $atts['category'] );
 	$category_display    = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
 	$category_label      = sanitize_text_field( $atts['category_label'] );
+	$content_class       = array_map( 'sanitize_html_class', ( explode( ' ', $atts['content_class'] ) ) );
 	$date_format         = sanitize_text_field( $atts['date_format'] );
 	$date                = sanitize_text_field( $atts['date'] );
 	$date_column         = sanitize_text_field( $atts['date_column'] );
@@ -425,7 +427,7 @@ function be_display_posts_shortcode( $atts ) {
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 			/** This filter is documented in wp-includes/post-template.php */
-			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
+			$content = '<div class="' . implode( ' ', $content_class ) . '">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
 		

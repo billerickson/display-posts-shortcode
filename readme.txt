@@ -30,7 +30,9 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 == Changelog ==
 
 **[Next Version]**
+* Added content_class parameter
 * Fix date query bug, see #108
+* Fixed undefined variable notice if include_title="false"
 
 **Version 2.6.1**
 * Fix issue with manually specified excerpts
