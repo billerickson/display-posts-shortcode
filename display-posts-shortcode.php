@@ -396,6 +396,8 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_title ) {
 			/** This filter is documented in wp-includes/link-template.php */
 			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+		} else {
+			$title = '';
 		}
 
 		if ( $image_size && has_post_thumbnail() )  
