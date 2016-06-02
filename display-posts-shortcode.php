@@ -419,9 +419,18 @@ function be_display_posts_shortcode( $atts ) {
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
 		if ( $include_excerpt ) {
-			$excerpt_length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
-			$excerpt_more = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words( get_the_excerpt(), $excerpt_length, $excerpt_more ) . '</span>';
+			
+			global $dps_excerpt_length, $dps_excerpt_more;
+			$dps_excerpt_length = $excerpt_length;
+			$dps_excerpt_more = $excerpt_more;
+			add_filter( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 99 );
+			add_filter( 'excerpt_more', 'display_posts_shortcode_excerpt_more', 99 );
+			
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';			
+			
+			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 99 );
+			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_more', 99 );
+			
 		}
 			
 		if( $include_content ) {
@@ -653,4 +662,30 @@ function be_display_posts_off( $out, $pairs, $atts ) {
 	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
+}
+
+/**
+ * Excerpt Length
+ *
+ * @since 2.6.2
+ *
+ * @param int $length
+ * @return int $length
+ */
+function display_posts_shortcode_excerpt_length( $length ) {
+	global $dps_excerpt_length;
+	return !empty( $dps_excerpt_length ) ? $dps_excerpt_length : $length;
+}
+
+/**
+ * Excerpt More 
+ *
+ * @since 2.6.2
+ *
+ * @param string $more_text
+ * @return string $more_text 
+ */
+function display_posts_shortcode_excerpt_more( $more_text ) {
+	global $dps_excerpt_more;
+	return !empty( $dps_excerpt_more ) ? $dps_excerpt_more : $more_text;
 }
