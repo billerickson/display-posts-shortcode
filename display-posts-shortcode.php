@@ -423,13 +423,10 @@ function be_display_posts_shortcode( $atts ) {
 			global $dps_excerpt_length, $dps_excerpt_more;
 			$dps_excerpt_length = $excerpt_length;
 			$dps_excerpt_more = $excerpt_more;
-			add_filter( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 999 );
-			add_filter( 'excerpt_more', 'display_posts_shortcode_excerpt_more', 999 );
+			add_filter( 'get_the_excerpt', 'display_posts_shortcode_excerpt', 999 );
 			
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';			
 			
-			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 999 );
-			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_more', 999 );
 			
 		}
 			
@@ -665,27 +662,23 @@ function be_display_posts_off( $out, $pairs, $atts ) {
 }
 
 /**
- * Excerpt Length
+ * Excerpt
  *
  * @since 2.6.2
  *
- * @param int $length
- * @return int $length
+ * @param string $excerpt
+ * @return string $excerpt
  */
-function display_posts_shortcode_excerpt_length( $length ) {
-	global $dps_excerpt_length;
-	return !empty( $dps_excerpt_length ) ? $dps_excerpt_length : $length;
-}
+function display_posts_shortcode_excerpt( $excerpt ) {
+	global $dps_excerpt_length, $dps_excerpt_more, $post;
+	
+	// Only make changes if shortcode defined length/more
+	if( empty( $dps_excerpt_length ) && empty( $dps_excerpt_more ) )
+		return $excerpt;
 
-/**
- * Excerpt More 
- *
- * @since 2.6.2
- *
- * @param string $more_text
- * @return string $more_text 
- */
-function display_posts_shortcode_excerpt_more( $more_text ) {
-	global $dps_excerpt_more;
-	return !empty( $dps_excerpt_more ) ? $dps_excerpt_more : $more_text;
+	$length = $dps_excerpt_length ? (int) $dps_excerpt_length : apply_filters( 'excerpt_length', 55 );
+	$more   = $dps_excerpt_more ? $dps_excerpt_more : apply_filters( 'excerpt_more', '' );
+	
+	$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( $post->post_content, $length, $more );
+	return $excerpt;
 }
