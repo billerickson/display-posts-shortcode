@@ -423,13 +423,13 @@ function be_display_posts_shortcode( $atts ) {
 			global $dps_excerpt_length, $dps_excerpt_more;
 			$dps_excerpt_length = $excerpt_length;
 			$dps_excerpt_more = $excerpt_more;
-			add_filter( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 99 );
-			add_filter( 'excerpt_more', 'display_posts_shortcode_excerpt_more', 99 );
+			add_filter( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 999 );
+			add_filter( 'excerpt_more', 'display_posts_shortcode_excerpt_more', 999 );
 			
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';			
 			
-			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 99 );
-			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_more', 99 );
+			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_length', 999 );
+			remove_action( 'excerpt_length', 'display_posts_shortcode_excerpt_more', 999 );
 			
 		}
 			
