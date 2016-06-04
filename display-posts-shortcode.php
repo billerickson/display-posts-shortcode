@@ -69,6 +69,7 @@ function be_display_posts_shortcode( $atts ) {
 		'display_posts_off'   => false,
 		'excerpt_length'      => false,
 		'excerpt_more'        => false,
+		'excerpt_more_link'   => false,
 		'exclude_current'     => false,
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
@@ -118,6 +119,7 @@ function be_display_posts_shortcode( $atts ) {
 	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
 	$excerpt_length      = intval( $atts['excerpt_length'] );
 	$excerpt_more        = sanitize_text_field( $atts['excerpt_more'] );
+	$excerpt_more_link   = filter_var( $atts['excerpt_more_link'], FILTER_VALIDATE_BOOLEAN );
 	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
 	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
@@ -420,12 +422,21 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) {
 			
-			global $dps_excerpt_length, $dps_excerpt_more;
-			$dps_excerpt_length = $excerpt_length;
-			$dps_excerpt_more = $excerpt_more;
-			add_filter( 'get_the_excerpt', 'display_posts_shortcode_excerpt', 999 );
+			// Custom build excerpt based on shortcode parameters
+			if( $excerpt_length || $excerpt_more || $excerpt_more_link ) {
+	
+				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
+				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
+				$more   = $excerpt_more_link ? ' <a href="' . get_permalink() . '">' . $more . '</a>' : ' ' . $more;
+				
+				$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( $post->post_content, $length, $more );
 			
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';			
+			// Use default, can customize with WP filters
+			} else {
+				$excerpt = get_the_excerpt();
+			}
+			
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . $excerpt . '</span>';			
 			
 			
 		}
@@ -659,26 +670,4 @@ function be_display_posts_off( $out, $pairs, $atts ) {
 	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
-}
-
-/**
- * Excerpt
- *
- * @since 2.6.2
- *
- * @param string $excerpt
- * @return string $excerpt
- */
-function display_posts_shortcode_excerpt( $excerpt ) {
-	global $dps_excerpt_length, $dps_excerpt_more, $post;
-	
-	// Only make changes if shortcode defined length/more
-	if( empty( $dps_excerpt_length ) && empty( $dps_excerpt_more ) )
-		return $excerpt;
-
-	$length = $dps_excerpt_length ? (int) $dps_excerpt_length : apply_filters( 'excerpt_length', 55 );
-	$more   = $dps_excerpt_more ? $dps_excerpt_more : apply_filters( 'excerpt_more', '' );
-	
-	$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( $post->post_content, $length, $more );
-	return $excerpt;
 }
