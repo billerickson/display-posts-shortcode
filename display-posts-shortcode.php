@@ -69,6 +69,7 @@ function be_display_posts_shortcode( $atts ) {
 		'display_posts_off'   => false,
 		'excerpt_length'      => false,
 		'excerpt_more'        => false,
+		'excerpt_more_link'   => false,
 		'exclude_current'     => false,
 		'id'                  => false,
 		'ignore_sticky_posts' => false,
@@ -118,6 +119,7 @@ function be_display_posts_shortcode( $atts ) {
 	$date_query_compare  = sanitize_text_field( $atts['date_query_compare'] );
 	$excerpt_length      = intval( $atts['excerpt_length'] );
 	$excerpt_more        = sanitize_text_field( $atts['excerpt_more'] );
+	$excerpt_more_link   = filter_var( $atts['excerpt_more_link'], FILTER_VALIDATE_BOOLEAN );
 	$exclude_current     = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
 	$id                  = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
@@ -419,9 +421,24 @@ function be_display_posts_shortcode( $atts ) {
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>' );
 		
 		if ( $include_excerpt ) {
-			$excerpt_length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
-			$excerpt_more = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . wp_trim_words( get_the_excerpt(), $excerpt_length, $excerpt_more ) . '</span>';
+			
+			// Custom build excerpt based on shortcode parameters
+			if( $excerpt_length || $excerpt_more || $excerpt_more_link ) {
+	
+				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
+				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
+				$more   = $excerpt_more_link ? ' <a href="' . get_permalink() . '">' . $more . '</a>' : ' ' . $more;
+				
+				$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( $post->post_content, $length, $more );
+			
+			// Use default, can customize with WP filters
+			} else {
+				$excerpt = get_the_excerpt();
+			}
+			
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . $excerpt . '</span>';			
+			
+			
 		}
 			
 		if( $include_content ) {
