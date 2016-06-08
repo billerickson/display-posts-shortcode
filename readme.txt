@@ -29,6 +29,9 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+**Version 2.7.0 (Upcoming)**
+* Added support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon).
+
 **Version 2.6.2**
 * More improvements to excerpts, see #110
 * Added content_class parameter
