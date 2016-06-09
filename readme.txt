@@ -29,6 +29,8 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
+[Full Changelog](https://github.com/billerickson/display-posts-shortcode/blob/master/CHANGELOG.md)
+
 **Version 2.7.0 (Upcoming)**
 * Added support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon).
 
