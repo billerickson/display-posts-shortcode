@@ -35,7 +35,7 @@ Default: empty
 Example: [display-posts author="bill"]
 
 **category**  
-Specify the category slug, or comma separated list of category slugs
+Specify the category slug, or comma separated list of category slugs  
 Default: empty  
 Example: [display-posts category="fishing,hiking"]  
 
@@ -120,8 +120,8 @@ Default: empty
 Example: [display-posts id="9, 10"]
 
 **ignore_sticky_posts**  
-Specify whether or not to ignore sticky posts
-Default: false
+Specify whether or not to ignore sticky posts  
+Default: false  
 Example: [displa-posts ignore_sticky_posts="true"]
 
 **image_size**  
@@ -129,14 +129,14 @@ Specify an image size for displaying the featured image, if the post has one. Th
 Default: empty  
 Example: [display-posts image_size="thumbnail"]
 
-**include_author**
-Specify whether or not to include the post's author name. 
-Default: false
+**include_author**  
+Specify whether or not to include the post's author name.  
+Default: false  	
 Example: [display-posts include_author="true"]
 
-**include_content**
-Specify whether or not to include the full post content. Note that [display-posts] will be stripped out of the content to prevent infinite loops
-Default: false
+**include_content**  
+Specify whether or not to include the full post content. Note that [display-posts] will be stripped out of the content to prevent infinite loops  
+Default: false  
 Example:[display-posts include_content="true"]
 
 **include_date**  
@@ -234,7 +234,7 @@ Class applied to the wrapper tag for custom css formatting for this instance.
 Default: display-posts-listing    
 Example: [display-posts wrapper="div" wrapper_class="my-grid-layout"]
 
-**wrapper_id**
+**wrapper_id**  
 Specify an unique ID to be used on the wrapper of this listing  
 Default: empty  
 Example: [display-posts category="cars" wrapper_id="cars-listing"]
