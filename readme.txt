@@ -15,7 +15,8 @@ The *Display Posts Shortcode* was written to allow users to easily display listi
 Add the shortcode in a post or page, and use the arguments to query based on tag, category, post type, and many other possibilities. You can also customize the output with parameters like: include_date, include_excerpt, and image_size.
 
 * [Available Parameters](https://github.com/billerickson/display-posts-shortcode/blob/master/README.md#parameters)
-* [Full Documentation](https://github.com/billerickson/display-posts-shortcode/wiki)
+* [Customization with Filters](https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters)
+* [Addon Plugins](https://github.com/billerickson/display-posts-shortcode/wiki#addon-plugins)
 * [Full Change Log](https://github.com/billerickson/display-posts-shortcode/blob/master/CHANGELOG.md)
 * [View on GitHub](https://github.com/billerickson/display-posts-shortcode)
 
