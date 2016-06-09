@@ -16,7 +16,7 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 * [Available Parameters](https://github.com/billerickson/display-posts-shortcode/blob/master/README.md#parameters)
 * [Customization with Filters](https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters)
-* [Addon Plugins](https://github.com/billerickson/display-posts-shortcode/wiki#addon-plugins)
+* [Extension Plugins](https://github.com/billerickson/display-posts-shortcode/wiki#extension-plugins)
 * [Full Change Log](https://github.com/billerickson/display-posts-shortcode/blob/master/CHANGELOG.md)
 * [View on GitHub](https://github.com/billerickson/display-posts-shortcode)
 
