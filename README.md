@@ -16,7 +16,8 @@ The *Display Posts Shortcode* was written to allow users to easily display listi
 Add the shortcode in a post or page, and use the arguments to query based on tag, category, post type, and many other possibilities. You can also customize the output with parameters like: include_date, include_excerpt, and image_size.
 
 * [Available Parameters](https://github.com/billerickson/display-posts-shortcode/blob/master/README.md#parameters)
-* [Full Documentation](https://github.com/billerickson/display-posts-shortcode/wiki)
+* [Customization with Filters](https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters)
+* [Addon Plugins](https://github.com/billerickson/display-posts-shortcode/wiki#addon-plugins)
 * [Full Change Log](https://github.com/billerickson/display-posts-shortcode/blob/master/CHANGELOG.md)
 
 
@@ -124,7 +125,7 @@ Default: false
 Example: [displa-posts ignore_sticky_posts="true"]
 
 **image_size**  
-Specify an image size for displaying the featured image, if the post has one. The image_size can be set to thumbnail, medium, large (all controlled from Settings > Reading), or a [custom image size](http://codex.wordpress.org/Function_Reference/add_image_size).  
+Specify an image size for displaying the featured image, if the post has one. The image_size can be set to thumbnail, medium, large (all controlled from Settings > Reading), or a [custom image size](http://codex.wordpress.org/Function_Reference/add_image_size). See [Image Alignment](https://github.com/billerickson/display-posts-shortcode/wiki#image-alignment)  
 Default: empty  
 Example: [display-posts image_size="thumbnail"]
 
@@ -209,7 +210,7 @@ Default: empty
 Example: [display-posts tag="tag1, tag2"]
 
 **taxonomy, tax_term, and tax_operator**  
-Use these parameters to do [advanced taxonomy queries](http://codex.wordpress.org/Class_Reference/WP_Query#Taxonomy_Parameters). Use 'taxonomy' for the taxonomy you'd like to query, 'tax_term' for the term slug (or terms) you'd like to include, and 'operator' to change how the query uses those terms (most likely this field will not be needed).  
+Use these parameters to do [advanced taxonomy queries](http://codex.wordpress.org/Class_Reference/WP_Query#Taxonomy_Parameters). Use 'taxonomy' for the taxonomy you'd like to query, 'tax_term' for the term slug (or terms) you'd like to include, and 'operator' to change how the query uses those terms (most likely this field will not be needed). See [Multiple Taxonomy Queries](https://github.com/billerickson/display-posts-shortcode/wiki#multiple-taxonomy-queries)  
 Default: 'taxonomy' = empty , 'tax_term' = empty , 'tax_operator' = 'IN'  
 Example: [display-posts taxonomy="color" tax_term="blue, green"]
 
