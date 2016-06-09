@@ -52,7 +52,6 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
-		'title'              => '',
 		'author'              => '',
 		'category'            => '',
 		'category_display'    => '',
@@ -94,6 +93,7 @@ function be_display_posts_shortcode( $atts ) {
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'time'                => '',
+		'title'              => '',
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
@@ -103,7 +103,6 @@ function be_display_posts_shortcode( $atts ) {
 	if( $atts['display_posts_off'] )
 		return;
 
-	$shortcode_title     = sanitize_text_field( $atts['title'] );
 	$author              = sanitize_text_field( $atts['author'] );
 	$category            = sanitize_text_field( $atts['category'] );
 	$category_display    = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
@@ -144,6 +143,7 @@ function be_display_posts_shortcode( $atts ) {
 	$tax_term            = sanitize_text_field( $atts['tax_term'] );
 	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
+	$shortcode_title     = sanitize_text_field( $atts['title'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class       = array_map( 'sanitize_html_class', ( explode( ' ', $atts['wrapper_class'] ) ) );
 
