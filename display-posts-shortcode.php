@@ -25,22 +25,7 @@
  
 /**
  * To Customize, use the following filters:
- *
- * `shortcode_atts_display-posts`
- * For customizing the default shortode arguments
- * 
- * `display_posts_shortcode_args`
- * For customizing the $args passed to WP_Query
- *
- * `display_posts_shortcode_output`
- * For customizing the output of individual posts.
- * Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
- *
- * `display_posts_shortcode_wrapper_open` 
- * display_posts_shortcode_wrapper_close`
- * For customizing the outer markup of the whole listing. By default it is a <ul> but
- * can be changed to <ol> or <div> using the 'wrapper' attribute, or by using this filter.
- * Example: https://gist.github.com/1270278
+ * @link https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters
  */ 
  
 // Create the shortcode
