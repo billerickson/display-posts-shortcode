@@ -414,7 +414,7 @@ function be_display_posts_shortcode( $atts ) {
 				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
 				$more   = $excerpt_more_link ? ' <a href="' . get_permalink() . '">' . $more . '</a>' : ' ' . $more;
 				
-				$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( $post->post_content, $length, $more );
+				$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( strip_shortcodes( $post->post_content ), $length, $more );
 			
 			// Use default, can customize with WP filters
 			} else {

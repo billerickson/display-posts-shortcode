@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file, formatted v
 ### [Unreleased]
 #### Added
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
+#### Fixed
+* Removed shortcodes from custom excerpts
 
 ### [2.6.2] = 2016-06-05
 #### Fixed

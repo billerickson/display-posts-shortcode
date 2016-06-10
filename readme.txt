@@ -32,6 +32,7 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 **Version 2.7.0 (Upcoming)**
 * Added support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon).
+* Removed shortcodes from custom excerpts
 
 **Version 2.6.2**
 * More improvements to excerpts, see #110
