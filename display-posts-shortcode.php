@@ -82,6 +82,7 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper'             => 'ul',
 		'wrapper_class'       => 'display-posts-listing',
 		'wrapper_id'          => false,
+		'show_pagination'     => false,
 	), $atts, 'display-posts' );
 	
 	// End early if shortcode should be turned off
@@ -131,6 +132,7 @@ function be_display_posts_shortcode( $atts ) {
 	$shortcode_title     = sanitize_text_field( $atts['title'] );
 	$wrapper             = sanitize_text_field( $atts['wrapper'] );
 	$wrapper_class       = array_map( 'sanitize_html_class', ( explode( ' ', $atts['wrapper_class'] ) ) );
+	$pagination          = sanitize_text_field( $atts['show_pagination'] );
 
 	if( !empty( $wrapper_class ) )
 		$wrapper_class = ' class="' . implode( ' ', $wrapper_class ) . '"';
@@ -147,6 +149,10 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
+	
+	if ($pagination) {
+     	$args['paged'] = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
+	}
 
 	// Date query.
 	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_query_after ) || ! empty( $date_query_before ) ) {
@@ -532,6 +538,19 @@ function be_display_posts_shortcode( $atts ) {
 	}
 
 	$return .= $inner . $close;
+	
+	if ($pagination) {
+          $big = 999999999; // need an unlikely integer
+          
+          $return .= paginate_links( array(
+          	'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+          	'format' => '?paged=%#%',
+          	'prev_next' => true,
+          	'type' => 'list',
+          	'current' => max( 1, get_query_var('paged') ),
+          	'total' => $listing->max_num_pages
+          ) );
+     }
 
 	return $return;
 }
