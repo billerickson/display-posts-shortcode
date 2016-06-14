@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, formatted v
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
 #### Fixed
 * Removed shortcodes from custom excerpts
+* Fixed private post visiblity, see [#115](https://github.com/billerickson/display-posts-shortcode/issues/115)
 
 ### [2.6.2] = 2016-06-05
 #### Fixed
