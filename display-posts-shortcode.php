@@ -471,10 +471,6 @@ function be_display_posts_shortcode( $atts ) {
 		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
-		// If post is set to private, only show to logged in users
-		if( 'private' == get_post_status( get_the_ID() ) && !current_user_can( 'read_private_posts' ) )
-			$output = '';
-
 		/**
 		 * Filter the HTML markup for output via the shortcode.
 		 *
