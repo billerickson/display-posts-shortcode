@@ -413,8 +413,15 @@ function be_display_posts_shortcode( $atts ) {
 				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
 				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
 				$more   = $excerpt_more_link ? ' <a href="' . get_permalink() . '">' . $more . '</a>' : ' ' . $more;
+
+				if( has_excerpt() && apply_filters( 'display_posts_shortcode_full_manual_excerpt', false ) {
+					$excerpt = $post->post_excerpt . $more;
+				} elseif( has_excerpt() ) {
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_excerpt ), $length, $more );
+				} else {
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length, $more );
+				}
 				
-				$excerpt = has_excerpt() ? $post->post_excerpt . $more : wp_trim_words( strip_shortcodes( $post->post_content ), $length, $more );
 			
 			// Use default, can customize with WP filters
 			} else {
