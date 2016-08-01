@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 4.5.2
-Stable tag: 2.6.2
+Stable tag: 2.7.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -30,9 +30,11 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 == Changelog ==
 
-**Version 2.7.0 (Upcoming)**
+**Version 2.7.0**
 * Added support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon).
-* Removed shortcodes from custom excerpts
+* Added parameter to exclude children terms in tax queries, [more information](https://github.com/billerickson/display-posts-shortcode/issues/120)
+* Added a filter to display the full version of manual excerpt, regardless of excerpt_length. [more information](https://github.com/billerickson/display-posts-shortcode/issues/123)
+* Removed shortcodes from custom excerpts, [more information](https://github.com/billerickson/display-posts-shortcode/issues/113)
 * Fixed private post visibility, [more information](https://github.com/billerickson/display-posts-shortcode/issues/115)
 
 **Version 2.6.2**

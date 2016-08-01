@@ -1,13 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-### [Unreleased]
+### [2.7.0]
 #### Added
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
 * `tax_include_children` parameter for tax queries. See [#120](https://github.com/billerickson/display-posts-shortcode/issues/120)
 * New filter to display the full version of manual excerpt, regardless of excerpt_length. See [#123](https://github.com/billerickson/display-posts-shortcode/issues/123)
 #### Fixed
-* Removed shortcodes from custom excerpts
+* Removed shortcodes from custom excerpts, see [#113](https://github.com/billerickson/display-posts-shortcode/issues/113)
 * Fixed private post visiblity, see [#115](https://github.com/billerickson/display-posts-shortcode/issues/115)
 
 ### [2.6.2] = 2016-06-05
