@@ -6,23 +6,28 @@ All notable changes to this project will be documented in this file, formatted v
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
 * `tax_include_children` parameter for tax queries. See [#120](https://github.com/billerickson/display-posts-shortcode/issues/120)
 * New filter to display the full version of manual excerpt, regardless of excerpt_length. See [#123](https://github.com/billerickson/display-posts-shortcode/issues/123)
+
 #### Fixed
 * Removed shortcodes from custom excerpts, see [#113](https://github.com/billerickson/display-posts-shortcode/issues/113)
 * Fixed private post visiblity, see [#115](https://github.com/billerickson/display-posts-shortcode/issues/115)
 
 ### [2.6.2] = 2016-06-05
+
 #### Fixed
 * More improvements to excerpts, see [#110](https://github.com/billerickson/display-posts-shortcode/issues/110)
 * Fix date query bug, see #108
 * Fixed undefined variable notice if include_title="false"
+
 #### Added
 * Added content_class parameter
 
 ### [2.6.1] = 2016-05-16
+
 #### Fixed
 * Fix issue with manually specified excerpts
 
 ### [2.6.0] = 2016-05-16
+
 #### Added
 * Add support for author="current"
 * Add support for multiple wrapper classes
