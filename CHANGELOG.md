@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### [Unreleased]
 #### Added
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
+* `tax_include_children` parameter for tax queries. See [#120](https://github.com/billerickson/display-posts-shortcode/issues/120)
 * New filter, `display_posts_shortcode_full_manual_excerpt`, to display the full version of manual excerpt, regardless of excerpt_length
 #### Fixed
 * Removed shortcodes from custom excerpts

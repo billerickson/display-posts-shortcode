@@ -75,6 +75,7 @@ function be_display_posts_shortcode( $atts ) {
 		'posts_per_page'      => '10',
 		'tag'                 => '',
 		'tax_operator'        => 'IN',
+		'tax_include_children' => true,
 		'tax_term'            => false,
 		'taxonomy'            => false,
 		'time'                => '',
@@ -125,6 +126,7 @@ function be_display_posts_shortcode( $atts ) {
 	$posts_per_page      = intval( $atts['posts_per_page'] );
 	$tag                 = sanitize_text_field( $atts['tag'] );
 	$tax_operator        = $atts['tax_operator']; // Validated later as one of a few values
+	$tax_include_children = filter_var( $atts['tax_include_children'], FILTER_VALIDATE_BOOLEAN );
 	$tax_term            = sanitize_text_field( $atts['tax_term'] );
 	$taxonomy            = sanitize_key( $atts['taxonomy'] );
 	$time                = sanitize_text_field( $atts['time'] );
@@ -293,14 +295,15 @@ function be_display_posts_shortcode( $atts ) {
 		// Validate operator
 		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
 			$tax_operator = 'IN';
-					
+			
 		$tax_args = array(
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'slug',
 					'terms'    => $tax_term,
-					'operator' => $tax_operator
+					'operator' => $tax_operator,
+					'include_children' => $tax_include_children,
 				)
 			)
 		);
@@ -319,12 +322,14 @@ function be_display_posts_shortcode( $atts ) {
 	 		$terms = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
 	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
 	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+	 		$tax_include_children = isset( $original_atts['tax_' . $count . '_include_children'] ) ? filter_var( $atts['tax_' . $count . '_include_children'], FILTER_VALIDATE_BOOLEAN ) : true;
 	 		
 	 		$tax_args['tax_query'][] = array(
 	 			'taxonomy' => $taxonomy,
 	 			'field' => 'slug',
 	 			'terms' => $terms,
-	 			'operator' => $tax_operator
+	 			'operator' => $tax_operator,
+	 			'include_children' => $tax_include_children,
 	 		);
 	
 			$count++;
