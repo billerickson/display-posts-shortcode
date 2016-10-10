@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
- * Description: Display a listing of posts using the [display-posts] shortcode
+ * Description: Display a listing of posts using the [display_posts] shortcode
  * Version: 2.7.0
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
@@ -29,7 +29,7 @@
  */ 
  
 // Create the shortcode
-add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
+add_shortcode( 'display_posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
 	// Original Attributes, for filters
@@ -81,9 +81,9 @@ function be_display_posts_shortcode( $atts ) {
 		'time'                 => '',
 		'title'                => '',
 		'wrapper'              => 'ul',
-		'wrapper_class'        => 'display-posts-listing',
+		'wrapper_class'        => 'display_posts-listing',
 		'wrapper_id'           => false,
-	), $atts, 'display-posts' );
+	), $atts, 'display_posts' );
 	
 	// End early if shortcode should be turned off
 	if( $atts['display_posts_off'] )
@@ -439,10 +439,10 @@ function be_display_posts_shortcode( $atts ) {
 		}
 			
 		if( $include_content ) {
-			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
+			add_filter( 'shortcode_atts_display_posts', 'be_display_posts_off', 10, 3 );
 			/** This filter is documented in wp-includes/post-template.php */
 			$content = '<div class="' . implode( ' ', $content_class ) . '">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
-			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
+			remove_filter( 'shortcode_atts_display_posts', 'be_display_posts_off', 10, 3 );
 		}
 		
 		// Display categories the post is in
@@ -536,7 +536,7 @@ function be_display_posts_shortcode( $atts ) {
 		 */
 		$title_tag = apply_filters( 'display_posts_shortcode_title_tag', 'h2', $original_atts );
 
-		$return .= '<' . $title_tag . ' class="display-posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
+		$return .= '<' . $title_tag . ' class="display_posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
 	}
 
 	$return .= $inner . $close;
@@ -643,7 +643,7 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
 
 /**
  * Turn off display posts shortcode 
- * If display full post content, any uses of [display-posts] are disabled
+ * If display full post content, any uses of [display_posts] are disabled
  *
  * @param array $out, returned shortcode values 
  * @param array $pairs, list of supported attributes and their defaults 
@@ -652,14 +652,14 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
 	/**
-	 * Filter whether to disable the display-posts shortcode.
+	 * Filter whether to disable the display_posts shortcode.
 	 *
 	 * The function and filter were added for backward-compatibility with
 	 * 2.3 behavior in certain circumstances.
 	 *
 	 * @since 2.4
 	 *
-	 * @param bool $disable Whether to disable the display-posts shortcode. Default true.
+	 * @param bool $disable Whether to disable the display_posts shortcode. Default true.
 	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
