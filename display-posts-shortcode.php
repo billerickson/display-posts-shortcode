@@ -343,7 +343,7 @@ function be_display_posts_shortcode( $atts ) {
 			$args['tax_query']['relation'] = $tax_relation;
 		endif;
 		
-		$args = array_merge( $args, $tax_args );
+		$args = array_merge_recursive( $args, $tax_args );
 	}
 	
 	// If post parent attribute, set up parent
