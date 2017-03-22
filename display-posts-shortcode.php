@@ -7,11 +7,11 @@
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU 
- * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
  * that you can use any other version of the GPL.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
@@ -21,13 +21,13 @@
  * @link http://www.billerickson.net/shortcode-to-display-posts/
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
- 
- 
+
+
 /**
  * To Customize, use the following filters:
  * @link https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters
- */ 
- 
+ */
+
 // Create the shortcode
 add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
@@ -63,6 +63,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_date'         => false,
 		'include_excerpt'      => false,
 		'include_title'        => true,
+		'include_link'		   => true,
 		'meta_key'             => '',
 		'meta_value'           => '',
 		'no_posts_message'     => '',
@@ -84,7 +85,7 @@ function be_display_posts_shortcode( $atts ) {
 		'wrapper_class'        => 'display-posts-listing',
 		'wrapper_id'           => false,
 	), $atts, 'display-posts' );
-	
+
 	// End early if shortcode should be turned off
 	if( $atts['display_posts_off'] )
 		return;
@@ -114,6 +115,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content      = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date         = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$include_link 		  = filter_var( $atts['include_link'], FILTER_VALIDATE_BOOLEAN );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
 	$meta_value           = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message     = sanitize_text_field( $atts['no_posts_message'] );
@@ -123,6 +125,7 @@ function be_display_posts_shortcode( $atts ) {
 	$post_parent          = $atts['post_parent']; // Validated later, after check for 'current'
 	$post_status          = $atts['post_status']; // Validated later as one of a few values
 	$post_type            = sanitize_text_field( $atts['post_type'] );
+	$post_type_public 	  = get_post_type_object( $post_type )->public;
 	$posts_per_page       = intval( $atts['posts_per_page'] );
 	$tag                  = sanitize_text_field( $atts['tag'] );
 	$tax_operator         = $atts['tax_operator']; // Validated later as one of a few values
@@ -139,7 +142,7 @@ function be_display_posts_shortcode( $atts ) {
 	$wrapper_id = sanitize_html_class( $atts['wrapper_id'] );
 	if( !empty( $wrapper_id ) )
 		$wrapper_id = ' id="' . $wrapper_id . '"';
-		
+
 	// Set up initial query for post
 	$args = array(
 		'category_name'       => $category,
@@ -233,53 +236,53 @@ function be_display_posts_shortcode( $atts ) {
 	// Ignore Sticky Posts
 	if( $ignore_sticky_posts )
 		$args['ignore_sticky_posts'] = true;
-	
+
 	// Meta key (for ordering)
 	if( !empty( $meta_key ) )
 		$args['meta_key'] = $meta_key;
-	
+
 	// Meta value (for simple meta queries)
 	if( !empty( $meta_value ) )
 		$args['meta_value'] = $meta_value;
-		
+
 	// If Post IDs
 	if( $id ) {
 		$posts_in = array_map( 'intval', explode( ',', $id ) );
 		$args['post__in'] = $posts_in;
 	}
-	
+
 	// If Exclude Current
 	if( is_singular() && $exclude_current )
 		$args['post__not_in'] = array( get_the_ID() );
-	
+
 	// Post Author
 	if( !empty( $author ) ) {
 		if( 'current' == $author && is_user_logged_in() )
 			$args['author_name'] = wp_get_current_user()->user_login;
 		elseif( 'current' == $author )
-			$args['meta_key'] = 'dps_no_results';	
+			$args['meta_key'] = 'dps_no_results';
 		else
 			$args['author_name'] = $author;
 	}
-		
+
 	// Offset
 	if( !empty( $offset ) )
 		$args['offset'] = $offset;
-	
-	// Post Status	
-	$post_status = explode( ', ', $post_status );		
+
+	// Post Status
+	$post_status = explode( ', ', $post_status );
 	$validated = array();
 	$available = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
 	foreach ( $post_status as $unvalidated )
 		if ( in_array( $unvalidated, $available ) )
 			$validated[] = $unvalidated;
-	if( !empty( $validated ) )		
+	if( !empty( $validated ) )
 		$args['post_status'] = $validated;
-	
-	
+
+
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
-	
+
 		if( 'current' == $tax_term ) {
 			global $post;
 			$terms = wp_get_post_terms(get_the_ID(), $taxonomy);
@@ -291,11 +294,11 @@ function be_display_posts_shortcode( $atts ) {
 			// Term string to array
 			$tax_term = explode( ', ', $tax_term );
 		}
-		
+
 		// Validate operator
 		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
 			$tax_operator = 'IN';
-			
+
 		$tax_args = array(
 			'tax_query' => array(
 				array(
@@ -307,15 +310,15 @@ function be_display_posts_shortcode( $atts ) {
 				)
 			)
 		);
-		
+
 		// Check for multiple taxonomy queries
 		$count = 2;
 		$more_tax_queries = false;
-		while( 
-			isset( $original_atts['taxonomy_' . $count] ) && !empty( $original_atts['taxonomy_' . $count] ) && 
-			isset( $original_atts['tax_' . $count . '_term'] ) && !empty( $original_atts['tax_' . $count . '_term'] ) 
+		while(
+			isset( $original_atts['taxonomy_' . $count] ) && !empty( $original_atts['taxonomy_' . $count] ) &&
+			isset( $original_atts['tax_' . $count . '_term'] ) && !empty( $original_atts['tax_' . $count . '_term'] )
 		):
-		
+
 			// Sanitize values
 			$more_tax_queries = true;
 			$taxonomy = sanitize_key( $original_atts['taxonomy_' . $count] );
@@ -323,7 +326,7 @@ function be_display_posts_shortcode( $atts ) {
 	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
 	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
 	 		$tax_include_children = isset( $original_atts['tax_' . $count . '_include_children'] ) ? filter_var( $atts['tax_' . $count . '_include_children'], FILTER_VALIDATE_BOOLEAN ) : true;
-	 		
+
 	 		$tax_args['tax_query'][] = array(
 	 			'taxonomy'         => $taxonomy,
 	 			'field'            => 'slug',
@@ -331,21 +334,21 @@ function be_display_posts_shortcode( $atts ) {
 	 			'operator'         => $tax_operator,
 	 			'include_children' => $tax_include_children,
 	 		);
-	
+
 			$count++;
-			
+
 		endwhile;
-		
+
 		if( $more_tax_queries ):
 			$tax_relation = 'AND';
 			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) )
 				$tax_relation = $original_atts['tax_relation'];
 			$args['tax_query']['relation'] = $tax_relation;
 		endif;
-		
+
 		$args = array_merge_recursive( $args, $tax_args );
 	}
-	
+
 	// If post parent attribute, set up parent
 	if( $post_parent !== false ) {
 		if( 'current' == $post_parent ) {
@@ -354,8 +357,8 @@ function be_display_posts_shortcode( $atts ) {
 		}
 		$args['post_parent'] = intval( $post_parent );
 	}
-	
-	// Set up html elements used to wrap the posts. 
+
+	// Set up html elements used to wrap the posts.
 	// Default is ul/li, but can also be ol/li and div/div
 	$wrapper_options = array( 'ul', 'ol', 'div' );
 	if( ! in_array( $wrapper, $wrapper_options ) )
@@ -381,25 +384,32 @@ function be_display_posts_shortcode( $atts ) {
 		 */
 		return apply_filters( 'display_posts_shortcode_no_results', wpautop( $no_posts_message ) );
 	}
-		
+
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
-		
+
 		$image = $date = $author = $excerpt = $content = '';
-		
+
 		if ( $include_title ) {
-			/** This filter is documented in wp-includes/link-template.php */
-			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+			if ( $include_link && $post_type_public ) {
+				/** This filter is documented in wp-includes/link-template.php */
+				$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+			} else {
+				$title = '<span class="title">' . get_the_title() . '</span>';
+			}
 		} else {
 			$title = '';
 		}
 
-		if ( $image_size && has_post_thumbnail() )  
-			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
-			
-		if ( $include_date ) 
+		if ( $image_size && has_post_thumbnail() )
+			if ( $include_link && $post_type_public ) {
+				$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
+			} else {
+				$image = '<span class="image">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</span>';
+			}
+		if ( $include_date )
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
-			
+
 		if( $include_author )
 			/**
 			 * Filter the HTML markup to display author information for the current post.
@@ -409,12 +419,12 @@ function be_display_posts_shortcode( $atts ) {
 			 * @param string $author_output HTML markup to display author information.
 			 */
 			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>', $original_atts );
-		
+
 		if ( $include_excerpt ) {
-			
+
 			// Custom build excerpt based on shortcode parameters
-			if( $excerpt_length || $excerpt_more || $excerpt_more_link ) {
-	
+			if ( $excerpt_length || $excerpt_more || $excerpt_more_link ) {
+
 				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
 				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
 				$more   = $excerpt_more_link ? ' <a href="' . get_permalink() . '">' . $more . '</a>' : ' ' . $more;
@@ -426,25 +436,25 @@ function be_display_posts_shortcode( $atts ) {
 				} else {
 					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length, $more );
 				}
-				
-			
+
+
 			// Use default, can customize with WP filters
 			} else {
 				$excerpt = get_the_excerpt();
 			}
-			
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . $excerpt . '</span>';			
-			
-			
+
+			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . $excerpt . '</span>';
+
+
 		}
-			
+
 		if( $include_content ) {
 			add_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 			/** This filter is documented in wp-includes/post-template.php */
 			$content = '<div class="' . implode( ' ', $content_class ) . '">' . apply_filters( 'the_content', get_the_content() ) . '</div>';
 			remove_filter( 'shortcode_atts_display-posts', 'be_display_posts_off', 10, 3 );
 		}
-		
+
 		// Display categories the post is in
 		$category_display_text = '';
 		if( $category_display && is_object_in_taxonomy( get_post_type(), $category_display ) ) {
@@ -462,12 +472,12 @@ function be_display_posts_shortcode( $atts ) {
 			 * @param string   $category_display Current Category Display text
 			 */
 			$category_display_text = apply_filters( 'display_posts_shortcode_category_display', $category_display_text );
-		
-		// If they pass a taxonomy that doesn't exist on this post type	
+
+		// If they pass a taxonomy that doesn't exist on this post type
 		}elseif( $category_display ) {
 			$category_display = '';
 		}
-		
+
 		$class = array( 'listing-item' );
 
 		/**
@@ -482,7 +492,7 @@ function be_display_posts_shortcode( $atts ) {
 		 */
 		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
-		
+
 		/**
 		 * Filter the HTML markup for output via the shortcode.
 		 *
@@ -499,7 +509,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param string $class         Space-separated list of post classes to supply to the $inner_wrapper element.
 		 */
 		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
-		
+
 	endwhile; wp_reset_postdata();
 
 	/**
@@ -521,7 +531,7 @@ function be_display_posts_shortcode( $atts ) {
 	 * @param array  $original_atts Original attributes passed to the shortcode.
 	 */
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
-	
+
 	$return = $open;
 
 	if( $shortcode_title ) {
@@ -642,12 +652,12 @@ function be_sanitize_date_time( $date_time, $type = 'date', $accepts_string = fa
 }
 
 /**
- * Turn off display posts shortcode 
+ * Turn off display posts shortcode
  * If display full post content, any uses of [display-posts] are disabled
  *
- * @param array $out, returned shortcode values 
- * @param array $pairs, list of supported attributes and their defaults 
- * @param array $atts, original shortcode attributes 
+ * @param array $out, returned shortcode values
+ * @param array $pairs, list of supported attributes and their defaults
+ * @param array $atts, original shortcode attributes
  * @return array $out
  */
 function be_display_posts_off( $out, $pairs, $atts ) {
