@@ -125,7 +125,7 @@ Default: false
 Example: [displa-posts ignore_sticky_posts="true"]
 
 **image_size**  
-Specify an image size for displaying the featured image, if the post has one. The image_size can be set to thumbnail, medium, large (all controlled from Settings > Reading), or a [custom image size](https://developer.wordpress.org/reference/functions/add_image_size/). See [Image Alignment](https://github.com/billerickson/display-posts-shortcode/wiki#image-alignment)  
+Specify an image size for displaying the featured image, if the post has one. The image_size can be set to thumbnail, medium, large (all controlled from Settings > Media), or a [custom image size](https://developer.wordpress.org/reference/functions/add_image_size/). See [Image Alignment](https://github.com/billerickson/display-posts-shortcode/wiki#image-alignment)  
 Default: empty  
 Example: [display-posts image_size="thumbnail"]
 
