@@ -42,6 +42,7 @@ function be_display_posts_shortcode( $atts ) {
 		'category_display'     => '',
 		'category_label'       => 'Posted in: ',
 		'content_class'        => 'content',
+                'custom_acf_position'  => 0,
 		'date_format'          => '(n/j/Y)',
 		'date'                 => '',
 		'date_column'          => 'post_date',
@@ -63,6 +64,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_date'         => false,
 		'include_excerpt'      => false,
 		'include_title'        => true,
+                'include_acf_date'     => '',
 		'meta_key'             => '',
 		'meta_value'           => '',
 		'no_posts_message'     => '',
@@ -94,6 +96,7 @@ function be_display_posts_shortcode( $atts ) {
 	$category_display     = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
 	$category_label       = sanitize_text_field( $atts['category_label'] );
 	$content_class        = array_map( 'sanitize_html_class', ( explode( ' ', $atts['content_class'] ) ) );
+        $custom_acf_position  = intval( $atts['custom_acf_position'] );
 	$date_format          = sanitize_text_field( $atts['date_format'] );
 	$date                 = sanitize_text_field( $atts['date'] );
 	$date_column          = sanitize_text_field( $atts['date_column'] );
@@ -114,6 +117,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content      = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date         = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+        $include_acf_date     = sanitize_text_field( $atts['include_acf_date'] );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
 	$meta_value           = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message     = sanitize_text_field( $atts['no_posts_message'] );
@@ -393,6 +397,24 @@ function be_display_posts_shortcode( $atts ) {
 		} else {
 			$title = '';
 		}
+                
+                if( !empty($include_acf_date) ) {
+                    
+                    //Get the post meta data
+                    $acf_content = get_post_meta($post->ID, $include_acf_date, true);
+                    
+                    //Create date format from the post meta data
+                    $date_acf = date_create_from_format('Ymd', $acf_content);  
+                    
+                    //Want to have the date_format without ()
+                    $date_format_cleaned = str_replace(array('(',')'), '', $date_format);                    
+                    
+                    //create html to insert
+                    $acf_date = '<div class="acf_date">'. date_format($date_acf, $date_format_cleaned) .'</div>';                   
+                    
+                } else {
+                    $acf_date = '';
+                }
 
 		if ( $image_size && has_post_thumbnail() )  
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
@@ -481,7 +503,9 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
 		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
-		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . ($custom_acf_position == 0 ? $acf_date : '') . $image . ($custom_acf_position == 1 ? $acf_date : '') . $title . 
+                        ($custom_acf_position == 2 ? $acf_date : '') . $date . ($custom_acf_position == 3 ? $acf_date : '') .$author . ($custom_acf_position == 4 ? $acf_date : '') . $category_display_text . 
+                        ($custom_acf_position == 5 ? $acf_date : '') . $excerpt . ($custom_acf_position == 6 ? $acf_date : '') . $content . ($custom_acf_position == 7 ? $acf_date : '') .'</' . $inner_wrapper . '>';
 		
 		/**
 		 * Filter the HTML markup for output via the shortcode.
@@ -498,7 +522,7 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param string $content       The post's content.
 		 * @param string $class         Space-separated list of post classes to supply to the $inner_wrapper element.
 		 */
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $acf_date, $date, $excerpt, $inner_wrapper, $content, $class );
 		
 	endwhile; wp_reset_postdata();
 
