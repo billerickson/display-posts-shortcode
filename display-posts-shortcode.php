@@ -62,6 +62,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_content'      => false,
 		'include_date'         => false,
 		'include_excerpt'      => false,
+		'include_link'         => true,
 		'include_title'        => true,
 		'meta_key'             => '',
 		'meta_value'           => '',
@@ -114,6 +115,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_content      = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date         = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$include_link         = filter_var( $atts['include_link'], FILTER_VALIDATE_BOOLEAN );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
 	$meta_value           = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message     = sanitize_text_field( $atts['no_posts_message'] );
@@ -387,15 +389,24 @@ function be_display_posts_shortcode( $atts ) {
 
 		$image = $date = $author = $excerpt = $content = '';
 
-		if ( $include_title ) {
+		if ( $include_title && $include_link ) {
 			/** This filter is documented in wp-includes/link-template.php */
 			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+
+		} elseif( $include_title ) {
+			$title = '<span class="title">' . get_the_title() . '</span>';
+
 		} else {
 			$title = '';
 		}
 
-		if ( $image_size && has_post_thumbnail() )
+		if ( $image_size && has_post_thumbnail() && $include_link ) {
 			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
+
+		} elseif( $image_size && has_post_thumbnail() ) {
+			$image = '<span class="image">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</span> ';
+
+		}
 
 		if ( $include_date )
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
