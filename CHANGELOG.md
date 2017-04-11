@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [2.8.0]
+#### Added
+* Set include_link="false" to remove link from post title and image, see [#137](https://github.com/billerickson/display-posts-shortcode/pull/137)
+
+#### Fixed
+* Category display when using multiple post types, see [#143](https://github.com/billerickson/display-posts-shortcode/issues/143)
+* Issue combining multiple taxonomies, see [#131](https://github.com/billerickson/display-posts-shortcode/issues/131)
+
 ### [2.7.0]
 #### Added
 * Support for [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon)
@@ -77,7 +85,7 @@ All notable changes to this project will be documented in this file, formatted v
 
 ### [2.0.0]
 #### Added
-* Explicitly declare arguments, props danielbachhuber 
+* Explicitly declare arguments, props danielbachhuber
 * Sanitize each shortcode attribute for security, props danielbachhuber
 
 ### [1.9.0]
