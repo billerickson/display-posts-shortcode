@@ -154,6 +154,11 @@ Include the post's title
 Default: true  
 Example: [display-posts include_title="false" image_size="thumbnail"]
 
+**include_link**
+Post's title is link to post page.
+Default: true
+Example: [display-posts include_title="true" include_link="false"]
+
 **meta_key**  
 Specify a meta key, for meta queries or ordering  
 Default: empty  
