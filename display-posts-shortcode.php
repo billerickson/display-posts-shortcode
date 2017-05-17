@@ -61,6 +61,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_author'       => false,
 		'include_content'      => false,
 		'include_date'         => false,
+		'include_date_modified'=> false,
 		'include_excerpt'      => false,
 		'include_link'         => true,
 		'include_title'        => true,
@@ -114,6 +115,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_author       = filter_var( $atts['include_author'], FILTER_VALIDATE_BOOLEAN );
 	$include_content      = filter_var( $atts['include_content'], FILTER_VALIDATE_BOOLEAN );
 	$include_date         = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
+	$include_date_modified= filter_var( $atts['include_date_modified'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
 	$include_link         = filter_var( $atts['include_link'], FILTER_VALIDATE_BOOLEAN );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
@@ -408,9 +410,12 @@ function be_display_posts_shortcode( $atts ) {
 
 		}
 
-		if ( $include_date )
+		if ( $include_date ) {
 			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
-
+		} elseif ( $include_date_modified ) {
+			$date = ' <span class="date">' . get_the_modified_date( $date_format ) . '</span>';
+		}
+	
 		if( $include_author )
 			/**
 			 * Filter the HTML markup to display author information for the current post.
