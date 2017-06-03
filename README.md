@@ -110,8 +110,8 @@ Default: false
 Example: [display-posts include_excerpt="true" excerpt_more="Continue Reading" excerpt_more_link="true"]
 
 **exclude**
-Specify one or more post IDs to exclude from query
-Default: false
+Specify one or more post IDs to exclude from query  
+Default: false  
 Example: [display-posts exclude="9, 11"]
 
 **exclude_current**  
