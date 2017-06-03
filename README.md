@@ -109,7 +109,7 @@ Specify whether or not to link the excerpt_more text to the post
 Default: false  
 Example: [display-posts include_excerpt="true" excerpt_more="Continue Reading" excerpt_more_link="true"]
 
-**exclude**
+**exclude**  
 Specify one or more post IDs to exclude from query  
 Default: false  
 Example: [display-posts exclude="9, 11"]
