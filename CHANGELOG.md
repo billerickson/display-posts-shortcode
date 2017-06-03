@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [2.9.0]
+#### Added
+* New parameter `exclude` for excluding specific post IDs
+
 ### [2.8.0]
 #### Added
 * Set include_link="false" to remove link from post title and image, see [#137](https://github.com/billerickson/display-posts-shortcode/pull/137)

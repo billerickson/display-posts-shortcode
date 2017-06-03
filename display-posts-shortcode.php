@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.8.0
+ * Version: 2.8.1
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -54,6 +54,7 @@ function be_display_posts_shortcode( $atts ) {
 		'excerpt_length'       => false,
 		'excerpt_more'         => false,
 		'excerpt_more_link'    => false,
+		'exclude'              => false,
 		'exclude_current'      => false,
 		'id'                   => false,
 		'ignore_sticky_posts'  => false,
@@ -106,6 +107,7 @@ function be_display_posts_shortcode( $atts ) {
 	$excerpt_length       = intval( $atts['excerpt_length'] );
 	$excerpt_more         = sanitize_text_field( $atts['excerpt_more'] );
 	$excerpt_more_link    = filter_var( $atts['excerpt_more_link'], FILTER_VALIDATE_BOOLEAN );
+	$exclude              = $atts['exclude']; // Sanitized later as an array of integers
 	$exclude_current      = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
 	$id                   = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts  = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
@@ -250,9 +252,17 @@ function be_display_posts_shortcode( $atts ) {
 		$args['post__in'] = $posts_in;
 	}
 
-	// If Exclude Current
-	if( is_singular() && $exclude_current )
-		$args['post__not_in'] = array( get_the_ID() );
+	// If Exclude
+	$post__not_in = array();
+	if( !empty( $exclude ) ) {
+		$post__not_in = array_map( 'intval', explode( ',', $exclude ) );
+	}
+	if( is_singular() && $exclude_current ) {
+		$post__not_in[] = get_the_ID();
+	}
+	if( !empty( $post__not_in ) ) {
+		$args['post__not_in'] = $post__not_in;
+	}
 
 	// Post Author
 	if( !empty( $author ) ) {
