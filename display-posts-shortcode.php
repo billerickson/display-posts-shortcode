@@ -40,6 +40,7 @@ function be_display_posts_shortcode( $atts ) {
 		'author'               => '',
 		'category'             => '',
 		'category_display'     => '',
+		'category_id'          => false,
 		'category_label'       => 'Posted in: ',
 		'content_class'        => 'content',
 		'date_format'          => '(n/j/Y)',
@@ -94,6 +95,7 @@ function be_display_posts_shortcode( $atts ) {
 	$author               = sanitize_text_field( $atts['author'] );
 	$category             = sanitize_text_field( $atts['category'] );
 	$category_display     = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
+	$category_id          = intval( $atts['category_id'] );
 	$category_label       = sanitize_text_field( $atts['category_label'] );
 	$content_class        = array_map( 'sanitize_html_class', ( explode( ' ', $atts['content_class'] ) ) );
 	$date_format          = sanitize_text_field( $atts['date_format'] );
@@ -146,6 +148,7 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Set up initial query for post
 	$args = array(
+		'cat'                 => $category_id,
 		'category_name'       => $category,
 		'order'               => $order,
 		'orderby'             => $orderby,

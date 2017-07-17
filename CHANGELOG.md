@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### [2.9.0]
 #### Added
 * New parameter `exclude` for excluding specific post IDs
+* New parameter `category_id` for specifying category by ID (note: only accepts a single ID)
 
 ### [2.8.0]
 #### Added
