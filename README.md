@@ -25,7 +25,7 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 1. Upload `display-posts-shortcode` to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the *Plugins* menu in WordPress.
-1. Add the shortcode to a post or page. 
+1. Add the shortcode to a post or page.
 
 ## Parameters ##
 
@@ -109,9 +109,14 @@ Specify whether or not to link the excerpt_more text to the post.
 Default: false
 Example: [display-posts include_excerpt="true" excerpt_more="Continue Reading" excerpt_more_link="true"]
 
+**exclude**
+Specify one or more post IDs to exclude from query  
+Default: false  
+Example: [display-posts exclude="9, 11"]
+
 **exclude_current**
-Specify whether or not to exclude the current post from the query.
-Default: false
+Specify whether or not to exclude the current post from the query  
+Default: false  
 Example: [display-posts exclude_current="true" taxonomy="category" tax_term="current"]
 
 **id**
