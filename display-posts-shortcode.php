@@ -154,6 +154,7 @@ function be_display_posts_shortcode( $atts ) {
 		'category_name'       => $category,
 		'order'               => $order,
 		'orderby'             => $orderby,
+		'perm'                => 'readable',
 		'post_type'           => explode( ',', $post_type ),
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
@@ -428,7 +429,7 @@ function be_display_posts_shortcode( $atts ) {
 		} elseif ( $include_date_modified ) {
 			$date = ' <span class="date">' . get_the_modified_date( $date_format ) . '</span>';
 		}
-	
+
 		if( $include_author )
 			/**
 			 * Filter the HTML markup to display author information for the current post.
