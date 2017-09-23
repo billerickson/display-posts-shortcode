@@ -4,8 +4,8 @@
 **Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 **Tags:** shortcode, pages, posts, page, query, display, list
 **Requires at least:** 3.0
-**Tested up to:** 4.6.0
-**Stable tag:** 2.7.0
+**Tested up to:** 4.8
+**Stable tag:** 2.9.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -38,6 +38,11 @@ Example: [display-posts author="bill"]
 Specify the category slug, or comma separated list of category slugs.
 Default: empty
 Example: [display-posts category="fishing,hiking"]
+
+**category_id**
+Specify the category ID  
+Default: empty  
+Example: [display-posts category_id="123"]
 
 **category_display**
 Specify 'true' to display the categories the current post is in. Specify a taxonomy slug (e.g., 'post_tag') to list a different taxonomy.
@@ -136,7 +141,7 @@ Example: [display-posts image_size="thumbnail"]
 
 **include_author**
 Specify whether or not to include the post's author name.
-Default: false	
+Default: false
 Example: [display-posts include_author="true"]
 
 **include_content**

@@ -3,8 +3,13 @@ All notable changes to this project will be documented in this file, formatted v
 
 ### [2.9.0]
 #### Added
-* New parameter `exclude` for excluding specific post IDs
-* New parameter `category_id` for specifying category by ID (note: only accepts a single ID)
+* New parameter `exclude` for excluding specific post IDs, see #154
+* New parameter `category_id` for specifying category by ID (note: only accepts a single ID), see #156
+* New parameter `include_date_modified` for displaying the date the post was last updated, see #150
+
+#### Fixed
+* Shortcode title now appears above the wrapper (ul/ol/div), fixing invalid markup, see #165
+* Limit visibility to readable posts
 
 ### [2.8.0]
 #### Added

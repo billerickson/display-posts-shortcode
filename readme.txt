@@ -3,8 +3,8 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 4.7
-Stable tag: 2.8.0
+Tested up to: 4.8
+Stable tag: 2.9.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -29,6 +29,13 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 
 == Changelog ==
+
+**Version 2.9.0**
+* New parameter `exclude` for excluding specific post IDs, see [#154](https://github.com/billerickson/display-posts-shortcode/issues/154)
+* New parameter `category_id` for specifying category by ID (note: only accepts a single ID), see [#156](https://github.com/billerickson/display-posts-shortcode/issues/156)
+* New parameter `include_date_modified` for displaying the date the post was last updated, see [#150](https://github.com/billerickson/display-posts-shortcode/issues/150)
+* Shortcode title now appears above the wrapper (ul/ol/div), fixing invalid markup, see [#165](https://github.com/billerickson/display-posts-shortcode/issues/165)
+* Limit visibility to readable posts
 
 **Version 2.8.0**
 * Added include_link="false" to remove link from post title and image, see [#137](https://github.com/billerickson/display-posts-shortcode/pull/137)
