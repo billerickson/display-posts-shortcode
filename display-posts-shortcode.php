@@ -549,7 +549,7 @@ function be_display_posts_shortcode( $atts ) {
 	 */
 	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
 
-	$return = $open;
+	$return = '';
 
 	if( $shortcode_title ) {
 
@@ -566,7 +566,7 @@ function be_display_posts_shortcode( $atts ) {
 		$return .= '<' . $title_tag . ' class="display-posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
 	}
 
-	$return .= $inner . $close;
+	$return .= $open . $inner . $close;
 
 	return $return;
 }
