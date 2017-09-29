@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [3.0.0]
+#### Added
+* Additional parameters to the `display_posts_shortcode_output` filter
+
 ### [2.9.0]
 #### Added
 * New parameter `exclude` for excluding specific post IDs, see #154
