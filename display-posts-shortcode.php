@@ -524,8 +524,10 @@ function be_display_posts_shortcode( $atts ) {
 		 * @param string $inner_wrapper Type of container to use for the post's inner wrapper element.
 		 * @param string $content       The post's content.
 		 * @param string $class         Space-separated list of post classes to supply to the $inner_wrapper element.
+		 * @param string $author 		HTML markup for the post's author.
+		 * @param string $category_display_text
 		 */
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class, $author, $category_display_text );
 
 	endwhile; wp_reset_postdata();
 
