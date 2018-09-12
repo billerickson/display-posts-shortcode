@@ -67,6 +67,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_excerpt'      => false,
 		'include_link'         => true,
 		'include_title'        => true,
+		'lang'                 => get_locale(),
 		'meta_key'             => '',
 		'meta_value'           => '',
 		'no_posts_message'     => '',
@@ -122,6 +123,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_date_modified= filter_var( $atts['include_date_modified'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
 	$include_link         = filter_var( $atts['include_link'], FILTER_VALIDATE_BOOLEAN );
+	$lang                 = sanitize_text_field( $atts['lang'] );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
 	$meta_value           = sanitize_text_field( $atts['meta_value'] );
 	$no_posts_message     = sanitize_text_field( $atts['no_posts_message'] );
@@ -152,6 +154,7 @@ function be_display_posts_shortcode( $atts ) {
 	$args = array(
 		'cat'                 => $category_id,
 		'category_name'       => $category,
+		'lang'                => $lang,
 		'order'               => $order,
 		'orderby'             => $orderby,
 		'perm'                => 'readable',
