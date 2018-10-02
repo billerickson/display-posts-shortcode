@@ -538,8 +538,9 @@ function be_display_posts_shortcode( $atts ) {
 	 *
 	 * @param string $wrapper_open  HTML markup for the opening outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 * @param object $listing, WP Query object
 	 */
-	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts );
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts, $listing );
 
 	/**
 	 * Filter the shortcode output's closing outer wrapper element.
@@ -548,8 +549,9 @@ function be_display_posts_shortcode( $atts ) {
 	 *
 	 * @param string $wrapper_close HTML markup for the closing outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 * @param object $listing, WP Query object
 	 */
-	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts );
+	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts, $listing );
 
 	$return = '';
 
