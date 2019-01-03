@@ -503,7 +503,7 @@ function be_display_posts_shortcode( $atts ) {
 			 *
 			 * @param string   $category_display Current Category Display text
 			 */
-			$category_display_text = apply_filters( 'display_posts_shortcode_category_display', $category_display_text );
+			$category_display_text = apply_filters( 'display_posts_shortcode_category_display', $category_display_text, $terms, $category_display, $original_atts );
 
 		}
 
