@@ -455,9 +455,9 @@ function be_display_posts_shortcode( $atts ) {
 				if( has_excerpt() && apply_filters( 'display_posts_shortcode_full_manual_excerpt', false ) ) {
 					$excerpt = $post->post_excerpt . $more;
 				} elseif( has_excerpt() ) {
-					$excerpt = wp_trim_words( strip_shortcodes( $post->post_excerpt ), $length, $more );
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_excerpt ), $length ) . $more;
 				} else {
-					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length, $more );
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length ) . $more;
 				}
 
 
