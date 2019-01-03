@@ -76,6 +76,8 @@ function be_display_posts_shortcode( $atts ) {
 		'order'                => 'DESC',
 		'orderby'              => 'date',
 		'post_parent'          => false,
+		'post_parent__in'      => false,
+		'post_parent__not_in'  => false,
 		'post_status'          => 'publish',
 		'post_type'            => 'post',
 		'posts_per_page'       => '10',
@@ -134,6 +136,8 @@ function be_display_posts_shortcode( $atts ) {
 	$order                = sanitize_key( $atts['order'] );
 	$orderby              = sanitize_key( $atts['orderby'] );
 	$post_parent          = $atts['post_parent']; // Validated later, after check for 'current'
+	$post_parent__in      = be_dps_explode( sanitize_text_field( $atts['post_parent__in'] ) );
+	$post_parent__not_in  = be_dps_explode( sanitize_text_field( $atts['post_parent__not_in'] ) );
 	$post_status          = $atts['post_status']; // Validated later as one of a few values
 	$post_type            = sanitize_text_field( $atts['post_type'] );
 	$posts_per_page       = intval( $atts['posts_per_page'] );
@@ -381,6 +385,11 @@ function be_display_posts_shortcode( $atts ) {
 		}
 		$args['post_parent'] = intval( $post_parent );
 	}
+
+	if( !empty( $post_parent__in ) )
+		$args['post_parent__in'] = $post_parent__in;
+	if( !empty( $post_parent__not_in ) )
+		$args['post_parent__not_in'] = $post_parent__not_in;
 
 	// Set up html elements used to wrap the posts.
 	// Default is ul/li, but can also be ol/li and div/div
