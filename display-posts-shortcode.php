@@ -390,8 +390,9 @@ function be_display_posts_shortcode( $atts ) {
 	 * @param array $args          Parsed arguments to pass to WP_Query.
 	 * @param array $original_atts Original attributes passed to the shortcode.
 	 */
-	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
-	if ( ! $listing->have_posts() ) {
+	global $dps_listing;
+	$dps_listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
+	if ( ! $dps_listing->have_posts() ) {
 		/**
 		 * Filter content to display if no posts match the current query.
 		 *
@@ -403,7 +404,7 @@ function be_display_posts_shortcode( $atts ) {
 	}
 
 	$inner = '';
-	while ( $listing->have_posts() ): $listing->the_post(); global $post;
+	while ( $dps_listing->have_posts() ): $dps_listing->the_post(); global $post;
 
 		$image = $date = $author = $excerpt = $content = '';
 
@@ -508,10 +509,10 @@ function be_display_posts_shortcode( $atts ) {
 		 *
 		 * @param array    $class         Post classes.
 		 * @param WP_Post  $post          Post object.
-		 * @param WP_Query $listing       WP_Query object for the posts listing.
+		 * @param WP_Query $dps_listing       WP_Query object for the posts listing.
 		 * @param array    $original_atts Original attributes passed to the shortcode.
 		 */
-		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing, $original_atts ) );
+		$class = array_map( 'sanitize_html_class', apply_filters( 'display_posts_shortcode_post_class', $class, $post, $dps_listing, $original_atts ) );
 		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $author . $category_display_text . $excerpt . $content . '</' . $inner_wrapper . '>';
 
 		/**
@@ -542,9 +543,9 @@ function be_display_posts_shortcode( $atts ) {
 	 *
 	 * @param string $wrapper_open  HTML markup for the opening outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
-	 * @param object $listing, WP Query object
+	 * @param object $dps_listing, WP Query object
 	 */
-	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts, $listing );
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts, $dps_listing );
 
 	/**
 	 * Filter the shortcode output's closing outer wrapper element.
@@ -553,9 +554,9 @@ function be_display_posts_shortcode( $atts ) {
 	 *
 	 * @param string $wrapper_close HTML markup for the closing outer wrapper element.
 	 * @param array  $original_atts Original attributes passed to the shortcode.
-	 * @param object $listing, WP Query object
+	 * @param object $dps_listing, WP Query object
 	 */
-	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts, $listing );
+	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>', $original_atts, $dps_listing );
 
 	$return = '';
 
