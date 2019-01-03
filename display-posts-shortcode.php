@@ -65,6 +65,7 @@ function be_display_posts_shortcode( $atts ) {
 		'include_date'         => false,
 		'include_date_modified'=> false,
 		'include_excerpt'      => false,
+		'include_excerpt_dash' => true,
 		'include_link'         => true,
 		'include_title'        => true,
 		'meta_key'             => '',
@@ -121,6 +122,7 @@ function be_display_posts_shortcode( $atts ) {
 	$include_date         = filter_var( $atts['include_date'], FILTER_VALIDATE_BOOLEAN );
 	$include_date_modified= filter_var( $atts['include_date_modified'], FILTER_VALIDATE_BOOLEAN );
 	$include_excerpt      = filter_var( $atts['include_excerpt'], FILTER_VALIDATE_BOOLEAN );
+	$include_excerpt_dash = filter_var( $atts['include_excerpt_dash'], FILTER_VALIDATE_BOOLEAN );
 	$include_link         = filter_var( $atts['include_link'], FILTER_VALIDATE_BOOLEAN );
 	$meta_key             = sanitize_text_field( $atts['meta_key'] );
 	$meta_value           = sanitize_text_field( $atts['meta_value'] );
@@ -463,8 +465,10 @@ function be_display_posts_shortcode( $atts ) {
 				$excerpt = get_the_excerpt();
 			}
 
-			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . $excerpt . '</span>';
-
+			$excerpt = '<span class="excerpt">' . $excerpt . '</span>';
+			if( $include_excerpt_dash ) {
+				$excerpt = '<span class="excerpt-dash">-</span> ' . $excerpt;
+			}
 
 		}
 
