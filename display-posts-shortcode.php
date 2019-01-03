@@ -444,9 +444,12 @@ function be_display_posts_shortcode( $atts ) {
 		}
 
 		if ( $include_date ) {
-			$date = ' <span class="date">' . get_the_date( $date_format ) . '</span>';
+			$date = 'relative' == $date_format ? be_dps_relative_date( get_the_date( 'U' ) ) : get_the_date( $date_format );
 		} elseif ( $include_date_modified ) {
-			$date = ' <span class="date">' . get_the_modified_date( $date_format ) . '</span>';
+			$date = 'relative' == $date_format ? be_dps_relative_date( get_the_modified_time( 'U' ) ) : get_the_modified_date( $date_format );
+		}
+		if( !empty( $date ) ) {
+			$date = ' <span class="date">' . $date . '</span>';
 		}
 
 		if( $include_author )
@@ -725,4 +728,12 @@ function be_dps_explode( $string = '' ) {
 
 	$string = str_replace( ', ', ',', $string );
 	return explode( ',', $string );
+}
+
+/**
+ * Relative date
+ *
+ */
+function be_dps_relative_date( $date ) {
+	return human_time_diff( $date ) . ' ' . __( 'ago', 'display-posts' );
 }
