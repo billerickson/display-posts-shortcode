@@ -38,6 +38,7 @@ function be_display_posts_shortcode( $atts ) {
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
 		'author'               => '',
+		'author_id'            => '',
 		'category'             => '',
 		'category_display'     => '',
 		'category_id'          => false,
@@ -95,6 +96,7 @@ function be_display_posts_shortcode( $atts ) {
 		return;
 
 	$author               = sanitize_text_field( $atts['author'] );
+	$author_id            = intval( $atts['author_id'] );
 	$category             = sanitize_text_field( $atts['category'] );
 	$category_display     = 'true' == $atts['category_display'] ? 'category' : sanitize_text_field( $atts['category_display'] );
 	$category_id          = intval( $atts['category_id'] );
@@ -280,6 +282,8 @@ function be_display_posts_shortcode( $atts ) {
 			$args['meta_key'] = 'dps_no_results';
 		else
 			$args['author_name'] = $author;
+	} elseif( !empty( $author_id ) ) {
+		$args['author'] = $author_id;
 	}
 
 	// Offset
