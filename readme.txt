@@ -3,14 +3,14 @@ Contributors: billerickson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 4.8
-Stable tag: 2.9.0
+Tested up to: 5.0
+Stable tag: 2.9.1
 
 Display a listing of posts using the [display-posts] shortcode
 
 == Description ==
 
-The *Display Posts Shortcode* was written to allow users to easily display listings of posts without knowing PHP or editing template files.
+The *Display Posts Shortcode* was written to allow you to easily display a listing of content without knowing PHP or editing template files.
 
 Add the shortcode in a post or page, and use the arguments to query based on tag, category, post type, and many other possibilities. You can also customize the output with parameters like: include_date, include_excerpt, and image_size.
 
@@ -29,6 +29,20 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 
 == Changelog ==
+
+**Version 2.9.1**
+* Added author_id parameter, see [#195](https://github.com/billerickson/display-posts-shortcode/issues/195)
+* Added s parameter for performing a site search, see [#184](https://github.com/billerickson/display-posts-shortcode/issues/184)
+* Added date_format="relative" format option (ex: 2 days ago), see [#194](https://github.com/billerickson/display-posts-shortcode/issues/194)
+* Added post_parent__in and post_parent__not_in parameters, see [#193](https://github.com/billerickson/display-posts-shortcode/issues/193)
+* Added excerpt_dash="false" option to disable dash in excerpt, see [#204](https://github.com/billerickson/display-posts-shortcode/issues/204)
+* Added additional parameters to the `display_posts_shortcode_output` filter
+* Added additional parameters to the `display_posts_shortcode_category_display` filter, see [#185](https://github.com/billerickson/display-posts-shortcode/issues/185)
+* $dps_listing loop now accessible globally, see [#198](https://github.com/billerickson/display-posts-shortcode/issues/198)
+* $dps_listing loop now accessible in open/close filters
+* Added .excerpt-more class to excerpt more text, see [#205](https://github.com/billerickson/display-posts-shortcode/issues/205)
+* Now excerpt_more text is always appended to end of excerpt, see [#197](https://github.com/billerickson/display-posts-shortcode/issues/197)
+* In parameters that support multiple terms, they can now be separated with a comma or comma-space, see [#183](https://github.com/billerickson/display-posts-shortcode/issues/183)
 
 **Version 2.9.0**
 * New parameter `exclude` for excluding specific post IDs, see [#154](https://github.com/billerickson/display-posts-shortcode/issues/154)

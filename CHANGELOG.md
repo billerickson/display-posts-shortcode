@@ -1,9 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-### [3.0.0]
+### [2.9.1]
 #### Added
-* Additional parameters to the `display_posts_shortcode_output` filter
+* Added author_id parameter, see #195
+* Added s parameter for performing a site search, see #184
+* Added date_format="relative" format option (ex: 2 days ago), see #194
+* Added post_parent__in and post_parent__not_in parameters, see #193
+* Added excerpt_dash="false" option to disable dash in excerpt, see #204
+* Added additional parameters to the `display_posts_shortcode_output` filter
+* Added additional parameters to the `display_posts_shortcode_category_display` filter, see #185
+* $dps_listing loop now accessible globally, see #198
+* $dps_listing loop now accessible in open/close filters
+* Added .excerpt-more class to excerpt more text, see #205
+
+#### Changed
+* excerpt_more text is always appended to end of excerpt, see #197
+* In parameters that support multiple terms, they can now be separated with a comma or comma-space, see #183
 
 ### [2.9.0]
 #### Added
