@@ -159,7 +159,7 @@ function be_display_posts_shortcode( $atts ) {
 		'order'               => $order,
 		'orderby'             => $orderby,
 		'perm'                => 'readable',
-		'post_type'           => explode( ',', $post_type ),
+		'post_type'           => be_dps_explode( $post_type ),
 		'posts_per_page'      => $posts_per_page,
 		'tag'                 => $tag,
 	);
@@ -258,14 +258,14 @@ function be_display_posts_shortcode( $atts ) {
 
 	// If Post IDs
 	if( $id ) {
-		$posts_in = array_map( 'intval', explode( ',', $id ) );
+		$posts_in = array_map( 'intval', be_dps_explode( $id ) );
 		$args['post__in'] = $posts_in;
 	}
 
 	// If Exclude
 	$post__not_in = array();
 	if( !empty( $exclude ) ) {
-		$post__not_in = array_map( 'intval', explode( ',', $exclude ) );
+		$post__not_in = array_map( 'intval', be_dps_explode( $exclude ) );
 	}
 	if( is_singular() && $exclude_current ) {
 		$post__not_in[] = get_the_ID();
@@ -291,7 +291,7 @@ function be_display_posts_shortcode( $atts ) {
 		$args['offset'] = $offset;
 
 	// Post Status
-	$post_status = explode( ', ', $post_status );
+	$post_status = be_dps_explode( $post_status );
 	$validated = array();
 	$available = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
 	foreach ( $post_status as $unvalidated )
@@ -313,7 +313,7 @@ function be_display_posts_shortcode( $atts ) {
 			}
 		}else{
 			// Term string to array
-			$tax_term = explode( ', ', $tax_term );
+			$tax_term = be_dps_explode( $tax_term );
 		}
 
 		// Validate operator
@@ -343,7 +343,7 @@ function be_display_posts_shortcode( $atts ) {
 			// Sanitize values
 			$more_tax_queries = true;
 			$taxonomy = sanitize_key( $original_atts['taxonomy_' . $count] );
-	 		$terms = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+	 		$terms = be_dps_explode( sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
 	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
 	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
 	 		$tax_include_children = isset( $original_atts['tax_' . $count . '_include_children'] ) ? filter_var( $atts['tax_' . $count . '_include_children'], FILTER_VALIDATE_BOOLEAN ) : true;
@@ -703,4 +703,14 @@ function be_display_posts_off( $out, $pairs, $atts ) {
 	 */
 	$out['display_posts_off'] = apply_filters( 'display_posts_shortcode_inception_override', true );
 	return $out;
+}
+
+/**
+ * Explode list using "," and ", "
+ *
+ */
+function be_dps_explode( $string = '' ) {
+
+	$string = str_replace( ', ', ',', $string );
+	return explode( ',', $string );
 }
