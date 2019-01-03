@@ -79,6 +79,7 @@ function be_display_posts_shortcode( $atts ) {
 		'post_status'          => 'publish',
 		'post_type'            => 'post',
 		'posts_per_page'       => '10',
+		's'                    => false,
 		'tag'                  => '',
 		'tax_operator'         => 'IN',
 		'tax_include_children' => true,
@@ -136,6 +137,7 @@ function be_display_posts_shortcode( $atts ) {
 	$post_status          = $atts['post_status']; // Validated later as one of a few values
 	$post_type            = sanitize_text_field( $atts['post_type'] );
 	$posts_per_page       = intval( $atts['posts_per_page'] );
+	$s                    = sanitize_text_field( $atts['s'] );
 	$tag                  = sanitize_text_field( $atts['tag'] );
 	$tax_operator         = $atts['tax_operator']; // Validated later as one of a few values
 	$tax_include_children = filter_var( $atts['tax_include_children'], FILTER_VALIDATE_BOOLEAN );
@@ -161,6 +163,7 @@ function be_display_posts_shortcode( $atts ) {
 		'perm'                => 'readable',
 		'post_type'           => be_dps_explode( $post_type ),
 		'posts_per_page'      => $posts_per_page,
+		's'                   => $s,
 		'tag'                 => $tag,
 	);
 
