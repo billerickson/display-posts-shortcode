@@ -54,15 +54,16 @@ There are multiple ways to highlight popular content. If you want to feature the
 
 You can also list [most popular posts by social shares](https://displayposts.com/2019/01/04/most-popular-posts-by-social-shares/).
 
-** Tutorials **
+**Tutorials**
 [Our tutorials](https://displayposts.com/tutorials/) cover common customization requests, and are updated often.
 
-** Full Documentation **
-- [Query parameters](https://displayposts.com/docs/parameters/#query-parameters) for customizing which posts are listed (filter by category, tag, date...)
-- [Display parameters](https://displayposts.com/docs/parameters/#display-parameters) determine how the posts appear (title, excerpt, image...)
-- [Template parts](https://displayposts.com/docs/template-parts/) for Display Posts to perfectly match your theme's post listings
-- [Output filter](https://displayposts.com/docs/the-output-filter/) for complete control over how the listing looks on your site
-- [Filters](https://displayposts.com/docs/parameters/#display-parameters) for even more powerful customizations for developers
+**Full Documentation**
+
+* [Query parameters](https://displayposts.com/docs/parameters/#query-parameters) for customizing which posts are listed (filter by category, tag, date...)
+* [Display parameters](https://displayposts.com/docs/parameters/#display-parameters) determine how the posts appear (title, excerpt, image...)
+* [Template parts](https://displayposts.com/docs/template-parts/) for Display Posts to perfectly match your theme's post listings
+* [Output filter](https://displayposts.com/docs/the-output-filter/) for complete control over how the listing looks on your site
+* [Filters](https://displayposts.com/docs/parameters/#display-parameters) for even more powerful customizations for developers
 
 
 == Installation ==
