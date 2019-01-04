@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-### [2.9.1]
+### [3.0.0]
 #### Added
 * Added author_id parameter, see #195
 * Added s parameter for performing a site search, see #184

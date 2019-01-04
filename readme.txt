@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 5.0
-Stable tag: 2.9.1
+Stable tag: 3.0.0
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -30,7 +30,7 @@ Add the shortcode in a post or page, and use the arguments to query based on tag
 
 == Changelog ==
 
-**Version 2.9.1**
+**Version 3.0.0**
 * Added author_id parameter, see [#195](https://github.com/billerickson/display-posts-shortcode/issues/195)
 * Added s parameter for performing a site search, see [#184](https://github.com/billerickson/display-posts-shortcode/issues/184)
 * Added date_format="relative" format option (ex: 2 days ago), see [#194](https://github.com/billerickson/display-posts-shortcode/issues/194)
