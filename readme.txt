@@ -1,31 +1,75 @@
-=== Display Posts Shortcode ===
+=== Display Posts - Easily list, filter, and query WordPress content ===
 Contributors: billerickson
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 5.0
 Stable tag: 3.0.0
 
-Display a listing of posts using the [display-posts] shortcode
+Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
 == Description ==
 
-The *Display Posts Shortcode* was written to allow you to easily display a listing of content without knowing PHP or editing template files.
+Display Posts allows you easily list content from all across your website. Start by adding this shortcode in the content editor to display a list of your most recent posts:
 
-Add the shortcode in a post or page, and use the arguments to query based on tag, category, post type, and many other possibilities. You can also customize the output with parameters like: include_date, include_excerpt, and image_size.
+`[display-posts]`
 
-* [Available Parameters](https://github.com/billerickson/display-posts-shortcode/blob/master/README.md#parameters)
-* [Customization with Filters](https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters)
-* [Extension Plugins](https://github.com/billerickson/display-posts-shortcode/wiki#extension-plugins)
-* [Full Change Log](https://github.com/billerickson/display-posts-shortcode/blob/master/CHANGELOG.md)
-* [View on GitHub](https://github.com/billerickson/display-posts-shortcode)
+**Filter by Category**
+
+To only show posts within a certain category, use the category parameter:
+
+`[display-posts category="news"]`
+
+**List Author Posts**
+
+You can limit the results to a single author:
+
+`[display-posts author="bill"]`
+
+You can also display posts written by the current user when they are logged in:
+
+`[display-posts author="current"]`
+
+**Include thumbnails, excerpts, and more**
+The [display parameters](https://displayposts.com/docs/parameters/#display-parameters) let you control what information is displayed for each post. To include an image and summary, use:
+
+`[display-posts include_excerpt="true" image_size="thumbnail"]`
+
+You can use any image size added by WordPress (thumbnail, medium, medium_large, large) OR any custom image size added by your theme or other plugins.
+
+**Sort the list however you like**
+By default the listing will list the newest content first, but you can order by title, menu order, relevance, content type, metadata, and more.
+
+**List upcoming events**
+If you are using an Events Calendar plugin, you can easily list upcoming events:
+
+`[display-posts post_type="event"]`
+
+Each plugin will require slightly different code. Here are [tutorials for popular event calendar plugins](https://displayposts.com/tag/events/). If your plugin is not listed here, submit a support request and I'll add it!
+
+**Show popular posts**
+
+There are multiple ways to highlight popular content. If you want to feature the posts with the most comments, use:
+
+`[display-posts orderby="comment_count"]`
+
+You can also list [most popular posts by social shares](https://displayposts.com/2019/01/04/most-popular-posts-by-social-shares/).
+
+** Tutorials **
+[Our tutorials](https://displayposts.com/tutorials/) cover common customization requests, and are updated often.
+
+** Full Documentation **
+- [Query parameters](https://displayposts.com/docs/parameters/#query-parameters) for customizing which posts are listed (filter by category, tag, date...)
+- [Display parameters](https://displayposts.com/docs/parameters/#display-parameters) determine how the posts appear (title, excerpt, image...)
+- [Template parts](https://displayposts.com/docs/template-parts/) for Display Posts to perfectly match your theme's post listings
+- [Output filter](https://displayposts.com/docs/the-output-filter/) for complete control over how the listing looks on your site
+- [Filters](https://displayposts.com/docs/parameters/#display-parameters) for even more powerful customizations for developers
 
 
 == Installation ==
 
 1. Upload `display-posts-shortcode` to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the *Plugins* menu in WordPress.
-1. Add the shortcode to a post or page.
+1. Add the `[display-posts]` shortcode to a post or page.
 
 
 == Changelog ==
