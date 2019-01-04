@@ -391,8 +391,6 @@ function be_display_posts_shortcode( $atts ) {
 	if( $post_parent__not_in !== false )
 		$args['post_parent__not_in'] = be_dps_explode( sanitize_text_field( $atts['post_parent__in'] ) );
 
-	ea_pp( $args );
-
 	// Set up html elements used to wrap the posts.
 	// Default is ul/li, but can also be ol/li and div/div
 	$wrapper_options = array( 'ul', 'ol', 'div' );
