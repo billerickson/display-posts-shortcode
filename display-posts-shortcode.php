@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Display Posts Shortcode
- * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
+ * Plugin Name: Display Posts
+ * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
  * Version: 3.0.0
  * Author: Bill Erickson
- * Author URI: http://www.billerickson.net
+ * Author URI: https://www.billerickson.net
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -25,7 +25,7 @@
 
 /**
  * To Customize, use the following filters:
- * @link https://github.com/billerickson/display-posts-shortcode/wiki#customization-with-filters
+ * @link https://displayposts.com/docs/filters/
  */
 
 // Create the shortcode
