@@ -737,3 +737,75 @@ function be_dps_explode( $string = '' ) {
 function be_dps_relative_date( $date ) {
 	return human_time_diff( $date ) . ' ' . __( 'ago', 'display-posts' );
 }
+
+/**
+ * Survey admin notice
+ *
+ */
+function be_dps_survey_admin_notice() {
+
+	if( ! is_super_admin() )
+		return;
+
+
+	$survey = get_option( 'display_posts_survey' );
+	$time   = time();
+	$load   = false;
+	if ( ! $survey ) {
+		$survey = array(
+			'time'      => $time,
+			'dismissed' => false,
+		);
+		update_option( 'display_posts_survey', $survey );
+	} else {
+		// Check if it has been dismissed or not.
+		if ( ( isset( $survey['dismissed'] ) && ! $survey['dismissed'] ) ) {
+			$load = true;
+		}
+	}
+	// If we cannot load, return early.
+	if ( ! $load ) {
+		return;
+	}
+
+
+	?>
+		<div class="notice notice-info is-dismissible display-posts-survey-notice">
+			<p><?php esc_html_e( 'Thank you so much for using Display Posts! Could you please do me a BIG favor and answer four quick questions on how I can improve the plugin for you?', 'display-posts' ); ?></p>
+			<p><?php esc_html_e( 'In 2019 I\'ll be working on new features, including the possibility of a premium version. As a valued Display Posts user, your feedback is important and appreciated!', 'display-posts' ); ?></p>
+			<p><strong><?php echo wp_kses( __( '~ Bill Erickson<br>Developer of Display Posts', 'display-posts' ), array( 'br' => array() ) ); ?></strong></p>
+			<p>
+				<a href="https://displayposts.com/customer-survey?utm_source=displaypostsplugin&utm_medium=link&utm_campaign=survey_notice" class="display-posts-dismiss-survey-notice display-posts-survey-out" target="_blank" rel="noopener"><?php esc_html_e( 'Yes, I will!', 'display-posts' ); ?></a><br>
+				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Nope, maybe later', 'display-posts' ); ?></a><br>
+				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'I already did', 'display-posts' ); ?></a>
+			</p>
+		</div>
+		<script type="text/javascript">
+			jQuery( document ).ready( function ( $ ) {
+				$( document ).on( 'click', '.display-posts-dismiss-survey-notice, .display-posts-survey-notice button', function ( event ) {
+					if ( ! $( this ).hasClass( 'display-posts-survey-out' ) ) {
+						event.preventDefault();
+					}
+					$.post( ajaxurl, {
+						action: 'display_posts_survey_dismiss'
+					} );
+					$( '.display-posts-survey-notice' ).remove();
+				} );
+			} );
+		</script>
+	<?php
+}
+add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
+
+/**
+ * Dismiss the admin notice
+ *
+ */
+function be_dps_survey_dismiss() {
+
+	$survey              = get_option( 'display_posts_survey', array() );
+	$survey['time']      = time();
+	$survey['dismissed'] = true;
+	update_option( 'display_posts_survey', $survey );
+}
+add_action( 'wp_ajax_display_posts_survey_dismiss', 'be_dps_survey_dismiss' );
