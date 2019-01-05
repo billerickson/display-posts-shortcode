@@ -775,7 +775,7 @@ function be_dps_survey_admin_notice() {
 			<p><?php esc_html_e( 'In 2019 I\'ll be working on new features, including the possibility of a premium version. As a valued Display Posts user, your feedback is important and appreciated!', 'display-posts' ); ?></p>
 			<p><strong><?php echo wp_kses( __( '~ Bill Erickson<br>Developer of Display Posts', 'display-posts' ), array( 'br' => array() ) ); ?></strong></p>
 			<p>
-				<a href="https://displayposts.com/customer-survey?utm_source=displaypostsplugin&utm_medium=link&utm_campaign=survey_notice" class="display-posts-dismiss-survey-notice display-posts-survey-out" target="_blank" rel="noopener"><?php esc_html_e( 'Yes, I will!', 'display-posts' ); ?></a><br>
+				<a href="https://displayposts.com/user-survey?utm_source=displaypostsplugin&utm_medium=link&utm_campaign=survey_notice" class="display-posts-dismiss-survey-notice display-posts-survey-out" target="_blank" rel="noopener"><?php esc_html_e( 'Yes, I will!', 'display-posts' ); ?></a><br>
 				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Nope, maybe later', 'display-posts' ); ?></a><br>
 				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'I already did', 'display-posts' ); ?></a>
 			</p>
