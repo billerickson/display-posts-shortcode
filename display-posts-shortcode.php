@@ -387,9 +387,9 @@ function be_display_posts_shortcode( $atts ) {
 	}
 
 	if( $post_parent__in !== false )
-		$args['post_parent__in'] = be_dps_explode( sanitize_text_field( $atts['post_parent__in'] ) );
+		$args['post_parent__in'] = array_map( 'intval', be_dps_explode( $atts['post_parent__in'] ) );
 	if( $post_parent__not_in !== false )
-		$args['post_parent__not_in'] = be_dps_explode( sanitize_text_field( $atts['post_parent__in'] ) );
+		$args['post_parent__not_in'] = array_map( 'intval', be_dps_explode( $atts['post_parent__in'] ) );
 
 	// Set up html elements used to wrap the posts.
 	// Default is ul/li, but can also be ol/li and div/div
