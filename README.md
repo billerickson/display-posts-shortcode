@@ -16,7 +16,7 @@ Display Posts is the simplest way to query and display content in WordPress.
 
 Add the `[display-posts]` shortcode in a post or page. Use the [query parameters](https://displayposts.com/docs/#query-parameters) to filter the results by tag, category, post type, and more.
 
-You can customize the output using the [display parameters](https://displayposts.com/docs/#display-parameters), or use a [template part](https://displayposts.com/docs/template-parts/) to match your theme exactly.
+You can customize the output using the [display parameters](https://displayposts.com/docs/#display-parameters), or use a [template part](https://displayposts.com/2019/01/04/use-template-parts-to-match-your-themes-styling/) to match your theme exactly.
 
 Developers can take it even further using the [available filters](https://displayposts.com/docs/filters/).
 
@@ -26,7 +26,7 @@ See [these tutorials](https://displayposts.com/tutorials/) for many examples of 
 * [Parameters](https://displayposts.com/docs/parameters/)
 * [Filters](https://displayposts.com/docs/filters/)
 * [The Output Filter](https://displayposts.com/docs/the-output-filter/)
-* [Template Parts](https://displayposts.com/docs/template-parts/)
+* [Template Parts](https://displayposts.com/2019/01/04/use-template-parts-to-match-your-themes-styling/)
 * [Extensions](https://displayposts.com/docs/extensions/)
 * [Taxonomy Queries](https://displayposts.com/docs/taxonomy-queries/)
 * [Date Queries](https://displayposts.com/docs/date-queries/)

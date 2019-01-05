@@ -1,4 +1,4 @@
-=== Display Posts - Easily list, filter, and query WordPress content ===
+=== Display Posts - Easy lists, grids, navigation, and more ===
 Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
@@ -19,15 +19,16 @@ To only show posts within a certain category, use the category parameter:
 
 `[display-posts category="news"]`
 
-**List Author Posts**
+**Display as Post Grid**
 
-You can limit the results to a single author:
+You can create a great looking, column-based grid of posts with a bit of styling. [Here's how!](https://displayposts.com/2019/01/04/post-grid-styling/)
 
-`[display-posts author="bill"]`
+**List Popular Posts**
+You can highlight your popular content in multiple ways. If you want to feature the posts with the most comments, use:
 
-You can also display posts written by the current user when they are logged in:
+`[display-posts orderby="comment_count"]`
 
-`[display-posts author="current"]`
+You can also list [most popular posts by social shares](https://displayposts.com/2019/01/04/most-popular-posts-by-social-shares/).
 
 **Include thumbnails, excerpts, and more**
 The [display parameters](https://displayposts.com/docs/parameters/#display-parameters) let you control what information is displayed for each post. To include an image and summary, use:
@@ -40,19 +41,9 @@ You can use any image size added by WordPress (thumbnail, medium, medium_large, 
 By default the listing will list the newest content first, but you can order by title, menu order, relevance, content type, metadata, and more.
 
 **List upcoming events**
-If you are using an Events Calendar plugin, you can easily list upcoming events:
+You can easily list upcoming events from any event calendar. Each plugin will require slightly different code.
 
-`[display-posts post_type="event"]`
-
-Each plugin will require slightly different code. Here are [tutorials for popular event calendar plugins](https://displayposts.com/tag/events/). If your plugin is not listed here, submit a support request and I'll add it!
-
-**Show popular posts**
-
-There are multiple ways to highlight popular content. If you want to feature the posts with the most comments, use:
-
-`[display-posts orderby="comment_count"]`
-
-You can also list [most popular posts by social shares](https://displayposts.com/2019/01/04/most-popular-posts-by-social-shares/).
+Here are [tutorials for popular event calendar plugins](https://displayposts.com/tag/events/). If your plugin is not listed here, submit a support request and I'll add it!
 
 **Tutorials**
 [Our tutorials](https://displayposts.com/tutorials/) cover common customization requests, and are updated often.
@@ -61,7 +52,7 @@ You can also list [most popular posts by social shares](https://displayposts.com
 
 * [Query parameters](https://displayposts.com/docs/parameters/#query-parameters) for customizing which posts are listed (filter by category, tag, date...)
 * [Display parameters](https://displayposts.com/docs/parameters/#display-parameters) determine how the posts appear (title, excerpt, image...)
-* [Template parts](https://displayposts.com/docs/template-parts/) for Display Posts to perfectly match your theme's post listings
+* [Template parts](https://displayposts.com/2019/01/04/use-template-parts-to-match-your-themes-styling/) for Display Posts to perfectly match your theme's post listings
 * [Output filter](https://displayposts.com/docs/the-output-filter/) for complete control over how the listing looks on your site
 * [Filters](https://displayposts.com/docs/parameters/#display-parameters) for even more powerful customizations for developers
 
