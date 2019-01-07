@@ -68,6 +68,7 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 **Version 3.0.0**
 * Added author_id parameter, see [#195](https://github.com/billerickson/display-posts-shortcode/issues/195)
+* Added has_password parameter
 * Added s parameter for performing a site search, see [#184](https://github.com/billerickson/display-posts-shortcode/issues/184)
 * Added date_format="relative" format option (ex: 2 days ago), see [#194](https://github.com/billerickson/display-posts-shortcode/issues/194)
 * Added post_parent__in and post_parent__not_in parameters, see [#193](https://github.com/billerickson/display-posts-shortcode/issues/193)

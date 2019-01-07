@@ -58,6 +58,7 @@ function be_display_posts_shortcode( $atts ) {
 		'excerpt_more_link'    => false,
 		'exclude'              => false,
 		'exclude_current'      => false,
+		'has_password'         => null,
 		'id'                   => false,
 		'ignore_sticky_posts'  => false,
 		'image_size'           => false,
@@ -118,6 +119,7 @@ function be_display_posts_shortcode( $atts ) {
 	$excerpt_more_link    = filter_var( $atts['excerpt_more_link'], FILTER_VALIDATE_BOOLEAN );
 	$exclude              = $atts['exclude']; // Sanitized later as an array of integers
 	$exclude_current      = filter_var( $atts['exclude_current'], FILTER_VALIDATE_BOOLEAN );
+	$has_password         = null !== $atts['has_password'] ? filter_var( $atts['has_password'], FILTER_VALIDATE_BOOLEAN ) : null;
 	$id                   = $atts['id']; // Sanitized later as an array of integers
 	$ignore_sticky_posts  = filter_var( $atts['ignore_sticky_posts'], FILTER_VALIDATE_BOOLEAN );
 	$image_size           = sanitize_key( $atts['image_size'] );
@@ -254,6 +256,10 @@ function be_display_posts_shortcode( $atts ) {
 	// Ignore Sticky Posts
 	if( $ignore_sticky_posts )
 		$args['ignore_sticky_posts'] = true;
+
+	// Password protected content
+	if( null !== $has_password )
+		$args['has_password'] = $has_password;
 
 	// Meta key (for ordering)
 	if( !empty( $meta_key ) )

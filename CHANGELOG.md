@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### [3.0.0]
 #### Added
 * Added author_id parameter, see #195
+* Added has_password parameter
 * Added s parameter for performing a site search, see #184
 * Added date_format="relative" format option (ex: 2 days ago), see #194
 * Added post_parent__in and post_parent__not_in parameters, see #193
