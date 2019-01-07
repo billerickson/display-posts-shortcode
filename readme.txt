@@ -66,6 +66,10 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 == Changelog ==
 
+#### Changed
+* Prevent empty empty parameters from being added to the query, see [#207](https://github.com/billerickson/display-posts-shortcode/issues/207)
+
+
 **Version 3.0.0**
 * Added author_id parameter, see [#195](https://github.com/billerickson/display-posts-shortcode/issues/195)
 * Added has_password parameter
