@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file, formatted v
 
 ### [3.0.1]
 #### Changed
-* Don't add empty parameters to the query, see
+* Don't add empty parameters to the query, see #207
 
 ### [3.0.0]
 #### Added
