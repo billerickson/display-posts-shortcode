@@ -28,5 +28,3 @@ See [these tutorials](https://displayposts.com/tutorials/) for many examples of 
 * [The Output Filter](https://displayposts.com/docs/the-output-filter/)
 * [Template Parts](https://displayposts.com/2019/01/04/use-template-parts-to-match-your-themes-styling/)
 * [Extensions](https://displayposts.com/docs/extensions/)
-* [Taxonomy Queries](https://displayposts.com/docs/taxonomy-queries/)
-* [Date Queries](https://displayposts.com/docs/date-queries/)
