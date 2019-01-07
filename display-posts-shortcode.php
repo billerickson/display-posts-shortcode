@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  *
@@ -162,16 +162,26 @@ function be_display_posts_shortcode( $atts ) {
 
 	// Set up initial query for post
 	$args = array(
-		'cat'                 => $category_id,
-		'category_name'       => $category,
-		'order'               => $order,
-		'orderby'             => $orderby,
-		'perm'                => 'readable',
-		'post_type'           => be_dps_explode( $post_type ),
-		'posts_per_page'      => $posts_per_page,
-		's'                   => $s,
-		'tag'                 => $tag,
+		'perm' => 'readable'
 	);
+
+	// Add args if they aren't empty
+	if( !empty( $category_id ) )
+		$args['cat'] = $category_id;
+	if( !empty( $category ) )
+		$args['category_name'] = $category;
+	if( !empty( $order ) )
+		$args['order'] = $order;
+	if( !empty( $orderby ) )
+		$args['orderby'] = $orderby;
+	if( !empty( $post_type ) )
+		$args['post_type'] = be_dps_explode( $post_type );
+	if( !empty( $posts_per_page ) )
+		$args['posts_per_page'] = $posts_per_page;
+	if( !empty( $s ) )
+		$args['s'] = $s;
+	if( !empty( $tag ) )
+		$args['tag'] = $tag;
 
 	// Date query.
 	if ( ! empty( $date ) || ! empty( $time ) || ! empty( $date_query_after ) || ! empty( $date_query_before ) ) {
