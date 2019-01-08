@@ -520,9 +520,11 @@ function be_display_posts_shortcode( $atts ) {
 		if( $category_display && is_object_in_taxonomy( get_post_type(), $category_display ) ) {
 			$terms = get_the_terms( get_the_ID(), $category_display );
 			$term_output = array();
-			foreach( $terms as $term )
-				$term_output[] = '<a href="' . get_term_link( $term, $category_display ) . '">' . $term->name . '</a>';
-			$category_display_text = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
+			if( !empty( $terms ) && ! is_wp_error( $terms ) ) {
+				foreach( $terms as $term )
+					$term_output[] = '<a href="' . get_term_link( $term, $category_display ) . '">' . $term->name . '</a>';
+				$category_display_text = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
+			}
 
 			/**
 			 * Filter the list of categories attached to the current post.
