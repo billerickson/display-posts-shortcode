@@ -32,6 +32,10 @@
 add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
+	$output = apply_filters( 'pre_display_posts_shortcode_output', false, $atts );
+	if( false !== $output )
+		return $output;
+
 	// Original Attributes, for filters
 	$original_atts = $atts;
 
