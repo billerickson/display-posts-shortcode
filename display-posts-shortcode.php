@@ -878,7 +878,7 @@ function be_dps_survey_admin_notice() {
 		</script>
 	<?php
 }
-add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
+//add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
 
 /**
  * Dismiss the admin notice.

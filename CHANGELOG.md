@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [3.0.2]
+#### Changed
+* Updated plugin to pass coding standards, see #214
+* Removed survey admin notice, see #213
+
 ### [3.0.1]
 #### Changed
 * Don't add empty parameters to the query, see #207
