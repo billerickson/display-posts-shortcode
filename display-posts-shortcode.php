@@ -484,6 +484,7 @@ function be_display_posts_shortcode( $atts ) {
 	$inner = '';
 	while ( $dps_listing->have_posts() ) :
 		$dps_listing->the_post();
+		global $post;
 
 		$image   = '';
 		$date    = '';
