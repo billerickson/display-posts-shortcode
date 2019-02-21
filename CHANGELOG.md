@@ -2,9 +2,13 @@
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
 ### [3.0.2]
+#### Added
+* Added `pre_display_posts_shortcode_output` filter before shortcode runs, used for transient caching, see #210
+
 #### Changed
 * Updated plugin to pass coding standards, see #214
 * Removed survey admin notice, see #213
+* Don't display empty term list, see #208
 
 ### [3.0.1]
 #### Changed

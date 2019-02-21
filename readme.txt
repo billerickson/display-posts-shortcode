@@ -3,7 +3,7 @@ Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 5.0
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 
 Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
@@ -66,9 +66,14 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 == Changelog ==
 
+**Version 3.0.2**
+* Added `pre_display_posts_shortcode_output` filter before shortcode runs, used for transient caching, see [#210](https://github.com/billerickson/display-posts-shortcode/issues/214)
+* Updated plugin to pass coding standards, see [#214](https://github.com/billerickson/display-posts-shortcode/issues/214)
+* Removed survey admin notice, see [#213](https://github.com/billerickson/display-posts-shortcode/issues/213)
+* Don't display empty term list, see [#208](https://github.com/billerickson/display-posts-shortcode/issues/208)
+
 **Version 3.0.1**
 * Prevent empty empty parameters from being added to the query, see [#207](https://github.com/billerickson/display-posts-shortcode/issues/207)
-
 
 **Version 3.0.0**
 * Added author_id parameter, see [#195](https://github.com/billerickson/display-posts-shortcode/issues/195)

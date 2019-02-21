@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.0.1
+ * Version: 3.0.2
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  *
@@ -15,10 +15,10 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.0.1
+ * @version 3.0.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
- * @link http://www.billerickson.net/shortcode-to-display-posts/
+ * @link https://displayposts.com
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
@@ -38,7 +38,7 @@ function be_display_posts_shortcode( $atts ) {
 	 *
 	 * Use this filter to return from this function immediately, with the return of the filter callback.
 	 *
-	 * @since Unknown
+	 * @since 3.0.2
 	 *
 	 * @param bool  $short_circuit False to allow this function to continue, anything else to return that value.
 	 * @param array $atts          Shortcode attributes.
@@ -524,7 +524,7 @@ function be_display_posts_shortcode( $atts ) {
 			/**
 			 * Filter the HTML markup to display author information for the current post.
 			 *
-			 * @since Unknown
+			 * @since 2.4.0
 			 *
 			 * @param string $author_output HTML markup to display author information.
 			 */
