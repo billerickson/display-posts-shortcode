@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file, formatted v
 * Updated plugin to pass coding standards, see #214
 * Removed survey admin notice, see #213
 * Don't display empty term list, see #208
+* Improved spacing around excerpt dash, see #219
 
 ### [3.0.1]
 #### Changed

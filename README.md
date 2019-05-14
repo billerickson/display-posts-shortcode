@@ -1,4 +1,4 @@
-# [Display Posts](https://wordpress.org/plugins/display-posts-shortcode/) #
+# [Display Posts](https://displayposts.com) #
 
 ![Plugin Version](https://img.shields.io/wordpress/plugin/v/display-posts-shortcode.svg?style=flat-square) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/display-posts-shortcode.svg?style=flat-square) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/display-posts-shortcode.svg?style=flat-square) ![WordPress Compatibility](https://img.shields.io/wordpress/v/display-posts-shortcode.svg?style=flat-square) ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
 
