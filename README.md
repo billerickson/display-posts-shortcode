@@ -27,4 +27,14 @@ See [these tutorials](https://displayposts.com/tutorials/) for many examples of 
 * [Filters](https://displayposts.com/docs/filters/)
 * [The Output Filter](https://displayposts.com/docs/the-output-filter/)
 * [Template Parts](https://displayposts.com/2019/01/04/use-template-parts-to-match-your-themes-styling/)
-* [Extensions](https://displayposts.com/docs/extensions/)
+
+### Extensions
+* [Display Posts – Pagination](https://github.com/billerickson/Display-Posts-Pagination) – Allow results of Display Posts to be paginated
+* [Display Posts – Date View](https://wordpress.org/plugins/display-posts-date-view/) – Lets you break your content down by month or year.
+* [Display Posts – Alpha View](https://github.com/billerickson/Display-Posts-Alpha-View) – Display an alphabetical listing of your content, broken down by letter
+* [Display Posts – Transient Cache](https://github.com/billerickson/Display-Posts-Transient-Cache) – Cache the output using transients
+* [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon) – multiple authors on posts
+* [Columns Extension](https://github.com/billerickson/dps-columns-extension) – display posts in columns
+* [DPS Exclude Sticky](https://github.com/billerickson/DPS-Exclude-Sticky) – exclude sticky posts unless specifically requested
+* [DPS Pinch Zoomer](https://github.com/shazahm1/Display-Posts-Shortcode-Pinch-Zoomer) – adds support pinch zooming post images on mobile devices and mouse wheel zooming on desktops
+* [Display Posts Shortcode Remote](https://github.com/shazahm1/Display-Posts-Shortcode-Remote) – display posts from a remote WordPress site utilizing the WP REST API.
