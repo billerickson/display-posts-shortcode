@@ -553,9 +553,12 @@ function be_display_posts_shortcode( $atts ) {
 				$excerpt = get_the_excerpt();
 			}
 
-			$excerpt = ' <span class="excerpt">' . $excerpt . '</span>';
-			if ( $include_excerpt_dash ) {
-				$excerpt = ' <span class="excerpt-dash">-</span>' . $excerpt;
+			if ( ! empty( $excerpt ) ) {
+
+				$excerpt = ' <span class="excerpt">' . $excerpt . '</span>';
+				if ( $include_excerpt_dash ) {
+					$excerpt = ' <span class="excerpt-dash">-</span>' . $excerpt;
+				}
 			}
 		}
 
