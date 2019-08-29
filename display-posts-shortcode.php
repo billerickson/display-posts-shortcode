@@ -642,6 +642,30 @@ function be_display_posts_shortcode( $atts ) {
 	 */
 	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . $wrapper_class . $wrapper_id . '>', $original_atts, $dps_listing );
 
+	ob_start();
+
+	/**
+	 * @since X.x
+	 *
+	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 * @param object $dps_listing   WP Query object
+	 */
+	do_action( 'display_posts_shortcode_wrapper_after_open', $original_atts, $dps_listing );
+
+	$after_open = ob_get_clean();
+
+	ob_start();
+
+	/**
+	 * @since X.x
+	 *
+	 * @param array  $original_atts Original attributes passed to the shortcode.
+	 * @param object $dps_listing   WP Query object
+	 */
+	do_action( 'display_posts_shortcode_wrapper_before_close', $original_atts, $dps_listing );
+
+	$before_close = ob_get_clean();
+
 	/**
 	 * Filter the shortcode output's closing outer wrapper element.
 	 *
@@ -670,7 +694,7 @@ function be_display_posts_shortcode( $atts ) {
 		$return .= '<' . $title_tag . ' class="display-posts-title">' . $shortcode_title . '</' . $title_tag . '>' . "\n";
 	}
 
-	$return .= $open . $inner . $close;
+	$return .= $open . $after_open . $inner . $before_close . $close;
 
 	return $return;
 }
