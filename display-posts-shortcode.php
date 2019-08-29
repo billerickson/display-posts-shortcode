@@ -511,6 +511,18 @@ function be_display_posts_shortcode( $atts ) {
 
 		}
 
+		/**
+		 * Filter the HTML markup to display image for the current post.
+		 *
+		 * @since X.x
+		 *
+		 * @param string $image         HTML markup to display post image.
+		 * @param string $image_size    The image size to display.
+		 * @param bool   $include_link  Whether or not to display the image as the post permalink.
+		 * @param array  $original_atts Original attributes passed to the shortcode.
+		 */
+		$image = apply_filters( 'display_posts_shortcode_image', $image, $image_size, $include_link, $original_atts );
+
 		if ( $include_date ) {
 			$date = 'relative' === $date_format ? be_dps_relative_date( get_the_date( 'U' ) ) : get_the_date( $date_format );
 		} elseif ( $include_date_modified ) {
