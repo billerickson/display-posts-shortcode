@@ -560,6 +560,19 @@ function be_display_posts_shortcode( $atts ) {
 					$excerpt = ' <span class="excerpt-dash">-</span>' . $excerpt;
 				}
 			}
+
+			/**
+			 * Filter the post excerpt for the current post.
+			 *
+			 * @since X.x
+			 *
+			 * @param string $excerpt           HTML markup for the post's excerpt element.
+			 * @param int    $excerpt_length    The excerpt length.
+			 * @param string $excerpt_more      The excerpt read more string.
+			 * @param bool   $excerpt_more_link Whether or not the read more is a permalink to the post.
+			 * @param array  $original_atts     Original attributes passed to the shortcode.
+			 */
+			$excerpt = apply_filters( 'display_posts_shortcode_excerpt', $excerpt, $excerpt_length, $excerpt_more, $excerpt_more_link, $original_atts );
 		}
 
 		if ( $include_content ) {
