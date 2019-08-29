@@ -594,7 +594,7 @@ function be_display_posts_shortcode( $atts ) {
 
 		}
 
-		$class = array( 'listing-item' );
+		$class = array( 'listing-item', 'post-' . get_the_ID() );
 
 		/**
 		 * Filter the post classes for the inner wrapper element of the current post.
