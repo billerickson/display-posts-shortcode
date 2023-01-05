@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Display Posts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-04 07:16+0000\n"
+"PO-Revision-Date: 2021-02-04 07:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: Deutsch\n"
+"Language: de-DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.0; wp-5.6.1\n"
+"X-Domain: display-posts"
+
+#: display-posts-shortcode.php:827
+msgid "ago"
+msgstr "seit"
+
+#. Author of the plugin
+msgid "Bill Erickson"
+msgstr "Bill Erickson"
+
+#: display-posts-shortcode.php:533
+msgid "by"
+msgstr "von"
+
+#. Description of the plugin
+msgid "Display a listing of posts using the [display-posts] shortcode"
+msgstr ""
+"Zeigt eine Liste von Beiträge mit Hilfe des Shortcodes [display-posts] an"
+
+#. Name of the plugin
+msgid "Display Posts"
+msgstr "Display Posts"
+
+#. URI of the plugin
+msgid "https://displayposts.com"
+msgstr "https://displayposts.com"
+
+#. Author URI of the plugin
+msgid "https://www.billerickson.net"
+msgstr "https://www.billerickson.net"
+
+#: display-posts-shortcode.php:869
+msgid "I already did"
+msgstr "Habe ich bereits erlegigt"
+
+#: display-posts-shortcode.php:864
+msgid ""
+"In 2019 I'll be working on new features, including the possibility of a "
+"premium version. As a valued Display Posts user, your feedback is important "
+"and appreciated!"
+msgstr ""
+"2019 werde ich an weiteren Funktionen arbeiten, inklusive einer "
+"Premiumversion. Als werter Display Posts Anwender ist ihr Feedback wichtig "
+"und willkommen!"
+
+#: display-posts-shortcode.php:868
+msgid "Nope, maybe later"
+msgstr "Nein, vieleicht später"
+
+#: display-posts-shortcode.php:863
+msgid ""
+"Thank you so much for using Display Posts! Could you please do me a BIG "
+"favor and answer four quick questions on how I can improve the plugin for "
+"you?"
+msgstr ""
+"Danke für die Nutzung von Display Posts! Können sie mir bitte einen Gefallen "
+"tun und 4 kurze Fragen zur Weiterentwicklung des Plugins beantworten?"
+
+#: display-posts-shortcode.php:867
+msgid "Yes, I will!"
+msgstr "Ja, ich will!"
+
+#: display-posts-shortcode.php:865
+msgid "~ Bill Erickson<br>Developer of Display Posts"
+msgstr "~ Bill Erickson<br>Entwickler von Display Posts"
