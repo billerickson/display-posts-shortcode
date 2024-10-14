@@ -6,6 +6,7 @@
  * Version: 3.0.3
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
+ * Text Domain: display-posts
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -528,8 +529,10 @@ function be_display_posts_shortcode( $atts ) {
 			 *
 			 * @param string $author_output HTML markup to display author information.
 			 */
-			$author = apply_filters( 'display_posts_shortcode_author', ' <span class="author">by ' . get_the_author() . '</span>', $original_atts );
-		}
+            $author = apply_filters('display_posts_shortcode_author',
+                ' <span class="author">' . __( 'by', 'display-posts' ) . '&nbsp;' . get_the_author() . '</span>',
+                $original_atts);
+        }
 
 		if ( $include_excerpt ) {
 
