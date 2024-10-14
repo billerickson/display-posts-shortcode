@@ -2,8 +2,8 @@
 Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 6.0
-Stable tag: 3.0.2
+Tested up to: 6.6
+Stable tag: 3.0.3
 
 Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
@@ -77,6 +77,10 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 
 == Changelog ==
+
+**Version 3.0.3**
+* Bumped the "Tested To" number to WP 6.6
+* Updated text of the plugin notice
 
 **Version 3.0.2**
 * Added `pre_display_posts_shortcode_output` filter before shortcode runs, used for transient caching, see [#210](https://github.com/billerickson/display-posts-shortcode/issues/214)

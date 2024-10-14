@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.0.2
+ * Version: 3.0.3
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.0.2
+ * @version 3.0.3
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link https://displayposts.com
@@ -833,7 +833,7 @@ function be_dps_survey_admin_notice() {
 		return;
 	}
 
-	$survey = get_option( 'display_posts_survey' );
+	$survey = get_option( 'display_posts_survey_2' );
 	$time   = time();
 	$load   = false;
 
@@ -842,7 +842,7 @@ function be_dps_survey_admin_notice() {
 			'time'      => $time,
 			'dismissed' => false,
 		);
-		update_option( 'display_posts_survey', $survey );
+		update_option( 'display_posts_survey_2', $survey );
 	} else {
 		// Check if it has been dismissed or not.
 		if ( ( isset( $survey['dismissed'] ) && ! $survey['dismissed'] ) ) {
@@ -857,13 +857,9 @@ function be_dps_survey_admin_notice() {
 
 	?>
 		<div class="notice notice-info is-dismissible display-posts-survey-notice">
-			<p><?php esc_html_e( 'Thank you so much for using Display Posts! Could you please do me a BIG favor and answer four quick questions on how I can improve the plugin for you?', 'display-posts' ); ?></p>
-			<p><?php esc_html_e( 'In 2019 I\'ll be working on new features, including the possibility of a premium version. As a valued Display Posts user, your feedback is important and appreciated!', 'display-posts' ); ?></p>
-			<p><strong><?php echo wp_kses( __( '~ Bill Erickson<br>Developer of Display Posts', 'display-posts' ), array( 'br' => array() ) ); ?></strong></p>
+			<p><?php printf( '<strong>Action Required:</strong> Display Posts needs a one-time manual update to continue receiving updates. <a href="%s" target="_blank">More Information</a>', esc_url('https://displayposts.com/install/' ) ); ?></p>
 			<p>
-				<a href="https://displayposts.com/user-survey?utm_source=displaypostsplugin&utm_medium=link&utm_campaign=survey_notice" class="display-posts-dismiss-survey-notice display-posts-survey-out" target="_blank" rel="noopener"><?php esc_html_e( 'Yes, I will!', 'display-posts' ); ?></a><br>
-				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Nope, maybe later', 'display-posts' ); ?></a><br>
-				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'I already did', 'display-posts' ); ?></a>
+				<a href="#" class="display-posts-dismiss-survey-notice" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Dismiss', 'display-posts' ); ?></a>
 			</p>
 		</div>
 		<script type="text/javascript">
@@ -881,16 +877,16 @@ function be_dps_survey_admin_notice() {
 		</script>
 	<?php
 }
-//add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
+add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
 
 /**
  * Dismiss the admin notice.
  */
 function be_dps_survey_dismiss() {
 
-	$survey              = get_option( 'display_posts_survey', array() );
+	$survey              = get_option( 'display_posts_survey_2', array() );
 	$survey['time']      = time();
 	$survey['dismissed'] = true;
-	update_option( 'display_posts_survey', $survey );
+	update_option( 'display_posts_survey_2', $survey );
 }
 add_action( 'wp_ajax_display_posts_survey_dismiss', 'be_dps_survey_dismiss' );

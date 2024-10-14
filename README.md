@@ -1,12 +1,10 @@
 # [Display Posts](https://displayposts.com) #
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/display-posts-shortcode.svg?style=flat-square) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/display-posts-shortcode.svg?style=flat-square) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/display-posts-shortcode.svg?style=flat-square) ![WordPress Compatibility](https://img.shields.io/wordpress/v/display-posts-shortcode.svg?style=flat-square) ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
-
 **Contributors:** billerickson  
 **Tags:** shortcode, pages, posts, page, query, display, list  
 **Requires at least:** 3.0  
-**Tested up to:** 6.0  
-**Stable tag:** 3.0.2  
+**Tested up to:** 6.6  
+**Stable tag:** 3.0.3  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 

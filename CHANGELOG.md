@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [3.0.3]
+#### Changed
+* Bumped the "Tested To" number to WP 6.6
+* Updated text of the plugin notice
+
 ### [3.0.2]
 #### Added
 * Added `pre_display_posts_shortcode_output` filter before shortcode runs, used for transient caching, see #210
