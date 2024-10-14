@@ -3,7 +3,7 @@ Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 6.6
-Stable tag: 3.0.3
+Stable tag: 3.1.1
 
 Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
@@ -77,6 +77,9 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 
 == Changelog ==
+
+**Version 3.1.1**
+* Removed the plugin notice in the admin
 
 **Version 3.1.0**
 * Plugin updates from GitHub

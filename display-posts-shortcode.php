@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.1.0
+ * Version: 3.1.1
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  * Text Domain: display-posts
@@ -16,7 +16,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.1.0
+ * @version 3.1.1
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link https://displayposts.com
@@ -880,7 +880,7 @@ function be_dps_survey_admin_notice() {
 		</script>
 	<?php
 }
-add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
+//add_action( 'admin_notices', 'be_dps_survey_admin_notice' );
 
 /**
  * Dismiss the admin notice.
