@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.0.3
+ * Version: 3.1.0
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  * Text Domain: display-posts
@@ -16,7 +16,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.0.3
+ * @version 3.1.0
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link https://displayposts.com
@@ -893,3 +893,19 @@ function be_dps_survey_dismiss() {
 	update_option( 'display_posts_survey_2', $survey );
 }
 add_action( 'wp_ajax_display_posts_survey_dismiss', 'be_dps_survey_dismiss' );
+
+/**
+ * Plugin Updates
+ */
+function dps_plugin_updates() {
+	require dirname( __FILE__ ) . '/updater/plugin-update-checker.php';
+
+	$myUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+		'https://github.com/billerickson/display-posts-shortcode',
+		__FILE__, //Full path to the main plugin file or functions.php.
+		'display-posts-shortcode'
+	);
+
+	$myUpdateChecker->setBranch('master');
+}
+add_action( 'admin_init', 'dps_plugin_updates' );

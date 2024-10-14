@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [3.1.0]
+#### Added
+* Plugin updates from GitHub
+* Support custom post statuses, props @nabrown
+* German translation, props @HenryJobst 
+
 ### [3.0.3]
 #### Changed
 * Bumped the "Tested To" number to WP 6.6

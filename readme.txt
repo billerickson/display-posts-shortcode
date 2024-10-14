@@ -59,7 +59,7 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 **Extensions**
 
 * [Display Posts – Pagination](https://github.com/billerickson/Display-Posts-Pagination) – Allow results of Display Posts to be paginated
-* [Display Posts – Date View](https://wordpress.org/plugins/display-posts-date-view/) – Lets you break your content down by month or year.
+* [Display Posts – Date View](https://github.com/billerickson/display-posts-date-view/) – Lets you break your content down by month or year.
 * [Display Posts – Alpha View](https://github.com/billerickson/Display-Posts-Alpha-View) – Display an alphabetical listing of your content, broken down by letter
 * [Display Posts – Transient Cache](https://github.com/billerickson/Display-Posts-Transient-Cache) – Cache the output using transients
 * [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon) – multiple authors on posts
@@ -77,6 +77,11 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 
 == Changelog ==
+
+**Version 3.1.0**
+* Plugin updates from GitHub
+* Support custom post statuses, props @nabrown
+* German translation, props @HenryJobst 
 
 **Version 3.0.3**
 * Bumped the "Tested To" number to WP 6.6

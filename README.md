@@ -4,7 +4,7 @@
 **Tags:** shortcode, pages, posts, page, query, display, list  
 **Requires at least:** 3.0  
 **Tested up to:** 6.6  
-**Stable tag:** 3.0.3  
+**Stable tag:** 3.1.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,7 +28,7 @@ See [these tutorials](https://displayposts.com/tutorials/) for many examples of 
 
 ### Extensions
 * [Display Posts – Pagination](https://github.com/billerickson/Display-Posts-Pagination) – Allow results of Display Posts to be paginated
-* [Display Posts – Date View](https://wordpress.org/plugins/display-posts-date-view/) – Lets you break your content down by month or year.
+* [Display Posts – Date View](https://github.com/billerickson/display-posts-date-view/) – Lets you break your content down by month or year.
 * [Display Posts – Alpha View](https://github.com/billerickson/Display-Posts-Alpha-View) – Display an alphabetical listing of your content, broken down by letter
 * [Display Posts – Transient Cache](https://github.com/billerickson/Display-Posts-Transient-Cache) – Cache the output using transients
 * [Co-Authors Plus Addon](https://github.com/billerickson/dps-coauthor-addon) – multiple authors on posts
