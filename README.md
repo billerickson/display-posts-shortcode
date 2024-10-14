@@ -20,6 +20,11 @@ Developers can take it even further using the [available filters](https://displa
 
 See [these tutorials](https://displayposts.com/tutorials/) for many examples of customization options.
 
+## Installation Instructions
+
+1. Go to the [latest release](https://github.com/billerickson/display-posts-shortcode/releases/latest) and download the display-posts-shortcode.zip file.
+2. On your site, go to Plugins > Add New > Upload and upload the zip, then click "Activate".
+
 ### Documentation
 * [Parameters](https://displayposts.com/docs/parameters/)
 * [Filters](https://displayposts.com/docs/filters/)
