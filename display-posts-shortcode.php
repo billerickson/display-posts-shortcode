@@ -356,7 +356,7 @@ function be_display_posts_shortcode( $atts ) {
 	// Post Status.
 	$post_status = be_dps_explode( $post_status );
 	$validated   = array();
-	$available   = array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash', 'any' );
+	$available   = get_post_stati();
 	foreach ( $post_status as $unvalidated ) {
 		if ( in_array( $unvalidated, $available, true ) ) {
 			$validated[] = $unvalidated;
