@@ -537,18 +537,16 @@ function be_display_posts_shortcode( $atts ) {
 		if ( $include_excerpt ) {
 
 			// Custom build excerpt based on shortcode parameters.
-			if ( $excerpt_length || $excerpt_more || $excerpt_more_link ) {
+			if ( $excerpt_length ) {
 
 				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
-				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
-				$more   = $excerpt_more_link ? ' <a class="excerpt-more" href="' . get_permalink() . '">' . $more . '</a>' : ' <span class="excerpt-more">' . $more . '</span>';
 
 				if ( has_excerpt() && apply_filters( 'display_posts_shortcode_full_manual_excerpt', false ) ) {
-					$excerpt = $post->post_excerpt . $more;
+					$excerpt = $post->post_excerpt;
 				} elseif ( has_excerpt() ) {
-					$excerpt = wp_trim_words( strip_shortcodes( $post->post_excerpt ), $length ) . $more;
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_excerpt ), $length );
 				} else {
-					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length ) . $more;
+					$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), $length );
 				}
 
 				// Use default, can customize with WP filters.
@@ -557,6 +555,11 @@ function be_display_posts_shortcode( $atts ) {
 			}
 
 			if ( ! empty( $excerpt ) ) {
+                if ($excerpt_more || $excerpt_more_link) {
+                    $more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
+                    $more   = $excerpt_more_link ? ' <a class="excerpt-more" href="' . get_permalink() . '">' . $more . '</a>' : ' <span class="excerpt-more">' . $more . '</span>';
+                    $excerpt = $excerpt . $more;
+                }
 
 				$excerpt = ' <span class="excerpt">' . $excerpt . '</span>';
 				if ( $include_excerpt_dash ) {
