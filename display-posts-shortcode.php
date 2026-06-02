@@ -495,7 +495,7 @@ function be_display_posts_shortcode( $atts ) {
 
 		if ( $include_title && $include_link ) {
 			/** This filter is documented in wp-includes/link-template.php */
-			$title = '<a class="title" href="' . apply_filters( 'the_permalink', get_permalink() ) . '">' . get_the_title() . '</a>';
+			$title = '<a class="title" href="' . esc_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">' . get_the_title() . '</a>';
 
 		} elseif ( $include_title ) {
 			$title = '<span class="title">' . get_the_title() . '</span>';
@@ -505,7 +505,7 @@ function be_display_posts_shortcode( $atts ) {
 		}
 
 		if ( $image_size && has_post_thumbnail() && $include_link ) {
-			$image = '<a class="image" href="' . get_permalink() . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
+			$image = '<a class="image" href="' . esc_url( get_permalink() ) . '">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</a> ';
 
 		} elseif ( $image_size && has_post_thumbnail() ) {
 			$image = '<span class="image">' . get_the_post_thumbnail( get_the_ID(), $image_size ) . '</span> ';
@@ -541,7 +541,7 @@ function be_display_posts_shortcode( $atts ) {
 
 				$length = $excerpt_length ? $excerpt_length : apply_filters( 'excerpt_length', 55 );
 				$more   = $excerpt_more ? $excerpt_more : apply_filters( 'excerpt_more', '' );
-				$more   = $excerpt_more_link ? ' <a class="excerpt-more" href="' . get_permalink() . '">' . $more . '</a>' : ' <span class="excerpt-more">' . $more . '</span>';
+				$more   = $excerpt_more_link ? ' <a class="excerpt-more" href="' . esc_url( get_permalink() ) . '">' . $more . '</a>' : ' <span class="excerpt-more">' . $more . '</span>';
 
 				if ( has_excerpt() && apply_filters( 'display_posts_shortcode_full_manual_excerpt', false ) ) {
 					$excerpt = $post->post_excerpt . $more;
@@ -581,7 +581,7 @@ function be_display_posts_shortcode( $atts ) {
 
 			if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 				foreach ( $terms as $term ) {
-					$term_output[] = '<a href="' . get_term_link( $term, $category_display ) . '">' . $term->name . '</a>';
+					$term_output[] = '<a href="' . esc_url( get_term_link( $term, $category_display ) ) . '">' . esc_html( $term->name ) . '</a>';
 				}
 				$category_display_text = ' <span class="category-display"><span class="category-display-label">' . $category_label . '</span> ' . implode( ', ', $term_output ) . '</span>';
 			}
