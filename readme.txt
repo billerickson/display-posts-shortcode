@@ -78,6 +78,9 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 == Changelog ==
 
+**Upcoming**
+* wrap href outputs with esc_url() and term name with esc_html(), props @thisismyurl, see #253
+
 **Version 3.1.1**
 * Removed the plugin notice in the admin
 

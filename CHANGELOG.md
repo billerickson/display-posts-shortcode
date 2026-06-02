@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### Upcoming Release
+#### Changed
+- wrap href outputs with esc_url() and term name with esc_html(), props @thisismyurl, see #253
+
 ### [3.1.1]
 #### Changed
 * Removed the plugin notice in the admin
