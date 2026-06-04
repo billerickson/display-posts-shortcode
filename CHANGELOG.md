@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file, formatted v
 
 ### Upcoming Release
 #### Changed
+- Upgrade bundled Plugin Update Checker from v5.4 to v5.6 for PHP 8.4 compatibility
 - wrap href outputs with esc_url() and term name with esc_html(), props @thisismyurl, see #253
 
 ### [3.1.1]
