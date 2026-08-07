@@ -1,11 +1,11 @@
 # [Display Posts](https://displayposts.com) #
 
-**Contributors:** billerickson  
-**Tags:** shortcode, pages, posts, page, query, display, list  
-**Requires at least:** 3.0  
-**Tested up to:** 6.6  
-**Stable tag:** 3.1.1  
-**License:** GPLv2 or later  
+**Contributors:** billerickson<br>
+**Tags:** shortcode, pages, posts, page, query, display, list<br>
+**Requires at least:** 3.0<br>
+**Tested up to:** 7.0<br>
+**Stable tag:** 3.1.2<br>
+**License:** GPLv2 or later<br>
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description

@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.1.1
+ * Version: 3.1.2
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  * Text Domain: display-posts
@@ -16,7 +16,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.1.1
+ * @version 3.1.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link https://displayposts.com
@@ -450,7 +450,7 @@ function be_display_posts_shortcode( $atts ) {
 		$args['post_parent__in'] = array_map( 'intval', be_dps_explode( $atts['post_parent__in'] ) );
 	}
 	if ( false !== $post_parent__not_in ) {
-		$args['post_parent__not_in'] = array_map( 'intval', be_dps_explode( $atts['post_parent__in'] ) );
+		$args['post_parent__not_in'] = array_map( 'intval', be_dps_explode( $atts['post_parent__not_in'] ) );
 	}
 
 	// Set up html elements used to wrap the posts.

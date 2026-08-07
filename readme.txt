@@ -2,8 +2,8 @@
 Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
-Tested up to: 6.6
-Stable tag: 3.1.1
+Tested up to: 7.0
+Stable tag: 3.1.2
 
 Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
@@ -78,8 +78,11 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 == Changelog ==
 
-**Upcoming**
-* wrap href outputs with esc_url() and term name with esc_html(), props @thisismyurl, see #253
+**Version 3.1.2**
+* Confirmed compatibility with WordPress 7.0
+* Fixed `post_parent__not_in` using the wrong shortcode attribute value
+* Upgraded Plugin Update Checker to v5.6 for PHP 8.4 compatibility
+* Wrapped URL outputs with `esc_url()` and term names with `esc_html()`, props @thisismyurl, see #253
 
 **Version 3.1.1**
 * Removed the plugin notice in the admin

@@ -1,10 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-### Upcoming Release
+### [3.1.2]
 #### Changed
 - Upgrade bundled Plugin Update Checker from v5.4 to v5.6 for PHP 8.4 compatibility
-- wrap href outputs with esc_url() and term name with esc_html(), props @thisismyurl, see #253
+- Confirm compatibility with WordPress 7.0
+
+#### Fixed
+- Correct `post_parent__not_in` to use its own shortcode attribute value
+- Wrap URL outputs with `esc_url()` and term names with `esc_html()`, props @thisismyurl, see #253
 
 ### [3.1.1]
 #### Changed
