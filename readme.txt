@@ -3,7 +3,7 @@ Contributors: billerickson
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 7.0
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 
 Add a listing of content on your website using a simple shortcode. Filter the results by category, author, and more.
 
@@ -77,6 +77,9 @@ Here are [tutorials for popular event calendar plugins](https://displayposts.com
 
 
 == Changelog ==
+
+**Version 3.1.3**
+* Fixed `orderby="ID"` falling back to publication-date ordering after sanitization. Both `ID` and `id` now sort by post ID.
 
 **Version 3.1.2**
 * Confirmed compatibility with WordPress 7.0

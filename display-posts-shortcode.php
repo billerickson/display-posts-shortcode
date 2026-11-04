@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts
  * Plugin URI: https://displayposts.com
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 3.1.2
+ * Version: 3.1.3
  * Author: Bill Erickson
  * Author URI: https://www.billerickson.net
  * Text Domain: display-posts
@@ -16,7 +16,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 3.1.2
+ * @version 3.1.3
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link https://displayposts.com
@@ -200,7 +200,8 @@ function be_display_posts_shortcode( $atts ) {
 		$args['order'] = $order;
 	}
 	if ( ! empty( $orderby ) ) {
-		$args['orderby'] = $orderby;
+		// WP_Query requires uppercase ID, but sanitize_key() lowercases it.
+		$args['orderby'] = 'id' === $orderby ? 'ID' : $orderby;
 	}
 	if ( ! empty( $post_type ) ) {
 		$args['post_type'] = be_dps_explode( $post_type );

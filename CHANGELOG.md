@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+### [3.1.3]
+#### Fixed
+- Normalize sanitized `orderby="ID"` to the uppercase `ID` required by WordPress, fixing unintended publication-date ordering. Both `ID` and `id` now sort by post ID.
+
 ### [3.1.2]
 #### Changed
 - Upgrade bundled Plugin Update Checker from v5.4 to v5.6 for PHP 8.4 compatibility
